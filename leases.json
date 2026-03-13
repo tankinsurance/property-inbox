@@ -1,0 +1,58 @@
+{
+  "townsville-qld": {
+    "propertyId": "townsville-qld",
+    "name": "Kirwan QLD",
+    "query": "subject:Congrats lease signed 13 President Street newer_than:30d",
+    "date": "2026-03-10",
+    "start": "2026-03-10",
+    "expiry": "2026-09-16",
+    "weeklyRent": 500,
+    "driveUrl": "https://drive.google.com/file/d/1P61jpvKcqhwTcGPwk26-xxRAHh_dt9bo/view?usp=drivesdk",
+    "fileName": "2025-09-02-13_President_Street,_Kirwan_QLD_4817_owner.pdf"
+  },
+  "lavington-nsw": {
+    "propertyId": "lavington-nsw",
+    "name": "Lavington NSW",
+    "query": "subject:New lease signed 379 Prune newer_than:200d",
+    "date": "2025-10-21",
+    "start": "2025-12-05",
+    "expiry": "2026-05-16",
+    "weeklyRent": 550,
+    "driveUrl": "https://drive.google.com/file/d/1R1yL5BMYFa-RAhAKz6iPldqFyGyja4RX/view?usp=drivesdk",
+    "fileName": "2025-10-21-Residential Rental Agreement [2025-12-05] 379 Prune St  Lavington NSW 2641.pdf"
+  },
+  "west-wodonga-vic": {
+    "propertyId": "west-wodonga-vic",
+    "name": "West Wodonga VIC",
+    "query": "subject:New lease signed 7 Schultz newer_than:200d",
+    "date": "2025-09-16",
+    "start": "2025-11-28",
+    "expiry": "2026-11-20",
+    "weeklyRent": 490,
+    "driveUrl": "https://drive.google.com/file/d/1h6VUmUVvAyEZ-g9ZEgqV-mSy8EpRoEV7/view?usp=drivesdk",
+    "fileName": "2025-09-16-Residential Rental Agreement [2025-11-28] 7 Schultz Ct  West Wodonga VIC 3690.pdf"
+  },
+  "wilsonton-qld": {
+    "propertyId": "wilsonton-qld",
+    "name": "Wilsonton QLD",
+    "query": "subject:Signed lease agreement 36 Catalina",
+    "date": "2025-04-29",
+    "start": "2025-04-29",
+    "expiry": "2026-04-28",
+    "weeklyRent": 500,
+    "pendingRent": 530,
+    "driveUrl": "https://drive.google.com/file/d/17awqf55-wMjsVRxFplENv0YyMC257XoN/view?usp=drivesdk",
+    "fileName": "2025-04-29-Signed lease agreement - 36 Catalina - 29.4.25.pdf"
+  },
+  "camillo-wa": {
+    "propertyId": "camillo-wa",
+    "name": "Camillo WA",
+    "query": "subject:New Lease Instructions 61 Amanda Drive",
+    "date": "2025-04-23",
+    "start": "2025-06-11",
+    "expiry": "2026-06-11",
+    "weeklyRent": 670,
+    "driveUrl": "https://drive.google.com/file/d/1IhiU_2xwROFo0wGcpfAHB9CZ3LJMyGzl/view?usp=drivesdk",
+    "fileName": "2025-04-23-Lease Agreement 2.pdf"
+  }
+}
