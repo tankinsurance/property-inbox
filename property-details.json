@@ -1,0 +1,51 @@
+{
+  "camillo-wa": {
+    "purchasePrice": null,
+    "purchaseDate": null,
+    "valuation": null,
+    "valuationDate": null,
+    "rentHistory": [
+      { "date": "2024-06-11", "amount": 650, "note": "Lease start" },
+      { "date": "2025-06-11", "amount": 670, "note": "Renewal increase" }
+    ]
+  },
+  "west-wodonga-vic": {
+    "purchasePrice": null,
+    "purchaseDate": null,
+    "valuation": null,
+    "valuationDate": null,
+    "rentHistory": [
+      { "date": "2024-11-20", "amount": 490, "note": "Lease start" }
+    ]
+  },
+  "wilsonton-qld": {
+    "purchasePrice": null,
+    "purchaseDate": null,
+    "valuation": null,
+    "valuationDate": null,
+    "rentHistory": [
+      { "date": "2024-04-28", "amount": 480, "note": "Lease start" },
+      { "date": "2025-04-28", "amount": 500, "note": "Renewal increase" },
+      { "date": "2026-04-28", "amount": 530, "note": "Pending renewal" }
+    ]
+  },
+  "lavington-nsw": {
+    "purchasePrice": null,
+    "purchaseDate": null,
+    "valuation": null,
+    "valuationDate": null,
+    "rentHistory": [
+      { "date": "2024-05-16", "amount": 530, "note": "Lease start" },
+      { "date": "2025-05-16", "amount": 550, "note": "Renewal increase" }
+    ]
+  },
+  "townsville-qld": {
+    "purchasePrice": null,
+    "purchaseDate": null,
+    "valuation": null,
+    "valuationDate": null,
+    "rentHistory": [
+      { "date": "2025-09-16", "amount": 500, "note": "Lease start" }
+    ]
+  }
+}

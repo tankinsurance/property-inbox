@@ -401,6 +401,64 @@ html, body {
 .action-btn-done { border-color: rgba(46,201,142,0.3); color: #2ec98e; }
 .action-btn-done:hover { background: rgba(46,201,142,0.08); border-color: #2ec98e; }
 
+/* ── Property Detail Panel ── */
+.prop-detail-panel {
+  position: fixed; top: 0; right: 0; bottom: 0;
+  width: 700px; max-width: 100vw;
+  background: var(--bg);
+  border-left: 1px solid var(--border);
+  z-index: 300;
+  display: flex; flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+.prop-detail-panel.open { transform: translateX(0); }
+.pds-scroll {
+  flex: 1; overflow-y: auto; padding-bottom: 40px;
+}
+.pds-scroll::-webkit-scrollbar { width: 4px; }
+.pds-scroll::-webkit-scrollbar-track { background: transparent; }
+.pds-scroll::-webkit-scrollbar-thumb { background: #EDF1F7; border-radius: 2px; }
+.pds-header {
+  background: #0A1327;
+  padding: 24px 24px 22px;
+  position: relative;
+}
+.pds-close {
+  position: absolute; top: 16px; right: 16px;
+  width: 28px; height: 28px; border-radius: 8px;
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.7); cursor: pointer; transition: all 150ms;
+}
+.pds-close:hover { background: rgba(255,255,255,0.18); color: #fff; }
+.pds-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  margin: 14px 16px 0;
+  padding: 18px 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.pds-section-title {
+  font-size: 10px; font-weight: 700; color: #8F9BB3;
+  text-transform: uppercase; letter-spacing: 0.8px;
+  margin-bottom: 14px;
+}
+.pds-stat-grid {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 10px;
+  margin: 14px 16px 0;
+}
+.pds-stat-card {
+  background: #FFFFFF; border: 1px solid var(--border);
+  border-radius: 14px; padding: 14px 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.pds-stat-label { font-size: 10px; font-weight: 600; color: #8F9BB3; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.pds-stat-value { font-size: 18px; font-weight: 800; color: #0A1327; letter-spacing: -0.5px; line-height: 1.1; }
+.pds-stat-sub { font-size: 10px; color: #C4CDDF; margin-top: 3px; }
+
 /* ── Loading / Empty ── */
 .loading {
   display: flex; align-items: center; justify-content: center;
@@ -505,6 +563,14 @@ html, body {
   <div class="loading"><div class="loading-spinner"></div>Loading queue…</div>
 </div>
 
+<!-- Property Detail Panel -->
+<div class="prop-detail-panel" id="prop-detail-panel">
+  <button class="pds-close" id="prop-detail-close" aria-label="Close">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+  </button>
+  <div class="pds-scroll" id="prop-detail-content"></div>
+</div>
+
 <!-- Detail Panel -->
 <div class="backdrop" id="backdrop"></div>
 <div class="detail-panel" id="detail-panel">
@@ -523,6 +589,7 @@ html, body {
   const DATA_URL = 'https://raw.githubusercontent.com/tankinsurance/property-inbox/main/queue.json';
   const API_URL = 'https://property-inbox-api.marel-e1f.workers.dev';
   const LEASES_URL = 'https://raw.githubusercontent.com/tankinsurance/property-inbox/main/leases.json';
+  const PROP_DETAILS_URL = 'https://raw.githubusercontent.com/tankinsurance/property-inbox/main/property-details.json';
 
   const PROPERTY_MAP = {
     'camillo-wa':        { name: 'Camillo WA',        address: '61 Amanda Drive, Camillo WA' },
@@ -558,6 +625,7 @@ html, body {
   // ── State ──
   let items = [];
   let leases = {};
+  let propDetails = {};
   let currentView = 'property';
   let filterType = 'ALL';
   let searchQuery = '';
@@ -1033,13 +1101,7 @@ html, body {
     document.querySelectorAll('.prop-view-details-btn').forEach(btn => {
       btn.addEventListener('click', function(e) {
         e.stopPropagation();
-        const propId = this.getAttribute('data-prop-id');
-        // Switch to kanban filtered by this property (or show items in a modal — for now switch to kanban)
-        currentView = 'kanban';
-        document.querySelectorAll('.view-btn').forEach(b => {
-          b.classList.toggle('active', b.getAttribute('data-view') === 'kanban');
-        });
-        render();
+        openPropertyDetail(this.getAttribute('data-prop-id'));
       });
     });
   }
@@ -1079,9 +1141,228 @@ html, body {
   });
 
   // ── Backdrop / Escape ──
-  document.getElementById('backdrop').addEventListener('click', closeDetail);
+  document.getElementById('backdrop').addEventListener('click', function() {
+    closeDetail();
+    closePropDetail();
+  });
   document.getElementById('detail-close').addEventListener('click', closeDetail);
   document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeDetail(); });
+
+  // ── Property Detail Panel ──
+  function fmtCurrency(n) {
+    if (n == null) return '—';
+    return '$' + Number(n).toLocaleString();
+  }
+
+  function renderIncomeChart(stmts) {
+    const data = stmts
+      .filter(s => s.verifyReport && s.verifyReport.rentReceived > 0)
+      .sort((a, b) => new Date(a.emailDate) - new Date(b.emailDate))
+      .slice(-12);
+    if (data.length === 0) {
+      return `<div style="text-align:center;padding:32px 0;color:#C4CDDF;font-size:12px">No statement income data yet — populates as statements arrive</div>`;
+    }
+    const maxVal = Math.max(...data.map(d => d.verifyReport.rentReceived));
+    const W = 620; const H = 130; const PAD_L = 50; const PAD_B = 28; const PAD_T = 10;
+    const chartW = W - PAD_L - 10; const chartH = H - PAD_B - PAD_T;
+    const barW = Math.max(8, Math.floor(chartW / data.length) - 6);
+    let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;overflow:visible">`;
+    // Grid lines
+    for (let i = 0; i <= 3; i++) {
+      const y = PAD_T + (chartH / 3) * i;
+      const val = Math.round(maxVal * (3 - i) / 3);
+      svg += `<line x1="${PAD_L}" x2="${W-10}" y1="${y}" y2="${y}" stroke="#EDF1F7" stroke-width="1"/>`;
+      svg += `<text x="${PAD_L - 6}" y="${y + 4}" text-anchor="end" font-size="9" fill="#C4CDDF">$${val.toLocaleString()}</text>`;
+    }
+    data.forEach((d, i) => {
+      const income = d.verifyReport.rentReceived;
+      const barH = Math.max(3, (income / maxVal) * chartH);
+      const x = PAD_L + i * (barW + 6) + 2;
+      const y = PAD_T + chartH - barH;
+      svg += `<rect x="${x}" y="${y}" width="${barW}" height="${barH}" rx="4" fill="#0A1327"/>`;
+      const dt = new Date(d.emailDate);
+      const lbl = dt.toLocaleDateString('en-AU', { day: 'numeric', month: 'short' });
+      svg += `<text x="${x + barW / 2}" y="${H - 4}" text-anchor="middle" font-size="8" fill="#C4CDDF">${lbl}</text>`;
+      // Amount on top of bar
+      if (barH > 22) svg += `<text x="${x + barW / 2}" y="${y - 4}" text-anchor="middle" font-size="9" fill="#0A1327" font-weight="600">$${Math.round(income / 100) * 100 < income ? income : income}</text>`;
+    });
+    svg += '</svg>';
+    return svg;
+  }
+
+  function renderRentTimeline(propId, leaseData) {
+    const pd = propDetails[propId] || {};
+    const history = (pd.rentHistory || []).slice();
+    if (history.length === 0 && leaseData) {
+      history.push({ date: leaseData.start, amount: leaseData.weeklyRent, note: 'Current' });
+    }
+    if (history.length === 0) return '<div style="color:#C4CDDF;font-size:12px">No rent history data</div>';
+    history.sort((a, b) => new Date(a.date) - new Date(b.date));
+    return history.map((h, i) => {
+      const isLast = i === history.length - 1;
+      const isPending = h.note && h.note.toLowerCase().includes('pending');
+      const increase = i > 0 ? h.amount - history[i-1].amount : null;
+      const color = isPending ? '#f0a020' : isLast ? '#0A1327' : '#8F9BB3';
+      return `<div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid ${isLast ? 'transparent' : '#EDF1F7'}">
+        <div style="width:8px;height:8px;border-radius:50%;background:${color};flex-shrink:0"></div>
+        <div style="flex:1">
+          <span style="font-size:14px;font-weight:700;color:${color}">$${h.amount}/wk</span>
+          ${increase !== null ? `<span style="font-size:11px;color:#2ec98e;font-weight:600;margin-left:6px">+$${increase}</span>` : ''}
+          <span style="font-size:11px;color:#C4CDDF;margin-left:6px">${h.note || ''}</span>
+        </div>
+        <div style="font-size:11px;color:#C4CDDF">${formatLeaseDate(h.date)}</div>
+      </div>`;
+    }).join('');
+  }
+
+  function openPropertyDetail(propId) {
+    const p = PROPERTY_MAP[propId] || { name: propId, address: '' };
+    const lease = leases[propId];
+    const pd = propDetails[propId] || {};
+    const propItems = items.filter(i => i.propertyId === propId);
+    const stmts = propItems.filter(i => i.type === 'REMITTANCE').sort((a,b) => new Date(b.emailDate) - new Date(a.emailDate));
+    const maintenance = propItems.filter(i => i.type === 'MAINTENANCE').sort((a,b) => new Date(b.emailDate) - new Date(a.emailDate));
+    const weeklyRent = (lease && lease.weeklyRent) || 0;
+    const annualIncome = weeklyRent * 52;
+    const purchasePrice = pd.purchasePrice;
+    const valuation = pd.valuation;
+    const grossYield = purchasePrice && weeklyRent ? ((annualIncome / purchasePrice) * 100).toFixed(2) : null;
+    const capitalGrowth = purchasePrice && valuation ? (((valuation - purchasePrice) / purchasePrice) * 100).toFixed(1) : null;
+    const stateColors = { wa: '#c9a227', vic: '#4a7fc1', qld: '#b05a5a', nsw: '#4a9bb0' };
+    const stateKey = propId.split('-').pop();
+    const stateColor = stateColors[stateKey] || '#8F9BB3';
+    const stateName = { wa: 'WA', vic: 'VIC', qld: 'QLD', nsw: 'NSW' }[stateKey] || stateKey.toUpperCase();
+
+    // All collected Drive links from statements
+    const allDriveLinks = stmts.flatMap(s => s.driveLinks || []);
+    const statementLinks = allDriveLinks.filter(l => l.type === 'rental-statement');
+    const maintLinks = allDriveLinks.filter(l => l.type === 'maintenance-invoice');
+
+    let html = '';
+
+    // ── Header ──
+    html += `<div class="pds-header">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        <span style="background:${stateColor};color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:100px;letter-spacing:0.5px">${stateName}</span>
+        <span style="font-size:11px;color:rgba(255,255,255,0.4);font-weight:500">${esc(p.address)}</span>
+      </div>
+      <div style="font-size:26px;font-weight:800;color:#FFFFFF;letter-spacing:-0.8px;line-height:1.1">${esc(p.name)}</div>
+      ${lease && lease.expiry ? `<div style="margin-top:8px;font-size:12px;color:rgba(255,255,255,0.45)">Lease: ${formatLeaseDate(lease.start)} → ${formatLeaseDate(lease.expiry)} ${leaseExpiryPill(daysUntilExpiry(lease.expiry))}</div>` : ''}
+    </div>`;
+
+    // ── Stat Cards ──
+    const statCards = [
+      { label: 'Weekly Rent', value: weeklyRent ? '$' + weeklyRent + '/wk' : '—', sub: 'current' },
+      { label: 'Annual Income', value: weeklyRent ? '$' + annualIncome.toLocaleString() : '—', sub: 'gross estimate' },
+      { label: 'Purchase Price', value: fmtCurrency(purchasePrice), sub: pd.purchaseDate ? formatLeaseDate(pd.purchaseDate) : 'not set' },
+      { label: valuation ? 'Valuation' : 'Gross Yield', value: valuation ? fmtCurrency(valuation) : (grossYield ? grossYield + '%' : '—'), sub: valuation ? (pd.valuationDate ? formatLeaseDate(pd.valuationDate) : 'estimate') : 'yield on cost' },
+    ];
+    html += `<div class="pds-stat-grid">`;
+    statCards.forEach(sc => {
+      const isPending = sc.value === '—';
+      html += `<div class="pds-stat-card">
+        <div class="pds-stat-label">${esc(sc.label)}</div>
+        <div class="pds-stat-value" style="${isPending ? 'color:#C4CDDF' : ''}">${esc(sc.value)}</div>
+        <div class="pds-stat-sub">${esc(sc.sub)}</div>
+      </div>`;
+    });
+    if (capitalGrowth) {
+      html += `<div class="pds-stat-card" style="border-color:rgba(46,201,142,0.3)">
+        <div class="pds-stat-label">Capital Growth</div>
+        <div class="pds-stat-value" style="color:#2ec98e">+${capitalGrowth}%</div>
+        <div class="pds-stat-sub">$${(valuation - purchasePrice).toLocaleString()} gain</div>
+      </div>`;
+    }
+    html += `</div>`;
+
+    // ── Income Chart ──
+    html += `<div class="pds-card">
+      <div class="pds-section-title">Rental Income — Statement History</div>
+      ${renderIncomeChart(stmts)}
+    </div>`;
+
+    // ── Rent History ──
+    html += `<div class="pds-card">
+      <div class="pds-section-title">Rent History</div>
+      ${renderRentTimeline(propId, lease)}
+    </div>`;
+
+    // ── Recent Statements ──
+    if (stmts.length > 0) {
+      html += `<div class="pds-card">
+        <div class="pds-section-title">Recent Statements (${stmts.length})</div>`;
+      stmts.slice(0, 6).forEach(s => {
+        const net = s.verifyReport ? s.verifyReport.rentReceived : 0;
+        const stmtDriveLinks = (s.driveLinks || []).filter(l => l.type === 'rental-statement');
+        html += `<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #EDF1F7">
+          <div>
+            <div style="font-size:13px;font-weight:500;color:#0A1327">${esc(s.period || formatDate(s.emailDate))}</div>
+            <div style="font-size:11px;color:#8F9BB3;margin-top:1px">${esc(s.pm)} · ${esc(formatDate(s.emailDate))}</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="font-size:14px;font-weight:700;color:${net > 0 ? '#2ec98e' : '#C4CDDF'}">${net > 0 ? '$' + net.toLocaleString() : '—'}</span>
+            ${stmtDriveLinks[0] ? `<a href="${esc(stmtDriveLinks[0].url)}" target="_blank" rel="noopener" style="font-size:11px;padding:3px 8px;border:1px solid #EDF1F7;border-radius:6px;color:#8F9BB3;text-decoration:none" onmouseover="this.style.borderColor='#D1D9E6';this.style.color='#0A1327'" onmouseout="this.style.borderColor='#EDF1F7';this.style.color='#8F9BB3'">📄 PDF</a>` : ''}
+          </div>
+        </div>`;
+      });
+      html += `</div>`;
+    }
+
+    // ── Maintenance ──
+    if (maintenance.length > 0) {
+      html += `<div class="pds-card">
+        <div class="pds-section-title">Maintenance (${maintenance.length})</div>`;
+      maintenance.slice(0, 5).forEach(m => {
+        const st = resolveStatus(m);
+        const stColor = st === 'DONE' ? '#2ec98e' : st === 'IN_PROGRESS' ? '#0A1327' : '#f0a020';
+        html += `<div style="display:flex;align-items:flex-start;justify-content:space-between;padding:8px 0;border-bottom:1px solid #EDF1F7;cursor:pointer" onclick="openDetail('${esc(m.msgId)}')">
+          <div style="flex:1;margin-right:10px">
+            <div style="font-size:12px;font-weight:500;color:#0A1327;line-height:1.4">${esc(m.subject)}</div>
+            <div style="font-size:11px;color:#8F9BB3;margin-top:2px">${esc(formatDate(m.emailDate))}</div>
+          </div>
+          <span style="font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;background:${stColor}1a;color:${stColor};flex-shrink:0;margin-top:2px">${esc(st)}</span>
+        </div>`;
+      });
+      html += `</div>`;
+    }
+
+    // ── Documents ──
+    if (statementLinks.length > 0 || maintLinks.length > 0) {
+      html += `<div class="pds-card">
+        <div class="pds-section-title">Documents in Drive (${statementLinks.length + maintLinks.length})</div>`;
+      [...statementLinks, ...maintLinks].slice(0, 8).forEach(dl => {
+        html += `<div style="padding:6px 0;border-bottom:1px solid #EDF1F7">
+          <a href="${esc(dl.url)}" target="_blank" rel="noopener" style="font-size:12px;color:#0A1327;text-decoration:none;display:flex;align-items:center;gap:6px" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
+            <span style="color:#8F9BB3">📄</span>${esc(dl.name || dl.type)}
+          </a>
+        </div>`;
+      });
+      html += `</div>`;
+    }
+
+    // ── Inbox Summary ──
+    const pending = propItems.filter(i => resolveStatus(i) === 'PENDING').length;
+    const nd = propItems.filter(i => resolveStatus(i) === 'NEEDS_DECISION').length;
+    html += `<div class="pds-card" style="margin-bottom:0">
+      <div class="pds-section-title">Inbox Summary</div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap">
+        ${[['Total', propItems.length,'#0A1327'],['Pending', pending,'#f0a020'],['Needs Decision',nd,'#e55a48'],['Maintenance',maintenance.length,'#f0a020'],['Remittance',stmts.length,'#2ec98e']].map(([l,v,c])=>`<div style="text-align:center;min-width:60px"><div style="font-size:20px;font-weight:800;color:${c}">${v}</div><div style="font-size:10px;color:#8F9BB3;font-weight:600;letter-spacing:0.3px">${l}</div></div>`).join('')}
+      </div>
+    </div>`;
+
+    html += `<div style="height:16px"></div>`;
+
+    document.getElementById('prop-detail-content').innerHTML = html;
+    document.getElementById('prop-detail-panel').classList.add('open');
+    document.getElementById('backdrop').classList.add('open');
+  }
+
+  function closePropDetail() {
+    document.getElementById('prop-detail-panel').classList.remove('open');
+    document.getElementById('backdrop').classList.remove('open');
+  }
+
+  document.getElementById('prop-detail-close').addEventListener('click', closePropDetail);
 
   // ── Fetch ──
   async function fetchLeases() {
@@ -1093,12 +1374,22 @@ html, body {
     }
   }
 
+  async function fetchPropDetails() {
+    try {
+      const res = await fetch(PROP_DETAILS_URL + '?_=' + Date.now());
+      if (res.ok) propDetails = await res.json();
+    } catch (e) {
+      console.warn('PropDetails unavailable:', e.message);
+    }
+  }
+
   async function loadData() {
     try {
       const [queueRes] = await Promise.all([
         fetch(DATA_URL + '?_=' + Date.now()),
         fetchStatusMap(),
-        fetchLeases()
+        fetchLeases(),
+        fetchPropDetails()
       ]);
       if (!queueRes.ok) throw new Error('HTTP ' + queueRes.status);
       const data = await queueRes.json();
