@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wealth Dashboard — Pencev Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #F4F5F7;
+  --surface: #FFFFFF;
+  --surface-2: #F4F6F9;
+  --border: #E8ECF2;
+  --text: #0A1327;
+  --text-muted: #8F9BB3;
+  --text-dim: #C4CDDF;
+  --navy: #0A1327;
+  --green: #2ec98e;
+  --amber: #f0a020;
+  --red: #e55a48;
+  --blue: #3b82f6;
+  --purple: #9b6cf7;
+}
+html, body { min-height: 100%; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+
+/* ── Header ── */
+.header { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); padding: 0 28px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+.header-logo { font-size: 15px; font-weight: 700; color: var(--navy); letter-spacing: -0.3px; }
+.header-logo span { color: var(--text-muted); font-weight: 400; }
+.header-nav { display: flex; align-items: center; gap: 4px; }
+.nav-link { padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; color: var(--text-muted); text-decoration: none; transition: all 0.15s; }
+.nav-link:hover { background: var(--surface); color: var(--text); }
+.nav-link.active { background: var(--navy); color: #fff; }
+.header-actions { display: flex; align-items: center; gap: 10px; }
+.btn-refresh { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 6px 14px; font-size: 13px; font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
+.btn-refresh:hover { border-color: var(--navy); color: var(--navy); }
+
+/* ── Hero ── */
+.hero { background: var(--navy); padding: 36px 28px 32px; }
+.hero-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: start; }
+.hero-label { font-size: 12px; font-weight: 600; letter-spacing: 0.8px; color: rgba(255,255,255,0.4); text-transform: uppercase; margin-bottom: 8px; }
+.hero-nw { font-size: 48px; font-weight: 800; color: #fff; letter-spacing: -2px; line-height: 1; }
+.hero-delta { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 5px 12px; border-radius: 100px; font-size: 12px; font-weight: 600; }
+.hero-delta.positive { background: rgba(46,201,142,0.15); color: var(--green); }
+.hero-delta.negative { background: rgba(229,90,72,0.15); color: var(--red); }
+.hero-delta.neutral { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); }
+.hero-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.hero-pill { padding: 4px 10px; border-radius: 100px; font-size: 11px; font-weight: 600; background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.5); }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
+.hero-updated { font-size: 11px; color: rgba(255,255,255,0.3); }
+.btn-snapshot { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.15); color: #fff; border-radius: 8px; padding: 10px 20px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+.btn-snapshot:hover { background: rgba(255,255,255,0.2); }
+
+/* ── Main layout ── */
+.main { max-width: 1200px; margin: 0 auto; padding: 24px 28px 60px; }
+
+/* ── Summary cards ── */
+.summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+@media (max-width: 900px) { .summary-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .summary-grid { grid-template-columns: 1fr; } }
+.summary-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+.sc-icon { font-size: 20px; margin-bottom: 10px; }
+.sc-label { font-size: 11px; font-weight: 600; letter-spacing: 0.5px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; }
+.sc-value { font-size: 24px; font-weight: 800; color: var(--navy); letter-spacing: -0.8px; }
+.sc-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+.sc-sub.positive { color: var(--green); }
+.sc-sub.negative { color: var(--red); }
+
+/* ── Cards ── */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 16px; overflow: hidden; }
+.card-header { padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
+.card-header:hover { background: var(--surface-2); }
+.card-title { font-size: 13px; font-weight: 700; color: var(--navy); }
+.card-toggle { font-size: 11px; color: var(--text-muted); transition: transform 0.2s; }
+.card-toggle.open { transform: rotate(180deg); }
+.card-body { padding: 0 20px 20px; }
+.card-body.collapsed { display: none; }
+
+/* ── Table ── */
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 600; color: var(--text-muted); border-bottom: 1px solid var(--border); letter-spacing: 0.3px; text-transform: uppercase; }
+.data-table td { padding: 12px 12px; border-bottom: 1px solid var(--border); color: var(--text); }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr.total-row td { font-weight: 700; color: var(--navy); background: var(--surface-2); border-top: 2px solid var(--border); }
+.data-table tr:hover td { background: var(--surface-2); }
+.val-pos { color: var(--green); font-weight: 600; }
+.val-neg { color: var(--red); font-weight: 600; }
+.val-muted { color: var(--text-dim); }
+
+/* ── Chart ── */
+.chart-wrap { padding: 20px; }
+.chart-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 200px; color: var(--text-muted); font-size: 13px; gap: 8px; }
+.chart-empty-icon { font-size: 32px; opacity: 0.3; }
+.chart-legend { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; color: var(--text-muted); }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* ── Modal ── */
+.modal-bg { display: none; position: fixed; inset: 0; background: rgba(10,19,39,0.5); z-index: 200; align-items: center; justify-content: center; }
+.modal-bg.open { display: flex; }
+.modal { background: var(--surface); border-radius: 16px; padding: 28px; width: 90%; max-width: 520px; max-height: 90vh; overflow-y: auto; }
+.modal-title { font-size: 18px; font-weight: 800; color: var(--navy); margin-bottom: 20px; }
+.modal-section { margin-bottom: 16px; }
+.modal-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.modal-value { font-size: 22px; font-weight: 700; color: var(--navy); }
+.modal-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.modal-row:last-child { border-bottom: none; }
+.modal-notes { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 13px; resize: vertical; min-height: 80px; margin-top: 6px; color: var(--text); }
+.modal-notes:focus { outline: none; border-color: var(--navy); }
+.modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+.btn-cancel { background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 20px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text-muted); }
+.btn-save { background: var(--navy); color: #fff; border: none; border-radius: 8px; padding: 10px 24px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.btn-save:hover { opacity: 0.85; }
+.loading { color: var(--text-dim); font-style: italic; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-logo">Pencev Capital <span>/ Wealth</span></div>
+  <nav class="header-nav">
+    <a href="index.html" class="nav-link">Property Inbox</a>
+    <a href="wealth.html" class="nav-link active">Wealth</a>
+  </nav>
+  <div class="header-actions">
+    <button class="btn-refresh" onclick="loadAll()">↻ Refresh</button>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-label">Total Net Worth</div>
+      <div class="hero-nw" id="hero-nw">Loading…</div>
+      <div id="hero-delta" class="hero-delta neutral">— vs last month</div>
+      <div class="hero-pills" id="hero-pills"></div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-updated" id="hero-updated">Updated: —</div>
+      <button class="btn-snapshot" onclick="openSnapshot()">+ Save Snapshot</button>
+    </div>
+  </div>
+</section>
+
+<!-- Main -->
+<main class="main">
+
+  <!-- Summary cards -->
+  <div class="summary-grid">
+    <div class="summary-card">
+      <div class="sc-icon">🏠</div>
+      <div class="sc-label">Property Equity</div>
+      <div class="sc-value" id="sc-property">—</div>
+      <div class="sc-sub" id="sc-property-sub">loading…</div>
+    </div>
+    <div class="summary-card">
+      <div class="sc-icon">₿</div>
+      <div class="sc-label">Crypto &amp; Gold</div>
+      <div class="sc-value" id="sc-crypto">—</div>
+      <div class="sc-sub" id="sc-crypto-sub">live prices</div>
+    </div>
+    <div class="summary-card">
+      <div class="sc-icon">💼</div>
+      <div class="sc-label">Business</div>
+      <div class="sc-value" id="sc-business">—</div>
+      <div class="sc-sub" id="sc-business-sub">Tank + Tykhe</div>
+    </div>
+    <div class="summary-card">
+      <div class="sc-icon">🏦</div>
+      <div class="sc-label">SMSF &amp; Cash</div>
+      <div class="sc-value" id="sc-cash">—</div>
+      <div class="sc-sub" id="sc-cash-sub">net of HECS</div>
+    </div>
+  </div>
+
+  <!-- Trend chart -->
+  <div class="card">
+    <div class="card-header" onclick="toggleCard('chart')">
+      <span class="card-title">📈 Net Worth Trend</span>
+      <span class="card-toggle open" id="toggle-chart">▾</span>
+    </div>
+    <div class="card-body" id="body-chart">
+      <div class="chart-wrap">
+        <div class="chart-legend" id="chart-legend" style="display:none">
+          <div class="legend-item"><div class="legend-dot" style="background:#0A1327"></div> Total Net Worth</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div> Property Equity</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f0a020"></div> Crypto</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#2ec98e"></div> Business &amp; Cash</div>
+        </div>
+        <div id="chart-container">
+          <div class="chart-empty">
+            <div class="chart-empty-icon">📊</div>
+            <div>No snapshot data yet</div>
+            <div style="font-size:11px;color:var(--text-dim)">Save your first snapshot to start tracking net worth over time</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Properties -->
+  <div class="card">
+    <div class="card-header" onclick="toggleCard('properties')">
+      <span class="card-title">🏠 Property Portfolio</span>
+      <span class="card-toggle open" id="toggle-properties">▾</span>
+    </div>
+    <div class="card-body" id="body-properties">
+      <table class="data-table">
+        <thead><tr><th>Property</th><th>Valuation</th><th>Loan Balance</th><th>Net Equity</th><th>Equity %</th></tr></thead>
+        <tbody id="tbl-properties"><tr><td colspan="5" class="loading">Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Loans -->
+  <div class="card">
+    <div class="card-header" onclick="toggleCard('loans')">
+      <span class="card-title">🏦 Property Loans</span>
+      <span class="card-toggle" id="toggle-loans">▾</span>
+    </div>
+    <div class="card-body collapsed" id="body-loans">
+      <table class="data-table">
+        <thead><tr><th>Property</th><th>Balance</th><th>Rate</th><th>Monthly IO</th></tr></thead>
+        <tbody id="tbl-loans"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Crypto & Gold -->
+  <div class="card">
+    <div class="card-header" onclick="toggleCard('crypto')">
+      <span class="card-title">₿ Crypto &amp; Gold</span>
+      <span class="card-toggle" id="toggle-crypto">▾</span>
+    </div>
+    <div class="card-body collapsed" id="body-crypto">
+      <table class="data-table">
+        <thead><tr><th>Asset</th><th>Holding</th><th>Live Price (AUD)</th><th>Value</th></tr></thead>
+        <tbody id="tbl-crypto"><tr><td colspan="4" class="loading">Loading live prices…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Other assets -->
+  <div class="card">
+    <div class="card-header" onclick="toggleCard('other')">
+      <span class="card-title">🏦 SMSF, Cash &amp; Other</span>
+      <span class="card-toggle" id="toggle-other">▾</span>
+    </div>
+    <div class="card-body collapsed" id="body-other">
+      <table class="data-table">
+        <thead><tr><th>Asset</th><th>Value</th><th>Last Updated</th><th>Type</th></tr></thead>
+        <tbody id="tbl-other"></tbody>
+      </table>
+      <div style="margin-top:14px;padding:12px 14px;background:var(--surface-2);border-radius:8px;font-size:12px;color:var(--text-muted)">
+        💡 Update these balances monthly via "Save Snapshot". Quantities that rarely change (crypto holdings) are stored in <code>wealth-config.json</code>.
+      </div>
+    </div>
+  </div>
+
+  <!-- Snapshot history -->
+  <div class="card">
+    <div class="card-header" onclick="toggleCard('history')">
+      <span class="card-title">📅 Snapshot History</span>
+      <span class="card-toggle" id="toggle-history">▾</span>
+    </div>
+    <div class="card-body collapsed" id="body-history">
+      <table class="data-table">
+        <thead><tr><th>Date</th><th>Net Worth</th><th>Change</th><th>Notes</th></tr></thead>
+        <tbody id="tbl-history"><tr><td colspan="4" class="loading">Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+</main>
+
+<!-- Snapshot Modal -->
+<div class="modal-bg" id="modal-bg" onclick="closeSnapshot(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">Save Monthly Snapshot</div>
+    <div class="modal-section">
+      <div class="modal-label">Date</div>
+      <input type="date" id="snap-date" style="border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-family:inherit;font-size:13px;width:100%;margin-top:4px">
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">Net Worth</div>
+      <div class="modal-value" id="snap-nw">Calculating…</div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">Breakdown</div>
+      <div id="snap-breakdown"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">Commentary / Notes</div>
+      <textarea class="modal-notes" id="snap-notes" placeholder="e.g. Camillo valuation up 5%, BTC dip this month, renewed Wilsonton at $530/wk…"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeSnapshot()">Cancel</button>
+      <button class="btn-save" onclick="saveSnapshot()">Save Snapshot</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const WORKER = 'https://property-inbox-api.marel-e1f.workers.dev';
+
+// Global state
+let propDetails = {};
+let wealthConfig = {};
+let snapshots = [];
+let cryptoPrices = null;
+let goldPriceAUD = null; // per gram
+let calcState = {};
+
+// ── Helpers ─────────────────────────────────────────────────────────────────
+function fmt(n, decimals = 0) {
+  if (n == null || isNaN(n)) return '—';
+  return '$' + Math.round(n).toLocaleString('en-AU');
+}
+function fmtK(n) {
+  if (n == null || isNaN(n)) return '—';
+  if (Math.abs(n) >= 1000000) return '$' + (n/1000000).toFixed(2) + 'M';
+  if (Math.abs(n) >= 1000) return '$' + Math.round(n/1000) + 'k';
+  return '$' + Math.round(n).toLocaleString();
+}
+function esc(s) {
+  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function today() {
+  return new Date().toISOString().slice(0,10);
+}
+
+// ── Load all data ────────────────────────────────────────────────────────────
+async function loadAll() {
+  document.getElementById('hero-nw').textContent = 'Loading…';
+  document.getElementById('hero-updated').textContent = 'Refreshing…';
+
+  const [pdRes, wcRes, snapRes, cryptoRes, goldRes] = await Promise.allSettled([
+    fetch('property-details.json').then(r => r.json()),
+    fetch('wealth-config.json').then(r => r.json()),
+    fetch(`${WORKER}/wealth/snapshots`).then(r => r.json()),
+    fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=aud').then(r => r.json()),
+    fetch('https://data-asg.goldprice.org/dbXRates/AUD').then(r => r.json()),
+  ]);
+
+  propDetails  = pdRes.status === 'fulfilled'    ? pdRes.value    : {};
+  wealthConfig = wcRes.status === 'fulfilled'    ? wcRes.value    : {};
+  snapshots    = (snapRes.status === 'fulfilled' && Array.isArray(snapRes.value)) ? snapRes.value : [];
+
+  if (cryptoRes.status === 'fulfilled' && cryptoRes.value) {
+    cryptoPrices = cryptoRes.value;
+  }
+  if (goldRes.status === 'fulfilled' && goldRes.value?.items?.[0]) {
+    const troyOzAUD = goldRes.value.items[0].xauPrice;
+    goldPriceAUD = troyOzAUD / 31.1035;
+  }
+
+  render();
+  document.getElementById('hero-updated').textContent = 'Updated: ' + new Date().toLocaleTimeString('en-AU', {hour:'2-digit',minute:'2-digit'});
+}
+
+// ── Calculate ─────────────────────────────────────────────────────────────────
+function calculate() {
+  const loans = wealthConfig.loans || {};
+  const crypto = wealthConfig.crypto || {};
+
+  // Property
+  let propGross = 0;
+  let propLoans = 0;
+  const propRows = [];
+  const propKeys = ['camillo-wa','lavington-nsw','west-wodonga-vic','wilsonton-qld','townsville-qld'];
+  const propNames = { 'camillo-wa':'Camillo WA', 'lavington-nsw':'Lavington NSW', 'west-wodonga-vic':'West Wodonga VIC', 'wilsonton-qld':'Wilsonton QLD', 'townsville-qld':'Kirwan QLD' };
+  const loanKeys  = { 'camillo-wa':'camillo-wa', 'lavington-nsw':'lavington-nsw', 'west-wodonga-vic':'west-wodonga-vic', 'wilsonton-qld':'wilsonton-qld', 'townsville-qld':'kirwan-qld' };
+
+  propKeys.forEach(key => {
+    const pd = propDetails[key] || {};
+    const lKey = loanKeys[key];
+    const val = pd.valuation || 0;
+    const loan = (loans[lKey] || {}).balance || 0;
+    const equity = val - loan;
+    const eqPct = val ? ((equity / val) * 100).toFixed(1) : '—';
+    propGross += val;
+    propLoans += loan;
+    propRows.push({ name: propNames[key], val, loan, equity, eqPct });
+  });
+  // 6th loan (other)
+  const otherLoan = (loans.other || {}).balance || 0;
+  propLoans += otherLoan;
+  const propEquity = propGross - propLoans;
+
+  // Crypto & Gold
+  const btcPrice = cryptoPrices?.bitcoin?.aud || 0;
+  const ethPrice = cryptoPrices?.ethereum?.aud || 0;
+  const btcQty = crypto.bitcoin?.quantity || 0;
+  const ethQty = crypto.ethereum?.quantity || 0;
+  const btcSmsf = crypto.bitcoin_smsf?.quantity || 0;
+  const ethSmsf = crypto.ethereum_smsf?.quantity || 0;
+  const goldGrams = (wealthConfig.gold || {}).grams || 0;
+  const goldVal = goldGrams * (goldPriceAUD || 0);
+  const cryptoVal = (btcQty + btcSmsf) * btcPrice + (ethQty + ethSmsf) * ethPrice + goldVal;
+
+  // Business
+  const tankBank  = (wealthConfig.tank_bank || {}).balance || 0;
+  const tykheVal  = (wealthConfig.tykhe_value || {}).balance || 0;
+  const businessVal = tankBank + tykheVal;
+
+  // SMSF & Cash
+  const smsfMac   = (wealthConfig.smsf_macquarie || {}).balance || 0;
+  const mezzanine = (wealthConfig.mezzanine || {}).balance || 0;
+  const offsets   = (wealthConfig.cash_offsets || {}).balance || 0;
+  const hecs      = (wealthConfig.hecs || {}).balance || 0;
+  const cashVal   = smsfMac + mezzanine + offsets - hecs;
+
+  // Totals
+  const totalAssets = propGross + cryptoVal + businessVal + smsfMac + mezzanine + offsets + tankBank + tykheVal + goldVal + btcQty*btcPrice + ethQty*ethPrice + btcSmsf*btcPrice + ethSmsf*ethPrice;
+  // Recalc clean
+  const assets2 = propGross + (btcQty+btcSmsf)*btcPrice + (ethQty+ethSmsf)*ethPrice + goldVal + smsfMac + mezzanine + offsets + tankBank + tykheVal;
+  const liabilities = propLoans + hecs;
+  const netWorth = assets2 - liabilities;
+
+  return {
+    netWorth, propGross, propLoans, propEquity, propRows,
+    cryptoVal: (btcQty+btcSmsf)*btcPrice + (ethQty+ethSmsf)*ethPrice + goldVal,
+    btcPrice, ethPrice, btcQty, ethQty, btcSmsf, ethSmsf, goldVal, goldGrams,
+    businessVal, tankBank, tykheVal,
+    cashVal, smsfMac, mezzanine, offsets, hecs,
+    loans, loanKeys, propNames, propKeys,
+  };
+}
+
+// ── Render ────────────────────────────────────────────────────────────────────
+function render() {
+  const c = calculate();
+  calcState = c;
+
+  // Hero
+  document.getElementById('hero-nw').textContent = fmtK(c.netWorth);
+
+  // Delta vs last snapshot
+  const deltaEl = document.getElementById('hero-delta');
+  if (snapshots.length > 0) {
+    const last = snapshots[snapshots.length - 1];
+    const delta = c.netWorth - last.netWorth;
+    deltaEl.textContent = (delta >= 0 ? '+' : '') + fmtK(delta) + ' vs last snapshot';
+    deltaEl.className = 'hero-delta ' + (delta > 0 ? 'positive' : delta < 0 ? 'negative' : 'neutral');
+  } else {
+    deltaEl.textContent = 'No previous snapshot';
+    deltaEl.className = 'hero-delta neutral';
+  }
+
+  // Hero pills
+  document.getElementById('hero-pills').innerHTML = [
+    { label: 'Property', val: c.propEquity, color: '#3b82f6' },
+    { label: 'Crypto', val: c.cryptoVal, color: '#f0a020' },
+    { label: 'Business', val: c.businessVal, color: '#2ec98e' },
+    { label: 'SMSF+Cash', val: c.cashVal, color: '#9b6cf7' },
+  ].map(p => `<div class="hero-pill" style="background:${p.color}22;color:${p.color}">${p.label}: ${fmtK(p.val)}</div>`).join('');
+
+  // Summary cards
+  document.getElementById('sc-property').textContent = fmtK(c.propEquity);
+  document.getElementById('sc-property-sub').textContent = `${fmtK(c.propGross)} value − ${fmtK(c.propLoans)} loans`;
+  document.getElementById('sc-property-sub').className = 'sc-sub ' + (c.propEquity > 0 ? 'positive' : 'negative');
+
+  document.getElementById('sc-crypto').textContent = fmtK(c.cryptoVal);
+  const hasCrypto = c.btcQty > 0 || c.btcSmsf > 0 || c.ethQty > 0 || c.ethSmsf > 0;
+  document.getElementById('sc-crypto-sub').textContent = hasCrypto ? 
+    (c.btcPrice ? `BTC ${fmtK(c.btcPrice)}/coin` : 'Enter holdings to track') : 
+    'Holdings not entered yet';
+
+  document.getElementById('sc-business').textContent = fmtK(c.businessVal);
+  document.getElementById('sc-business-sub').textContent = c.businessVal > 0 ? `Tank + Tykhe` : 'Manual entry needed';
+
+  document.getElementById('sc-cash').textContent = fmtK(c.cashVal);
+  document.getElementById('sc-cash-sub').textContent = c.hecs > 0 ? `Net of ${fmtK(c.hecs)} HECS` : 'SMSF + Cash + Other';
+
+  // Properties table
+  const ptbody = document.getElementById('tbl-properties');
+  if (c.propRows.every(r => r.val === 0)) {
+    ptbody.innerHTML = '<tr><td colspan="5" class="loading">Property valuations not loaded — check property-details.json</td></tr>';
+  } else {
+    ptbody.innerHTML = c.propRows.map(r => `<tr>
+      <td><strong>${esc(r.name)}</strong></td>
+      <td>${fmt(r.val)}</td>
+      <td class="val-neg">${fmt(r.loan)}</td>
+      <td class="${r.equity > 0 ? 'val-pos' : 'val-neg'}">${fmt(r.equity)}</td>
+      <td>${r.eqPct !== '—' ? r.eqPct + '%' : '—'}</td>
+    </tr>`).join('') + `<tr class="total-row">
+      <td>TOTAL</td>
+      <td>${fmt(c.propGross)}</td>
+      <td class="val-neg">${fmt(c.propLoans)}</td>
+      <td class="${c.propEquity > 0 ? 'val-pos' : 'val-neg'}">${fmt(c.propEquity)}</td>
+      <td>${c.propGross ? ((c.propEquity/c.propGross)*100).toFixed(1) + '%' : '—'}</td>
+    </tr>`;
+  }
+
+  // Loans table
+  const ltbody = document.getElementById('tbl-loans');
+  const loanDisplay = [
+    { name: 'Camillo WA',       key: 'camillo-wa' },
+    { name: 'Lavington NSW',    key: 'lavington-nsw' },
+    { name: 'West Wodonga VIC', key: 'west-wodonga-vic' },
+    { name: 'Wilsonton QLD',    key: 'wilsonton-qld' },
+    { name: 'Kirwan QLD',       key: 'kirwan-qld' },
+    { name: 'Other Loan',       key: 'other' },
+  ];
+  let totalIO = 0;
+  let totalBal = 0;
+  ltbody.innerHTML = loanDisplay.map(l => {
+    const loan = (c.loans[l.key] || {});
+    const bal  = loan.balance || 0;
+    const rate = loan.rate || 0;
+    const io   = (bal * rate / 100) / 12;
+    totalIO  += io;
+    totalBal += bal;
+    return `<tr><td>${esc(l.name)}</td><td class="val-neg">${fmt(bal)}</td><td>${rate}%</td><td>${fmt(io)}/mo</td></tr>`;
+  }).join('') + `<tr class="total-row"><td>TOTAL</td><td class="val-neg">${fmt(totalBal)}</td><td>—</td><td>${fmt(totalIO)}/mo</td></tr>`;
+
+  // Crypto table
+  const ctbody = document.getElementById('tbl-crypto');
+  const cryptoRows = [
+    { label: 'Bitcoin (Personal)',  qty: c.btcQty,  price: c.btcPrice, coin: 'BTC' },
+    { label: 'Ethereum (Personal)', qty: c.ethQty,  price: c.ethPrice, coin: 'ETH' },
+    { label: 'Bitcoin (SMSF)',      qty: c.btcSmsf, price: c.btcPrice, coin: 'BTC' },
+    { label: 'Ethereum (SMSF)',     qty: c.ethSmsf, price: c.ethPrice, coin: 'ETH' },
+    { label: 'Gold',                qty: c.goldGrams, price: goldPriceAUD, coin: 'g', unit: 'grams' },
+  ];
+  ctbody.innerHTML = cryptoRows.map(r => {
+    const val = r.qty > 0 && r.price > 0 ? r.qty * r.price : null;
+    return `<tr>
+      <td>${esc(r.label)}</td>
+      <td>${r.qty > 0 ? r.qty + (r.unit ? ' ' + r.unit : ' ' + r.coin) : '<span class="val-muted">Not entered</span>'}</td>
+      <td>${r.price ? fmt(r.price) + (r.unit ? '/g' : '/' + r.coin) : '<span class="loading">Loading…</span>'}</td>
+      <td>${val != null ? '<span class="val-pos">' + fmt(val) + '</span>' : '<span class="val-muted">—</span>'}</td>
+    </tr>`;
+  }).join('');
+
+  // Other assets table
+  const otbody = document.getElementById('tbl-other');
+  const otherRows = [
+    { label: 'SMSF — Macquarie',   bal: c.smsfMac,   upd: (wealthConfig.smsf_macquarie||{}).updated, type: 'Asset', cls: 'val-pos' },
+    { label: 'Mezzanine Finance',  bal: c.mezzanine,  upd: (wealthConfig.mezzanine||{}).updated, type: 'Asset', cls: 'val-pos' },
+    { label: 'Cash / Offsets',     bal: c.offsets,    upd: (wealthConfig.cash_offsets||{}).updated, type: 'Asset', cls: 'val-pos' },
+    { label: 'Tank Insurance',     bal: c.tankBank,   upd: (wealthConfig.tank_bank||{}).updated, type: 'Business', cls: 'val-pos' },
+    { label: 'Tykhe Digital',      bal: c.tykheVal,   upd: (wealthConfig.tykhe_value||{}).updated, type: 'Business', cls: 'val-pos' },
+    { label: 'HECS Debt',          bal: c.hecs,       upd: (wealthConfig.hecs||{}).updated, type: 'Liability', cls: 'val-neg' },
+  ];
+  otbody.innerHTML = otherRows.map(r => `<tr>
+    <td>${esc(r.label)}</td>
+    <td class="${r.cls}">${r.bal > 0 ? fmt(r.bal) : '<span class="val-muted">Not entered</span>'}</td>
+    <td style="color:var(--text-muted)">${r.upd || '—'}</td>
+    <td><span style="font-size:10px;padding:2px 8px;border-radius:100px;background:var(--surface-2);color:var(--text-muted)">${r.type}</span></td>
+  </tr>`).join('');
+
+  // Snapshots history
+  renderSnapshots();
+
+  // Trend chart
+  renderChart();
+}
+
+// ── Snapshot history ─────────────────────────────────────────────────────────
+function renderSnapshots() {
+  const tbody = document.getElementById('tbl-history');
+  if (!snapshots.length) {
+    tbody.innerHTML = '<tr><td colspan="4" style="color:var(--text-dim);text-align:center;padding:24px">No snapshots yet — save your first snapshot above</td></tr>';
+    return;
+  }
+  tbody.innerHTML = [...snapshots].reverse().map((s, i, arr) => {
+    const prev = arr[i + 1];
+    const delta = prev ? s.netWorth - prev.netWorth : null;
+    const deltaStr = delta != null ? `<span class="${delta >= 0 ? 'val-pos' : 'val-neg'}">${delta >= 0 ? '+' : ''}${fmtK(delta)}</span>` : '—';
+    return `<tr>
+      <td>${s.date}</td>
+      <td><strong>${fmtK(s.netWorth)}</strong></td>
+      <td>${deltaStr}</td>
+      <td style="color:var(--text-muted);font-size:12px">${esc(s.notes || '—')}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ── SVG Trend Chart ───────────────────────────────────────────────────────────
+function renderChart() {
+  const container = document.getElementById('chart-container');
+  const legendEl  = document.getElementById('chart-legend');
+  if (!snapshots.length) {
+    legendEl.style.display = 'none';
+    container.innerHTML = `<div class="chart-empty"><div class="chart-empty-icon">📊</div><div>No snapshot data yet</div><div style="font-size:11px;color:var(--text-dim)">Save your first snapshot to start tracking net worth over time</div></div>`;
+    return;
+  }
+  legendEl.style.display = 'flex';
+
+  const W = 800, H = 260, PAD = { top: 20, right: 20, bottom: 40, left: 80 };
+  const cW = W - PAD.left - PAD.right;
+  const cH = H - PAD.top - PAD.bottom;
+
+  const data = snapshots.map(s => ({
+    date: s.date,
+    nw: s.netWorth || 0,
+    prop: (s.breakdown?.property) || 0,
+    crypto: (s.breakdown?.crypto) || 0,
+    other: ((s.breakdown?.business) || 0) + ((s.breakdown?.cash) || 0),
+  }));
+
+  const allVals = data.flatMap(d => [d.nw, d.prop, d.crypto, d.other]).filter(v => v > 0);
+  const maxV = Math.max(...allVals, 1);
+  const minV = 0;
+
+  const xScale = i => PAD.left + (i / (data.length - 1 || 1)) * cW;
+  const yScale = v => PAD.top + cH - ((v - minV) / (maxV - minV || 1)) * cH;
+
+  const makeLine = (series, color) => {
+    const pts = data.map((d, i) => `${xScale(i)},${yScale(d[series])}`).join(' ');
+    return `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+  };
+  const makeDots = (series, color) => data.map((d, i) =>
+    `<circle cx="${xScale(i)}" cy="${yScale(d[series])}" r="4" fill="${color}" stroke="white" stroke-width="2"><title>${d.date}: ${fmtK(d[series])}</title></circle>`
+  ).join('');
+
+  // Y axis labels
+  const yTicks = 5;
+  const yLabels = Array.from({length: yTicks + 1}, (_, i) => {
+    const v = minV + (maxV - minV) * (i / yTicks);
+    const y = yScale(v);
+    return `<text x="${PAD.left - 8}" y="${y + 4}" text-anchor="end" fill="#8F9BB3" font-size="10">${fmtK(v)}</text><line x1="${PAD.left}" y1="${y}" x2="${PAD.left + cW}" y2="${y}" stroke="#E8ECF2" stroke-width="1"/>`;
+  }).join('');
+
+  // X axis labels
+  const xLabels = data.map((d, i) => {
+    const x = xScale(i);
+    const lbl = data.length <= 12 ? d.date.slice(0, 7) : (i % Math.ceil(data.length/6) === 0 ? d.date.slice(0,7) : '');
+    return `<text x="${x}" y="${H - 8}" text-anchor="middle" fill="#8F9BB3" font-size="10">${lbl}</text>`;
+  }).join('');
+
+  container.innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block">
+    ${yLabels}
+    ${makeLine('other', '#2ec98e')}
+    ${makeLine('crypto', '#f0a020')}
+    ${makeLine('prop', '#3b82f6')}
+    ${makeLine('nw', '#0A1327')}
+    ${makeDots('other', '#2ec98e')}
+    ${makeDots('crypto', '#f0a020')}
+    ${makeDots('prop', '#3b82f6')}
+    ${makeDots('nw', '#0A1327')}
+    ${xLabels}
+  </svg>`;
+}
+
+// ── Card toggle ───────────────────────────────────────────────────────────────
+function toggleCard(id) {
+  const body = document.getElementById('body-' + id);
+  const tog  = document.getElementById('toggle-' + id);
+  const open = !body.classList.contains('collapsed');
+  body.classList.toggle('collapsed', open);
+  tog.classList.toggle('open', !open);
+}
+
+// ── Snapshot modal ────────────────────────────────────────────────────────────
+function openSnapshot() {
+  const c = calcState;
+  document.getElementById('snap-date').value = today();
+  document.getElementById('snap-nw').textContent = fmtK(c.netWorth);
+  document.getElementById('snap-breakdown').innerHTML = [
+    { label: 'Property Equity', val: c.propEquity },
+    { label: 'Crypto & Gold',   val: c.cryptoVal },
+    { label: 'Business',        val: c.businessVal },
+    { label: 'SMSF & Cash',     val: c.cashVal },
+  ].map(r => `<div class="modal-row"><span>${esc(r.label)}</span><strong>${fmtK(r.val)}</strong></div>`).join('');
+  document.getElementById('snap-notes').value = '';
+  document.getElementById('modal-bg').classList.add('open');
+}
+
+function closeSnapshot(e) {
+  if (!e || e.target === document.getElementById('modal-bg')) {
+    document.getElementById('modal-bg').classList.remove('open');
+  }
+}
+
+async function saveSnapshot() {
+  const c = calcState;
+  const snap = {
+    date:     document.getElementById('snap-date').value || today(),
+    netWorth: Math.round(c.netWorth),
+    breakdown: {
+      property: Math.round(c.propEquity),
+      crypto:   Math.round(c.cryptoVal),
+      business: Math.round(c.businessVal),
+      cash:     Math.round(c.cashVal),
+    },
+    notes: document.getElementById('snap-notes').value.trim(),
+  };
+
+  const btn = document.querySelector('.btn-save');
+  btn.textContent = 'Saving…';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(`${WORKER}/wealth/snapshot`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(snap),
+    });
+    if (res.ok) {
+      snapshots = await res.json();
+      closeSnapshot();
+      renderSnapshots();
+      renderChart();
+      // Update hero delta
+      render();
+    } else {
+      alert('Save failed: ' + res.status);
+    }
+  } catch (e) {
+    alert('Network error: ' + e.message);
+  } finally {
+    btn.textContent = 'Save Snapshot';
+    btn.disabled = false;
+  }
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+loadAll();
+</script>
+</body>
+</html>

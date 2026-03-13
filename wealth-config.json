@@ -1,0 +1,23 @@
+{
+  "crypto": {
+    "bitcoin": { "quantity": 0, "wallet": "personal" },
+    "ethereum": { "quantity": 0, "wallet": "personal" },
+    "bitcoin_smsf": { "quantity": 0, "wallet": "smsf" },
+    "ethereum_smsf": { "quantity": 0, "wallet": "smsf" }
+  },
+  "gold": { "grams": 0 },
+  "smsf_macquarie": { "balance": 0, "updated": "2026-03-01" },
+  "hecs": { "balance": 0, "updated": "2026-03-01" },
+  "mezzanine": { "balance": 0, "updated": "2026-03-01" },
+  "tank_bank": { "balance": 0, "updated": "2026-03-01" },
+  "tykhe_value": { "balance": 0, "updated": "2026-03-01" },
+  "cash_offsets": { "balance": 0, "updated": "2026-03-01" },
+  "loans": {
+    "camillo-wa": { "balance": 375000, "rate": 6.12 },
+    "lavington-nsw": { "balance": 398000, "rate": 6.17 },
+    "west-wodonga-vic": { "balance": 415000, "rate": 6.12 },
+    "wilsonton-qld": { "balance": 420000, "rate": 6.12 },
+    "kirwan-qld": { "balance": 435000, "rate": 6.12 },
+    "other": { "balance": 480600, "rate": 6.12 }
+  }
+}
