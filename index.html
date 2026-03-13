@@ -270,6 +270,50 @@ html, body {
 }
 .prop-collapse-btn:hover { border-color: var(--border-hover); color: var(--text); }
 
+/* ── Lease Section (Property Cards) ── */
+.lease-divider {
+  border: none; border-top: 1px solid var(--border);
+  margin: 14px 0 12px;
+}
+.lease-section { display: flex; flex-direction: column; gap: 8px; }
+.lease-rent {
+  font-size: 22px; font-weight: 700; color: var(--text);
+  letter-spacing: -0.5px; line-height: 1.2;
+}
+.lease-rent-suffix {
+  font-size: 13px; font-weight: 500; color: var(--text-muted);
+}
+.lease-pending {
+  font-size: 12px; font-weight: 600; color: var(--amber);
+}
+.lease-period {
+  font-size: 12px; color: var(--text-muted); line-height: 1.4;
+}
+.lease-expiry-pill {
+  display: inline-block;
+  font-size: 10px; font-weight: 600;
+  padding: 2px 8px; border-radius: 100px;
+  line-height: 1.4; vertical-align: middle;
+  margin-left: 4px;
+}
+.lease-expiry-red { background: rgba(229,90,72,0.15); color: var(--red); }
+.lease-expiry-amber { background: rgba(240,160,32,0.15); color: var(--amber); }
+.lease-expiry-green { background: rgba(46,201,142,0.15); color: var(--green); }
+.lease-expiry-expired { background: rgba(229,90,72,0.25); color: var(--red); }
+.lease-buttons { display: flex; gap: 8px; margin-top: 4px; }
+.lease-btn {
+  font-size: 11px; font-weight: 500; font-family: inherit;
+  padding: 4px 10px; border-radius: 6px;
+  background: none; border: 1px solid var(--border);
+  color: var(--text-muted); cursor: pointer;
+  transition: all 150ms; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.lease-btn:hover { border-color: var(--border-hover); color: var(--text); }
+.lease-btn-disabled {
+  opacity: 0.35; cursor: default; pointer-events: none;
+}
+
 /* ── Detail Panel ── */
 .backdrop {
   position: fixed; inset: 0;
@@ -476,6 +520,7 @@ html, body {
 
   // ── State ──
   let items = [];
+  let leases = {};
   let currentView = 'kanban';
   let filterType = 'ALL';
   let filterProp = 'ALL';
@@ -548,6 +593,65 @@ html, body {
   function shortPropName(propertyId) {
     const p = PROPERTY_MAP[propertyId];
     return p ? p.name : propertyId;
+  }
+
+  // ── Lease helpers ──
+  const LEASES_URL = 'https://raw.githubusercontent.com/tankinsurance/property-inbox/main/leases.json';
+
+  function formatLeaseDate(dateStr) {
+    if (!dateStr) return '';
+    try {
+      const d = new Date(dateStr + 'T00:00:00');
+      return d.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' });
+    } catch { return dateStr; }
+  }
+
+  function daysUntilExpiry(expiryStr) {
+    if (!expiryStr) return null;
+    const now = new Date();
+    now.setHours(0,0,0,0);
+    const exp = new Date(expiryStr + 'T00:00:00');
+    const diff = Math.ceil((exp - now) / (1000 * 60 * 60 * 24));
+    return diff;
+  }
+
+  function leaseExpiryPill(days) {
+    if (days === null) return '';
+    if (days < 0) return `<span class="lease-expiry-pill lease-expiry-expired">Expired ${Math.abs(days)}d ago</span>`;
+    let cls = 'lease-expiry-green';
+    if (days <= 30) cls = 'lease-expiry-red';
+    else if (days <= 60) cls = 'lease-expiry-amber';
+    return `<span class="lease-expiry-pill ${cls}">${days}d left</span>`;
+  }
+
+  function leaseSectionHTML(propertyId) {
+    const lease = leases[propertyId];
+    if (!lease) return '';
+    const propName = PROPERTY_MAP[propertyId] ? PROPERTY_MAP[propertyId].name : propertyId;
+    const driveSearchUrl = 'https://drive.google.com/drive/search?q=' + encodeURIComponent(propName + ' Lease Agreements');
+    const days = daysUntilExpiry(lease.expiry);
+
+    let html = '<hr class="lease-divider">';
+    html += '<div class="lease-section">';
+    // Weekly rent
+    html += `<div class="lease-rent">$${esc(String(lease.weeklyRent))}<span class="lease-rent-suffix">/wk</span></div>`;
+    // Pending rent
+    if (lease.pendingRent) {
+      html += `<div class="lease-pending">↑ $${esc(String(lease.pendingRent))}/wk pending</div>`;
+    }
+    // Lease period + expiry pill
+    html += `<div class="lease-period">${esc(formatLeaseDate(lease.start))} → ${esc(formatLeaseDate(lease.expiry))} ${leaseExpiryPill(days)}</div>`;
+    // Buttons
+    html += '<div class="lease-buttons">';
+    if (lease.driveUrl) {
+      html += `<a class="lease-btn" href="${esc(lease.driveUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">📄 Current Lease</a>`;
+    } else {
+      html += `<span class="lease-btn lease-btn-disabled">📄 Current Lease</span>`;
+    }
+    html += `<a class="lease-btn" href="${esc(driveSearchUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">📁 All Leases</a>`;
+    html += '</div>';
+    html += '</div>';
+    return html;
   }
 
   // ── Filtering ──
@@ -691,6 +795,7 @@ html, body {
             <div class="prop-stat"><span class="prop-stat-val">${remit}</span> remittance</div>
             <div class="prop-stat"><span class="prop-stat-val">${lease}</span> lease</div>
           </div>
+          ${leaseSectionHTML(pid)}
           <div class="prop-items">`;
         propItems
           .sort((a, b) => new Date(b.emailDate || b.scannedAt) - new Date(a.emailDate || a.scannedAt))
@@ -709,6 +814,7 @@ html, body {
             ${remit ? `<div class="prop-stat"><span class="prop-stat-val">${remit}</span> remit</div>` : ''}
             ${lease ? `<div class="prop-stat"><span class="prop-stat-val">${lease}</span> lease</div>` : ''}
           </div>
+          ${leaseSectionHTML(pid)}
         </div>`;
       }
     });
@@ -876,13 +982,26 @@ html, body {
     if (e.key === 'Escape') closeDetail();
   });
 
+  // ── Fetch Leases ──
+  async function fetchLeases() {
+    try {
+      const res = await fetch(LEASES_URL + '?_=' + Date.now());
+      if (res.ok) {
+        leases = await res.json();
+      }
+    } catch (e) {
+      console.warn('Leases data unavailable, degrading gracefully:', e.message);
+    }
+  }
+
   // ── Fetch Data ──
   async function loadData() {
     try {
-      // Load queue data + persisted statuses in parallel
+      // Load queue data + persisted statuses + leases in parallel
       const [queueRes] = await Promise.all([
         fetch(DATA_URL + '?_=' + Date.now()),
-        fetchStatusMap()
+        fetchStatusMap(),
+        fetchLeases()
       ]);
       if (!queueRes.ok) throw new Error('HTTP ' + queueRes.status);
       const data = await queueRes.json();
