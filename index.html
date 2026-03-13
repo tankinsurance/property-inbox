@@ -48,7 +48,7 @@ html, body {
   height: var(--header-h);
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 28px;
-  background: #FFFFFF;
+  background: var(--bg);
   border-bottom: 1px solid var(--border);
   z-index: 100;
 }
@@ -140,7 +140,7 @@ html, body {
   height: var(--filter-h);
   display: flex; align-items: center; gap: 8px;
   padding: 0 28px;
-  background: #FFFFFF;
+  background: var(--bg);
   border-bottom: 1px solid var(--border);
   z-index: 98;
   overflow-x: auto;
@@ -181,10 +181,14 @@ html, body {
 /* ── Main Content ── */
 .main {
   position: fixed;
-  top: calc(var(--header-h) + var(--hero-h) + var(--filter-h));
+  top: calc(var(--header-h) + var(--hero-h));
   left: 0; right: 0; bottom: 0;
   overflow-y: auto; overflow-x: hidden;
   padding: 24px 28px 40px;
+  transition: top 150ms;
+}
+.main.with-filter {
+  top: calc(var(--header-h) + var(--hero-h) + var(--filter-h));
 }
 .main::-webkit-scrollbar { width: 6px; }
 .main::-webkit-scrollbar-track { background: transparent; }
@@ -468,21 +472,21 @@ html, body {
       <div class="hero-date-mon" id="hero-date-mon">—</div>
     </div>
     <div class="hero-text">
-      <div class="hero-greeting">Hey, need help? 👋</div>
-      <div class="hero-sub">Here is your inbox overview!</div>
+      <div class="hero-greeting">Welcome Marel</div>
+      <div class="hero-sub">Let's build this machine!</div>
       <div class="hero-welcome"><span class="hero-welcome-name">Welcome Marel</span><span class="hero-welcome-sub"> — let's build this wealth</span></div>
     </div>
   </div>
   <div class="hero-right">
     <div class="view-toggle">
-      <button class="view-btn" data-view="kanban">Kanban</button>
       <button class="view-btn active" data-view="property">Dashboard</button>
+      <button class="view-btn" data-view="kanban">Kanban</button>
     </div>
   </div>
 </div>
 
 <!-- Filter Bar -->
-<div class="filter-bar">
+<div class="filter-bar" id="filter-bar" style="display:none">
   <div class="filter-search">
     <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#8F9BB3" stroke-width="1.5"/><path d="M10 10l2.5 2.5" stroke="#8F9BB3" stroke-width="1.5" stroke-linecap="round"/></svg>
     <input type="text" id="filter-search-input" placeholder="Filter inbox..." />
@@ -925,7 +929,12 @@ html, body {
   function render() {
     renderStats();
     const main = document.getElementById('main');
-    if (currentView === 'kanban') {
+    const filterBar = document.getElementById('filter-bar');
+    const isKanban = currentView === 'kanban';
+    // Show filter bar only in Kanban
+    if (filterBar) filterBar.style.display = isKanban ? 'flex' : 'none';
+    main.classList.toggle('with-filter', isKanban);
+    if (isKanban) {
       main.innerHTML = renderKanban();
     } else {
       main.innerHTML = renderPropertyView();
