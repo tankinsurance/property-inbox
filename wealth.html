@@ -349,7 +349,12 @@ async function loadAll() {
 
   propDetails  = pdRes.status === 'fulfilled'    ? pdRes.value    : {};
   wealthConfig = wcRes.status === 'fulfilled'    ? wcRes.value    : {};
-  snapshots    = (snapRes.status === 'fulfilled' && Array.isArray(snapRes.value)) ? snapRes.value : [];
+  const workerSnaps = (snapRes.status === 'fulfilled' && Array.isArray(snapRes.value)) ? snapRes.value : [];
+  const localSnaps  = loadLocalSnapshots();
+  // Merge: use worker snapshots if available, else local, deduplicate by date
+  const allSnaps = [...workerSnaps, ...localSnaps];
+  const seen = new Set();
+  snapshots = allSnaps.filter(s => { if (seen.has(s.date)) return false; seen.add(s.date); return true; }).sort((a,b) => a.date.localeCompare(b.date));
 
   if (cryptoRes.status === 'fulfilled' && cryptoRes.value) {
     cryptoPrices = cryptoRes.value;
@@ -679,6 +684,13 @@ function closeSnapshot(e) {
   }
 }
 
+function loadLocalSnapshots() {
+  try { return JSON.parse(localStorage.getItem('wealth-snapshots') || '[]'); } catch { return []; }
+}
+function saveLocalSnapshots(arr) {
+  try { localStorage.setItem('wealth-snapshots', JSON.stringify(arr)); } catch {}
+}
+
 async function saveSnapshot() {
   const c = calcState;
   const snap = {
@@ -697,6 +709,8 @@ async function saveSnapshot() {
   btn.textContent = 'Saving…';
   btn.disabled = true;
 
+  // Try Worker first, fallback to localStorage
+  let saved = false;
   try {
     const res = await fetch(`${WORKER}/wealth/snapshot`, {
       method: 'POST',
@@ -705,20 +719,25 @@ async function saveSnapshot() {
     });
     if (res.ok) {
       snapshots = await res.json();
-      closeSnapshot();
-      renderSnapshots();
-      renderChart();
-      // Update hero delta
-      render();
-    } else {
-      alert('Save failed: ' + res.status);
+      saveLocalSnapshots(snapshots); // keep local copy in sync
+      saved = true;
     }
-  } catch (e) {
-    alert('Network error: ' + e.message);
-  } finally {
-    btn.textContent = 'Save Snapshot';
-    btn.disabled = false;
+  } catch {}
+
+  if (!saved) {
+    // localStorage fallback
+    const local = loadLocalSnapshots();
+    local.push(snap);
+    saveLocalSnapshots(local);
+    snapshots = local;
   }
+
+  closeSnapshot();
+  renderSnapshots();
+  renderChart();
+  render();
+  btn.textContent = 'Save Snapshot';
+  btn.disabled = false;
 }
 
 // ── Init ──────────────────────────────────────────────────────────────────────
