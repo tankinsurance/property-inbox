@@ -119,7 +119,7 @@ html, body {
   height: var(--stats-h);
   display: flex; align-items: center;
   padding: 0 24px;
-  font-size: 12px; color: var(--text-dim);
+  font-size: 12px; color: var(--text-muted);
   background: var(--bg);
   border-bottom: 1px solid rgba(31,45,69,0.4);
   z-index: 98; gap: 4px;
@@ -156,7 +156,7 @@ html, body {
 .col-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-muted); }
 .col-count {
   font-size: 11px; font-weight: 600;
-  background: var(--surface-2); color: var(--text-dim);
+  background: var(--surface-2); color: var(--text-muted);
   padding: 2px 8px; border-radius: 100px;
 }
 
@@ -414,6 +414,24 @@ html, body {
 .action-btn-done { border-color: rgba(46,201,142,0.3); color: var(--green); }
 .action-btn-done:hover { background: rgba(46,201,142,0.1); border-color: var(--green); }
 
+/* ── Mobile Kanban Tabs ── */
+@media (max-width: 768px) {
+  .kanban-board { display: block !important; }
+  .kanban-col { display: none !important; }
+  .kanban-col.mobile-active { display: flex !important; flex-direction: column; }
+  .mobile-tab-bar { display: flex !important; }
+  .kanban-board { padding-top: 0 !important; }
+}
+.mobile-tab-bar {
+  display: none;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto; scrollbar-width: none;
+}
+.mobile-tab-bar::-webkit-scrollbar { display: none; }
+.mobile-tab { padding: 10px 16px; font-size: 13px; font-weight: 500; color: var(--text-muted); cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent; background: none; border-top: none; border-left: none; border-right: none; }
+.mobile-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
 /* ── Loading ── */
 .loading {
   display: flex; align-items: center; justify-content: center;
@@ -452,6 +470,7 @@ html, body {
       <button class="view-btn active" data-view="kanban">Kanban</button>
       <button class="view-btn" data-view="property">By Property</button>
     </div>
+    <button id="refresh-btn" title="Refresh" style="margin-left:10px;background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:14px;transition:all 0.15s" onmouseover="this.style.borderColor='var(--border-hover)';this.style.color='var(--text)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-muted)'">↻</button>
   </div>
 </header>
 
@@ -473,6 +492,9 @@ html, body {
 
 <!-- Stats Bar -->
 <div class="stats-bar" id="stats-bar"></div>
+
+<!-- Lease Expiry Banner -->
+<div id="lease-banner" style="display:none;margin:0;padding:10px 24px;font-size:13px;font-weight:500;border-bottom:1px solid rgba(0,0,0,0.2)"></div>
 
 <!-- Main -->
 <div class="main" id="main">
@@ -503,6 +525,14 @@ html, body {
     'wilsonton-qld':     { name: 'Wilsonton QLD',     address: '36 Catalina Dr, Wilsonton QLD' },
     'lavington-nsw':     { name: 'Lavington NSW',     address: '379 Prune St, Lavington NSW' },
     'townsville-qld':    { name: 'Kirwan QLD',        address: '13 President St, Kirwan (Townsville) QLD' }
+  };
+
+  const PROP_COLORS = {
+    'camillo-wa':       '#c9a227',
+    'west-wodonga-vic': '#4a7fc1',
+    'wilsonton-qld':    '#b05a5a',
+    'lavington-nsw':    '#4a9bb0',
+    'townsville-qld':   '#b05a5a',
   };
 
   const COLUMNS = [
@@ -696,6 +726,7 @@ html, body {
       </div>
       <div class="card-subject">${esc(item.subject)}</div>
       <div class="card-meta">
+        <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${PROP_COLORS[item.propertyId]||'var(--text-dim)'};margin-right:5px;vertical-align:middle;flex-shrink:0"></span>
         <span class="card-property">${esc(shortPropName(item.propertyId))}</span>
         <span class="card-date">${esc(formatDate(item.emailDate))}</span>
       </div>
@@ -747,11 +778,14 @@ html, body {
       buckets[col].push(item);
     });
 
-    let html = '<div class="kanban">';
+    const mobileActiveCol = window._mobileActiveCol || 'PENDING';
+    const tabsHtml = `<div class="mobile-tab-bar">${COLUMNS.map(c=>`<button class="mobile-tab${c.key===mobileActiveCol?' active':''}" data-col="${c.key}">${c.label} <span style="opacity:0.6;font-size:11px">${buckets[c.key].length}</span></button>`).join('')}</div>`;
+    let html = tabsHtml + '<div class="kanban kanban-board">';
     COLUMNS.forEach(col => {
       const colItems = buckets[col.key];
       const groups = groupItems(colItems);
-      html += `<div class="kanban-col">
+      const mobileActive = col.key === mobileActiveCol ? ' mobile-active' : '';
+      html += `<div class="kanban-col${mobileActive}">
         <div class="col-header">
           <span class="col-label">${esc(col.label)}</span>
           <span class="col-count">${colItems.length}</span>
@@ -784,8 +818,9 @@ html, body {
       const lease = propItems.filter(i => i.type === 'LEASE').length;
       const pending = propItems.filter(i => resolveStatus(i) === 'PENDING').length;
 
+      const propColor = PROP_COLORS[pid] || 'var(--border)';
       if (isExpanded) {
-        html += `<div class="property-card expanded" data-prop-id="${esc(pid)}">
+        html += `<div class="property-card expanded" data-prop-id="${esc(pid)}" style="border-left:3px solid ${propColor}">
           <div class="prop-name">${esc(p.name)}</div>
           <div class="prop-address">${esc(p.address)}</div>
           <div class="prop-stats">
@@ -804,7 +839,7 @@ html, body {
           <button class="prop-collapse-btn" data-collapse-prop="${esc(pid)}">Collapse</button>
         </div>`;
       } else {
-        html += `<div class="property-card" data-expand-prop="${esc(pid)}">
+        html += `<div class="property-card" data-expand-prop="${esc(pid)}" style="border-left:3px solid ${propColor}">
           <div class="prop-name">${esc(p.name)}</div>
           <div class="prop-address">${esc(p.address)}</div>
           <div class="prop-stats">
@@ -823,14 +858,60 @@ html, body {
     return html;
   }
 
+  // ── Lease Expiry Banner ──
+  function renderLeaseBanner() {
+    const banner = document.getElementById('lease-banner');
+    if (!leases || currentView !== 'kanban') { banner.style.display = 'none'; return; }
+    const today = new Date();
+    const todayKey = today.toISOString().slice(0,10);
+    const dismissed = localStorage.getItem('pc-banner-dismissed') === todayKey;
+    if (dismissed) { banner.style.display = 'none'; return; }
+    const expiring = Object.values(leases)
+      .filter(l => l.expiry)
+      .map(l => { const days = Math.round((new Date(l.expiry) - today) / 86400000); return { ...l, days }; })
+      .filter(l => l.days <= 60 && l.days >= 0)
+      .sort((a,b) => a.days - b.days);
+    if (!expiring.length) { banner.style.display = 'none'; return; }
+    const alerts = expiring.map(l => {
+      const color = l.days <= 30 ? '#e55a48' : '#f0a020';
+      const pending = l.pendingRent ? ` Renewal at $${l.pendingRent}/wk pending.` : '';
+      const status = l.actionStatus ? ` ${l.actionStatus}.` : pending;
+      return `<span style="color:${color}">⚠️ <strong>${esc(l.name)}</strong> — lease expires in ${l.days} days (${new Date(l.expiry).toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'})}).${status}</span>`;
+    }).join('<span style="margin:0 12px;color:var(--border)">|</span>');
+    const bgColor = expiring[0].days <= 30 ? 'rgba(229,90,72,0.12)' : 'rgba(240,160,32,0.12)';
+    banner.style.cssText = `display:flex;align-items:center;justify-content:space-between;padding:10px 24px;font-size:13px;font-weight:500;background:${bgColor};border-bottom:1px solid rgba(0,0,0,0.2)`;
+    banner.innerHTML = `<div style="flex:1">${alerts}</div><button onclick="localStorage.setItem('pc-banner-dismissed','${todayKey}');this.parentElement.style.display='none'" style="background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:16px;padding:0 0 0 16px">×</button>`;
+  }
+
+  // ── Property Financial Summary ──
+  function renderFinancialSummary() {
+    if (!leases) return '';
+    const props = Object.values(leases);
+    const totalWeekly = props.reduce((s, l) => s + (l.weeklyRent || 0), 0);
+    const annual = totalWeekly * 52;
+    const occupied = props.length;
+    const soonest = props.filter(l=>l.expiry).map(l=>({...l,days:Math.round((new Date(l.expiry)-new Date())/86400000)})).sort((a,b)=>a.days-b.days)[0];
+    const expiryText = soonest ? `${soonest.name} (${soonest.days}d)` : '—';
+    const expiryColor = soonest && soonest.days <= 30 ? 'var(--red)' : soonest && soonest.days <= 60 ? 'var(--amber)' : 'var(--green)';
+    return `<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px">
+      ${[
+        ['Total Weekly Rent', '$'+totalWeekly.toLocaleString()+'/wk', 'var(--green)'],
+        ['Annual Income', '$'+annual.toLocaleString(), 'var(--text)'],
+        ['Occupancy', occupied+'/'+occupied+' tenanted', 'var(--accent)'],
+        ['Next Expiry', expiryText, expiryColor],
+      ].map(([label,val,color])=>`<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px"><div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px">${label}</div><div style="font-size:18px;font-weight:700;color:${color}">${val}</div></div>`).join('')}
+    </div>`;
+  }
+
   // ── Render ──
   function render() {
     renderStats();
+    renderLeaseBanner();
     const main = document.getElementById('main');
     if (currentView === 'kanban') {
       main.innerHTML = renderKanban();
     } else {
-      main.innerHTML = renderPropertyView();
+      main.innerHTML = renderFinancialSummary() + renderPropertyView();
     }
     bindCardClicks();
     bindGroupToggles();
@@ -912,9 +993,16 @@ html, body {
   function bindCardClicks() {
     document.querySelectorAll('.card[data-id]').forEach(card => {
       card.addEventListener('click', function(e) {
-        // Don't open detail if clicking inside group toggle
         if (e.target.closest('.group-toggle')) return;
         openDetail(this.getAttribute('data-id'));
+      });
+    });
+    // Mobile tab switching
+    document.querySelectorAll('.mobile-tab[data-col]').forEach(tab => {
+      tab.addEventListener('click', function() {
+        window._mobileActiveCol = this.getAttribute('data-col');
+        document.getElementById('main').innerHTML = renderKanban();
+        bindCardClicks(); bindGroupToggles(); bindPropertyExpand();
       });
     });
   }
@@ -1016,6 +1104,15 @@ html, body {
   }
 
   loadData();
+
+  // ── Refresh button ──
+  document.getElementById('refresh-btn').addEventListener('click', async function() {
+    const btn = this;
+    btn.textContent = '↻'; btn.style.opacity = '0.5'; btn.disabled = true;
+    leases = {}; _statusMap = {};
+    await loadData();
+    btn.style.opacity = '1'; btn.disabled = false;
+  });
 })();
 </script>
 </body>
