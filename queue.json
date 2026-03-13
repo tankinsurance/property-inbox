@@ -1,57 +1,590 @@
 [
   {
-    "id": "19ce5bf38b9f7650-1773382295914",
-    "msgId": "19ce5bf38b9f7650",
-    "scannedAt": "2026-03-13T06:11:35.914Z",
-    "emailDate": "Fri, 13 Mar 2026 05:50:39 +0000 (UTC)",
+    "id": "19ce01a13f46cce0-1773384745624",
+    "msgId": "19ce01a13f46cce0",
+    "scannedAt": "2026-03-13T06:52:25.624Z",
+    "emailDate": "Thu, 12 Mar 2026 14:31:57 +1100",
+    "from": "Marel Pencev <marel@tankinsurance.com.au>",
+    "subject": "Fwd: Engagement Letter - Pencev Group Has Been Completed",
+    "type": "LEASE",
+    "property": "UNKNOWN",
+    "propertyId": null,
+    "pm": null,
+    "period": null,
+    "hasPdf": true,
+    "attachments": [
+      {
+        "filename": "Engagement Letter - Pencev Group.pdf",
+        "mimeType": "application/pdf",
+        "attachmentId": "ANGjdJ-gDjXPBjtcjhFfE7fMERcSvjYnqFkOUsccKDt02h1QYN84RgMfPaiZlFhkkRBDwXen8oop-ZYpo9vtCYsJRYLAf_z54ilKqNot33iP-7Pn78acGsClifNHwwEY-R20Q9BAC_s_q7KoCvjPNsihHZELzmluJcdXL6eNIBCQ8ErwHM-_A5Go_6aeIIhJT99av4cLxJkQ12xAYrW_WX8f-1ZW-ep4SjHNLNp867fRvV_r2SoT2_d_2D9bnYx0Jfns9-hHxn0s86x5hGtzNaQn_H9P-h1G4H2hrak8xhAn1AL-MrbqHefgqx-HuIJKGppSevx9d-wPxAIpaPQgxRIu9RjN7uAfm0RF_WbqcxHYL9EVc1QMSUHmcfggvyaZR7wxga_5qpvT5kQIeSS4"
+      }
+    ],
+    "status": "PENDING",
+    "needsReview": true,
+    "parseError": "Could not identify property",
+    "data": {
+      "bodyText": "[image: Logo] <https://www.tankinsurance.com.au/>\r\n\r\n*Marel Pencev*\r\n*Director & Principal Insurance Broker*\r\n\r\n*M: *0480 030 875\r\n*E: *marel@tankinsurance.com.au\r\n*A: *Level 3, 100 Harris Street, Pyrmont NSW 2009\r\n\r\n\r\n\r\nTank Insurance Pty Ltd (CAR No. 001305231 | ABN 83 667 323 579) is a\r\nCorporate Authorised Representative of Metrix Connect Pty Ltd (ABN 55 742\r\n327 931 | AFSL No. 525491).\r\n\r\n*Insurance Brokers Code of Practice*\r\nTank Insurance Pty Ltd are members of the National Insurance Brokers\r\nAssociation of Australia (NIBA) and are subscribers to the Insurance\r\nBrokers Code of Practice. The Code sets out standards of conduct for all\r\nmembers of NIBA. A copy can be obtained at\r\nhttps://www.niba.com.au/insurance-brokers-code-of-practice.\r\n*Privacy Statement*\r\nTank Insurance Pty Ltd and Metrix Connect Pty Ltd are committed to\r\nprotecting the privacy of your personal information. We do not use,\r\ndisclose or distribute personal information for any purpose that is\r\nunrelated to our se",
+      "amounts": []
+    }
+  },
+  {
+    "id": "19cdb0e2faa6c29a-1773384747634",
+    "msgId": "19cdb0e2faa6c29a",
+    "scannedAt": "2026-03-13T06:52:27.634Z",
+    "emailDate": "Wed, 11 Mar 2026 04:01:04 +0000 (UTC)",
+    "from": "\"Jessica Gibbons (via Tapi)\" <hi@tapihq.com>",
+    "subject": "Approve maintenance work at 61 Amanda Drive, Camillo, WA",
+    "type": "MAINTENANCE",
+    "property": "61 Amanda Drive, Camillo WA",
+    "propertyId": "camillo-wa",
+    "pm": "O'Neil Real Estate",
+    "period": null,
+    "hasPdf": false,
+    "attachments": [],
+    "status": "PENDING",
+    "needsReview": false,
+    "parseError": null,
+    "data": {
+      "urgency": "LOW",
+      "issue": "Jessica is asking for approval for a maintenance issue.",
+      "bodyText": "~~~ New work order ~~~\r\n\r\nHi Marel,\r\n\r\nJessica is asking for approval for a maintenance issue.\r\n\r\nLeaking Sink\r\n61 Amanda Drive\r\n\r\nTo approve or decline the work, view the full report below.\r\n\r\nView issue report – open this link:\r\nhttps://url6277.tapihq.com/ls/click?upn=u001.FDrmjlsXkL15ZRyTjPZRcPQ9kQXkb0A472zJWqdEndkOb7hMh9xqHBlQa2l3TyeQCd-2B9bf3YnIAqBn-2BqwUlxeTwJiIYqIcxUaqUStz2OozWPG1V1uLAigE7fB-2F7Ita0tm1Oyj8GuLOyUDIQHmv5Z7CFo-2F1JPyA7Wll0thbzRZ2E-3DefbC_A3nRQoop3xGTTNLdbAlLJepW4-2B01BbGCvG4GoqB50EL3rzfbNinfte-2FhDdz3ODqKGSl7n0Rd5nvx7UJqtvZgVawsbveZ8NDb-2FNuU3aoLitWnbubjScUH-2FPaO7Nc68w4lgs8zEE7KhhwzJwz1mx4VtHNhjfrxPkli2tHuX6GAtYzydLBLQ-2B3pfCvyjNRrsWC9ibEKrQapOqx9SsUL1-2FuwOQ-3D-3D\r\n\r\n\r\nRegards,\r\nO&#39;Neil Real Estate\r\n\r\n\r\n\r\n\r\n~~~\r\nPowered by Tapi.\r\nTapi helps you organise repairs and maintenance in rentals.\r\n\r\nLearn more: https://url6277.tapihq.com/ls/click?upn=u001.FDrmjlsXkL15ZRyTjPZRcEUsTUmzteAK5f03E6g-2FFrA-3D8YyF_A3nRQoop3xGTTNLdbAlLJepW4-2B01BbGCvG4GoqB50EL3rzfbNinfte-2FhD"
+    }
+  },
+  {
+    "id": "19cd63766748d12d-1773384748224",
+    "msgId": "19cd63766748d12d",
+    "scannedAt": "2026-03-13T06:52:28.224Z",
+    "emailDate": "Tue, 10 Mar 2026 05:27:59 +0000 (UTC)",
+    "from": "Elite PM Agency VIC <elitepmvic@email.propertyme.com>",
+    "subject": "Re: Job request for your property at 7 Schultz Ct, West Wodonga VIC 3690",
+    "type": "MAINTENANCE",
+    "property": "7 Schultz Ct, West Wodonga VIC",
+    "propertyId": "west-wodonga-vic",
+    "pm": "Elite PM Agency VIC",
+    "period": null,
+    "hasPdf": true,
+    "attachments": [
+      {
+        "filename": "Quote_QT00316.pdf",
+        "mimeType": "application/pdf",
+        "attachmentId": "ANGjdJ_F1Nibe90b2ADGU6HVvv7OO7ZCoFL8swHoiAZpXpsnQGmTGgmA-ZydvMD4ax4qsusRC3HLcAHyYqGDGgrmN0W2YHgRERVUS_G4rs9J3uwuNPTCrKbV1hPswBA-j7xT5jEYUfPJabRf6Qimx-x_VuP6tggm5vJSsiVlhr_JISyuzZdCbhoOBENUJ_zGSlyzfRokbGcmv5uSgnZhz03nquykIj39s6IAcl_qrRAzFtrqbxf_Ee86jR7m1K-0izORQ4APCgRDrDwcTNpcBJfMCyVJdxaXHKjwSyGRYQpQS1x79XHOd8CKy6PokFYWeAoq_gDQ5tZizBzahQhF2hctIydBlhsOO0PYcZ1tklLX6K-WU7E8L-ZxuYHUWGIDmDN9Z0G7WLltbibhRH21"
+      }
+    ],
+    "status": "PENDING",
+    "needsReview": false,
+    "parseError": null,
+    "data": {
+      "urgency": "HIGH",
+      "issue": "Good Afternoon,&#160;I hope you have both been well!Please see attached the quote from our electrician to replace the faulty PowerPoint at 7 Schultz Court.Apologies for the delay with getting this to you, there were some complications with the trade originally assigned to the job.Once you have reviewed this, please advise how you would like to proceed.Thank you!",
+      "bodyText": "Email\n\n \n \n \n \n \n \n \n \n \n \n | \n \n \n \n | \n \n \n \n | \n\n \n\n \n \n \n \n \n \n \n Good Afternoon,&#160;I hope you have both been well!Please see attached the quote from our electrician to replace the faulty PowerPoint at 7 Schultz Court.Apologies for the delay with getting this to you, there were some complications with the trade originally assigned to the job.Once you have reviewed this, please advise how you would like to proceed.Thank you!\nKind Regards,On 5/09/2025 10:10 AM, Admin User <admin@pencevcapital.com.au> wrote:Great thanks!From: Sophia Mulkearns <elitepmvic@email.propertyme.com>Sent: Friday, September 5, 2025 10:07 AMTo: Admin User <admin@pencevcapital.com.au>; pencevcapital@gmail.com <pencevcapital@gmail.com>Subject: Re: Job request for your property at 7 Schultz Ct, West Wodonga VIC 3690&#160; | | | \nGood Morning,&#160;Your email has now been changed.I have now sent a quote request to an electrician.Once this comes through, I will send it to you.Thank you.\nKind Regards,On 5/09/2025 "
+    }
+  },
+  {
+    "id": "19cd57fa827feb90-1773384748822",
+    "msgId": "19cd57fa827feb90",
+    "scannedAt": "2026-03-13T06:52:28.822Z",
+    "emailDate": "Tue, 10 Mar 2026 02:07:17 +0000",
+    "from": "Caitlin Wheeler <messaging-service@ipropertyexpress.com>",
+    "subject": "Condition Report Returned | 13 President Street, Kirwan 4817",
+    "type": "LEASE",
+    "property": "13 President Street, Townsville QLD",
+    "propertyId": "townsville-qld",
+    "pm": "McGrath",
+    "period": null,
+    "hasPdf": false,
+    "attachments": [],
+    "status": "PENDING",
+    "needsReview": false,
+    "parseError": null,
+    "data": {
+      "bodyText": "Dear Simmona\n\nProperty: 13 President Street, Kirwan 4817\n\nRE: Condition Report Returned\n\nYour tenants have returned their Entry Condition Report. Please find below a link to the signed Condition Report for 13 President Street, Kirwan 4817.\nThe Entry Condition Report holds immense significance, as it stands as the authoritative document for future reference at the conclusion of the tenancy period. Legally, it ranks among the most pivotal documents we compile for a tenancy. Your tenants have received a copy for their own records. I have attached a copy of this report for your perusal. It&rsquo;s always a good idea to look through the report to stay familiar with the condition of your property from tenancy to tenancy.\n\nClick on the link below to download the report for your records. \n\nView returned condition report\n\n Please use the following code to access your document: 718301\n\n This link will expire in 30 days.\n\nView returned key form\n\n Please use the following code to access your docum",
+      "amounts": []
+    }
+  },
+  {
+    "id": "19cd0f126d67d4b5-1773384750205",
+    "msgId": "19cd0f126d67d4b5",
+    "scannedAt": "2026-03-13T06:52:30.205Z",
+    "emailDate": "Mon, 09 Mar 2026 04:53:09 +0000 (UTC)",
+    "from": "\"Jessica Gibbons (via Tapi)\" <hi@tapihq.com>",
+    "subject": "Re: Leaking Sink at 61 Amanda Drive, Camillo, WA",
+    "type": "MAINTENANCE",
+    "property": "61 Amanda Drive, Camillo WA",
+    "propertyId": "camillo-wa",
+    "pm": "O'Neil Real Estate",
+    "period": null,
+    "hasPdf": false,
+    "attachments": [],
+    "status": "PENDING",
+    "needsReview": false,
+    "parseError": null,
+    "data": {
+      "urgency": "LOW",
+      "issue": "Jessica is asking for approval for a maintenance issue.",
+      "bodyText": "~~~ Reminder of work order ~~~\r\n\r\nReminder\r\n\r\nHi Marel,\r\n\r\nJessica is asking for approval for a maintenance issue.\r\n\r\nLeaking Sink\r\n61 Amanda Drive\r\n\r\nTo approve or decline the work, view the full report below.\r\n\r\nView issue report – open this link:\r\nhttps://url6277.tapihq.com/ls/click?upn=u001.FDrmjlsXkL15ZRyTjPZRcPQ9kQXkb0A472zJWqdEndkOb7hMh9xqHBlQa2l3TyeQCd-2B9bf3YnIAqBn-2BqwUlxeZlH9d17cN8QTXrpklP0ZZJbsIIAy4vnuBPsxjJbLGK2XZ1Pk-2BxCQa5iRkbFXaA6lzEaXvOwdVwOE5Ey8G45hBU-3D2VOq_A3nRQoop3xGTTNLdbAlLJepW4-2B01BbGCvG4GoqB50EJH03pMwnC9Vl-2BryaE0m6efaoRM504iBRGbwf98p1LU6XFP4osvm45xbFeahq9y4dTjbmL95aQcA6vMAn5Bm9mf9CgAovYS-2BKJcluRMg3JpVRakZ1ee9ysQS4yXd9gvvvi9w0SJDR0s7D6ovvPsURak5PbVtADieAvaODdNDF1muQ-3D-3D\r\n\r\n\r\nRegards,\r\nO&#39;Neil Real Estate\r\n\r\n\r\n\r\n\r\n~~~\r\nPowered by Tapi.\r\nTapi helps you organise repairs and maintenance in rentals.\r\n\r\nLearn more: https://url6277.tapihq.com/ls/click?upn=u001.FDrmjlsXkL15ZRyTjPZRcEUsTUmzteAK5f03E6g-2FFrA-3DWjkB_A3nRQoop3xGTTNLdbAlLJepW4-2B01BbGCvG4GoqB50EJH03p"
+    }
+  },
+  {
+    "id": "19cc1a592a2d5899-1773384751384",
+    "msgId": "19cc1a592a2d5899",
+    "scannedAt": "2026-03-13T06:52:31.384Z",
+    "emailDate": "Fri, 06 Mar 2026 05:36:19 +0000 (UTC)",
+    "from": "Elite PM Agency VIC <elitepmvic@email.propertyme.com>",
+    "subject": "Fw: Job request for your property at 7 Schultz Ct, West Wodonga VIC 3690",
+    "type": "LEASE",
+    "property": "7 Schultz Ct, West Wodonga VIC",
+    "propertyId": "west-wodonga-vic",
+    "pm": "Elite PM Agency VIC",
+    "period": null,
+    "hasPdf": false,
+    "attachments": [],
+    "status": "PENDING",
+    "needsReview": false,
+    "parseError": null,
+    "data": {
+      "bodyText": "Email\n\n \n \n \n \n \n \n \n \n \n \n | \n \n \n \n | \n \n \n \n | \n\n \n\n \n \n \n \n \n \n \n Hi Marel,&#160;I hope you have been well!I am just hoping to follow up on the below request that was reported on the 08/01/2026.Are you happy to proceed with sending a handyman for rectification?\nKind Regards,From: Elite PM Agency VIC <elitepmvic@email.propertyme.com>Sent: 8/01/2026 11:21 AMTo: \"Marel-Kim Pencev\" <admin@pencevcapital.com.au>Subject: Job request for your property at 7 Schultz Ct, West Wodonga VIC 3690&#160;Dear Marel,We would like to bring the following maintenance request to your attention. We have summarised the details for you below.Summary | Bathroom Tap | \nDescription | 08/01/2026The tenants have reported that their cold bathroom tap is very hard to turn on and off.SM | \nPlease reply to this email with any particular instructions or with your approval if you wish to proceed.Of course, if you would like to discuss this matter further please feel free to contact me at your earliest convenience.Kind",
+      "amounts": []
+    }
+  },
+  {
+    "id": "19cc01f9d66db1b8-1773384751983",
+    "msgId": "19cc01f9d66db1b8",
+    "scannedAt": "2026-03-13T06:52:31.983Z",
+    "emailDate": "Thu, 05 Mar 2026 22:30:22 +0000 (UTC)",
+    "from": "\"Caitlin Wheeler (via Tapi)\" <hi@tapihq.com>",
+    "subject": "Re: [Bedroom 4 - Doors/walls/ceiling] Roof leak at 13 President Street, Kirwan, QLD",
+    "type": "MAINTENANCE",
+    "property": "13 President Street, Townsville QLD",
+    "propertyId": "townsville-qld",
+    "pm": "McGrath",
+    "period": null,
+    "hasPdf": false,
+    "attachments": [],
+    "status": "PENDING",
+    "needsReview": false,
+    "parseError": null,
+    "data": {
+      "urgency": "LOW",
+      "issue": "Caitlin is asking for approval for a maintenance issue.",
+      "bodyText": "~~~ Reminder of work order ~~~\r\n\r\nReminder\r\n\r\nHi Marel-Kim,\r\n\r\nCaitlin is asking for approval for a maintenance issue.\r\n\r\n[Bedroom 4 - Doors/walls/ceiling] Roof leak\r\n13 President Street\r\n\r\nTo approve or decline the work, view the full report below.\r\n\r\nView issue report – open this link:\r\nhttps://url6277.tapihq.com/ls/click?upn=u001.FDrmjlsXkL15ZRyTjPZRcOBK2AuOS7dT5acUkRt9ymz5D01kkCYnDAWgmop0KX6sljVRFyD6Z13UPL0xsLyRAbSeRs-2BQ7Dph22Y8tjixcCKkRWY-2FGm3omdJTjK8-2F4lnnLOzuM3WTKng7EUcItaH5QC7Wz-2Bv9kHaqraPrTpQcwLw-3Dbiv-_A3nRQoop3xGTTNLdbAlLJepW4-2B01BbGCvG4GoqB50EJurG5k2dCdkGK8rD7SOCB-2BblJyxQA90cpOJGixOcm-2BeEnnuQPZmSoY-2B74WCuJg8avUbFnakrJvs4-2FjYcK0vC8PTSQCF055S7xowHyRDXAGQIA35sQRoaR6shzZjPdECjb8K9DPFUTX8yz7FpW7GAsO6GxGbcDpzc3-2Fd-2B5ACWJElw-3D-3D\r\n\r\n\r\nRegards,\r\nMcGrath Townsville\r\n\r\n\r\n\r\n\r\n~~~\r\nPowered by Tapi.\r\nTapi helps you organise repairs and maintenance in rentals.\r\n\r\nLearn more: https://url6277.tapihq.com/ls/click?upn=u001.FDrmjlsXkL15ZRyTjPZRcEUsTUmzteAK5f03E6g-2FFrA-3DCAdd_A3nR"
+    }
+  },
+  {
+    "id": "19cc01984c8e8f30-1773384752524",
+    "msgId": "19cc01984c8e8f30",
+    "scannedAt": "2026-03-13T06:52:32.524Z",
+    "emailDate": "Thu, 05 Mar 2026 22:23:43 +0000 (UTC)",
+    "from": "\"Caitlin Wheeler (via Tapi)\" <hi@tapihq.com>",
+    "subject": "Re: [Bedroom 1 - Air conditioner] Aircon not working at 13 President Street, Kirwan, QLD",
+    "type": "MAINTENANCE",
+    "property": "13 President Street, Townsville QLD",
+    "propertyId": "townsville-qld",
+    "pm": "McGrath",
+    "period": null,
+    "hasPdf": false,
+    "attachments": [],
+    "status": "PENDING",
+    "needsReview": false,
+    "parseError": null,
+    "data": {
+      "urgency": "LOW",
+      "issue": "Caitlin is asking for approval for a maintenance issue.",
+      "bodyText": "~~~ Reminder of work order ~~~\r\n\r\nReminder\r\n\r\nHi Marel-Kim,\r\n\r\nCaitlin is asking for approval for a maintenance issue.\r\n\r\n[Bedroom 1 - Air conditioner] Aircon not working\r\n13 President Street\r\n\r\nTo approve or decline the work, view the full report below.\r\n\r\nView issue report – open this link:\r\nhttps://url6277.tapihq.com/ls/click?upn=u001.FDrmjlsXkL15ZRyTjPZRcOM9YuMjk-2BdfAsANUCOv2AfEra7ZypRmvsg0l3DC4cZ26l6T8jcX-2FCJ-2BGDdRfjUN2M5xurgGRQl2qCYxGyqGS1BZbcBJugrQqigyPrHX75Hn4KgpFDGbKFNq-2FIsHrYdbCalxYWYcSYaM33JnAJvntUE-3DKLS0_A3nRQoop3xGTTNLdbAlLJepW4-2B01BbGCvG4GoqB50EJtYPorrr1ImKfZ0inhvNsNdS95IOLJ0hQ6kFbeOx3j7hukclZzc6ecoIaDqSR8nk5T2G7gmcDoOgyR5i9eQd4BotBjkLLlnOahEyofzPfYdteAW8F-2Fd-2B6niga-2Bdgo0AVjKpkG2nt11RCkKWzbDaealK7ajAx4UnhC-2FtlsQnA8aWA-3D-3D\r\n\r\n\r\nRegards,\r\nMcGrath Townsville\r\n\r\n\r\n\r\n\r\n~~~\r\nPowered by Tapi.\r\nTapi helps you organise repairs and maintenance in rentals.\r\n\r\nLearn more: https://url6277.tapihq.com/ls/click?upn=u001.FDrmjlsXkL15ZRyTjPZRcEUsTUmzteAK5f03E6g-2FFrA-3DKki6_A3n"
+    }
+  },
+  {
+    "id": "19cbbb7b4edab2ee-1773384753082",
+    "msgId": "19cbbb7b4edab2ee",
+    "scannedAt": "2026-03-13T06:52:33.082Z",
+    "emailDate": "Thu, 5 Mar 2026 01:58:18 +0000",
+    "from": "Caitlin Wheeler <CaitlinWheeler@mcgrath.com.au>",
+    "subject": "13 President Application",
+    "type": "LEASE",
+    "property": "13 President Street, Townsville QLD",
+    "propertyId": "townsville-qld",
+    "pm": "McGrath",
+    "period": null,
+    "hasPdf": false,
+    "attachments": [
+      {
+        "filename": "image001.png",
+        "mimeType": "image/png",
+        "attachmentId": "ANGjdJ_JVJlGMJZTx8GQoTZs7joj8__GAw4C0T_Z6PFj3VNy4E-npI-HRkGWmNJ9DVjCrqPaCh2lhb83iTnVn0yteX9DJh0wm600mIw0hvb2U2HvRDBsrEW7h3maWfDk3nnkqL87H-5zURGjiPbu-_bh8IbyfI55Ed4DYOWmWnxbmTYkqgZblWAP7QOieSHikgdc0FW0_ihqNb1qOpLk3XZcf0s-ePWM8jsLWNNzFn45U7ztuxu4xlo3BQOA4-mDb9ZQ1eLKtHIOaRxS5pydjnZJd63vvmFK226ysJLwtllBuA7K9lEcNc4ZZEESTAws-ZWKEcWZieE-Iu1BHmtQYDO4wUNTWZeTfI37yxw-tScv_Pnk0eZxMPkSuGZ4_hm1zkT_6VRAOQwG3s683Bds"
+      }
+    ],
+    "status": "PENDING",
+    "needsReview": false,
+    "parseError": null,
+    "data": {
+      "bodyText": "Hi Marel,\r\n\r\nI'm just following up regarding the applicant I presented on Tuesday.\r\n\r\nThey are very interested in the property, and I would hate for you to miss out on securing them. If I don't hear back from you by the end of business today, I will proceed with issuing a 6-month lease at $500 per week to ensure we don't lose the opportunity.\r\n\r\nI have left you a brief voicemail as well to explain.\r\n\r\nKind Regards\r\n\r\nCaitlin Wheeler\r\nProperty Manager\r\nMcGrath Estate Agents\r\nTownsville\r\nM     0439 674 141\r\nD      07 4781 0500\r\nW     mcgrath.com.au<http://mcgrath.com.au/>\r\n\r\nReport Maintenance Here<https://tapi.app/embed/bot/web?management_id=5c90068c-e792-47ba-afce-ce1f783933e8>\r\n\r\nIf you would like to pass on feedback in relation to the service you are receiving, please contact my manager via kayematheson@mcgrath.com.au<mailto:kayematheson@mcgrath.com.au>\r\nBeing a referral based business, the best compliment any client can give is the referral of a friend, family member or colleague wh",
+      "amounts": [
+        500
+      ]
+    }
+  },
+  {
+    "id": "19cb275976a532a2-1773384754676",
+    "msgId": "19cb275976a532a2",
+    "scannedAt": "2026-03-13T06:52:34.676Z",
+    "emailDate": "Tue, 3 Mar 2026 06:49:29 +0000",
+    "from": "Caitlin Wheeler <CaitlinWheeler@mcgrath.com.au>",
+    "subject": "13 President APP",
+    "type": "MAINTENANCE",
+    "property": "13 President Street, Townsville QLD",
+    "propertyId": "townsville-qld",
+    "pm": "McGrath",
+    "period": null,
+    "hasPdf": false,
+    "attachments": [
+      {
+        "filename": "image001.png",
+        "mimeType": "image/png",
+        "attachmentId": "ANGjdJ_tPJ-CApawgk9WF3nIro6AtnoIqgSvBuMmdpKH3RjSbam7caswxrMby7Th6qR5Ii18MTHqaPsk3B_xt-FNjhOeqpRI6261lqGhzkl6DQQuI_H-qEtthABreO6C3iujhWRznV7OgfS75x0jjxaAnsgraDoGZzKHABIfXxFeByLB2lP6l0AIcOkG8JNKj2s8ncrKY80SgRtPxC6DBbJHw6G2iY9-ivM8T5LRuT7jSRFMDJKHn3wo17mGyoXmZ_CFW2b0hAi_qXSwJuDdZJRioTWhVV9h6CqetHnOt3NOq8ofCdLcDch2iTaOCsMqJqal7OUDxFX8V6cmudEVkDHWl1Csf9RwQHnkRy7InlJRSAB5JRJTWf3R15U6-rnB-5zc-G_LwaUJoZFFLAMw"
+      }
+    ],
+    "status": "PENDING",
+    "needsReview": false,
+    "parseError": null,
+    "data": {
+      "urgency": "LOW",
+      "issue": "* Inspection: Inspected - loves the place",
+      "bodyText": "Hi Marel,\r\n\r\nPlease see the below applicant that is interested in the property, they have recently inspected and love the place. They would be ready to move in next week.\r\n\r\nApplicant Overview\r\nAdults: 2 - 46yo / 39yo\r\nChildren: 3\r\nPets: None\r\n\r\nEmployment\r\n* Applicant 1 Name: Personal Support Worker / Spinal Life Australia\r\n* Applicant 2 Name: Dump Truck Operator /WorkPac Mining Pty Ltd\r\n\r\nRental History\r\n* Current & Length: Agent(1+ Years)\r\n* Previous & Length: Private Rental(<6 Months)\r\n\r\nAffordability\r\n* Applicant 1: $702.28\r\n* Applicant 2: $529.5\r\n* Total Weekly Affordability: $1,231.78 per week / 20.26%\r\n\r\nLease Details\r\n* Requested Start Date: 09/03/26\r\n* Requested Term: 12 month\r\n* Inspection: Inspected - loves the place\r\n\r\n\r\n\r\nOur Recommendation\r\nBased on the completed application, supporting documentation, and all due diligence checks, we recommend:\r\n* Approval of the application\r\n* Lease term: - 6-month initial lease\r\n* Rent: $500 per week commencing 09/03/2026\r\n\r\nPlease rep"
+    }
+  },
+  {
+    "id": "19cac82b9df45c6c-1773384755257",
+    "msgId": "19cac82b9df45c6c",
+    "scannedAt": "2026-03-13T06:52:35.257Z",
+    "emailDate": "Mon, 02 Mar 2026 03:06:13 +0000 (UTC)",
+    "from": "Elite PM Agency VIC <elitepmvic@email.propertyme.com>",
+    "subject": "Rental income statement #81 from Elite Property Management Agency",
+    "type": "REMITTANCE",
+    "property": "7 Schultz Ct, West Wodonga VIC",
+    "propertyId": "west-wodonga-vic",
+    "pm": "Elite PM Agency VIC",
+    "period": null,
+    "hasPdf": true,
+    "attachments": [
+      {
+        "filename": "Statement #81 - OWN02584 .pdf",
+        "mimeType": "application/pdf",
+        "attachmentId": "ANGjdJ_XQiamgKeO6K1Qdz5vgXvq4ovkULLXL54FETnPQJmT0KKWQzVtN8133IcOfW_1LhGiW2LOAV7491eFzgRn7pG1mUCIA_cusiSFSS37Kh-Bk0AzVL2GX1Kxc1x029FYsR_AEp_momtRnwJM7EMWdxcysL5Ykc-iUz5-C48lYPr3_6hs2ffsIuVICwY6hAWEO0JXBVHwHxpka1W1Wt8zY9Rr3NQtBnr8WU82j8A2PsLdAEm4rui4vfeKa9RWFsoQUgJsy4Ydlj6mY0ZkxgZMdupUcJWFXL6CLVzO0sQ08lkMg3-J-GWpEO-0ojAL7tx0f2kroS_EMelSjMe8VYtXsuq1wMp0zQZ9ngGxq_6lXoMbJgG_DzNW2zbG2pUCNuIxIQSda48H2X1r5Ft7"
+      },
+      {
+        "filename": "The Pool Boy - Regular Pool Maintenance.pdf",
+        "mimeType": "application/pdf",
+        "attachmentId": "ANGjdJ__9szEbBgbYwjKciCs7M-3CrcaTH6OdAluGS6MuKSFuQ0q4540vwfu4YWBgYX7ode2SNpQO-TxehDuAlfgz4Od-zfYT9Q-jlq2bBy6m10yZ9pOjvrTNH_qlhohIKgeeuO2yPeA7uBBDOEEo29TTPJsdPoUcPwbTgrVInB2V5Pd2rIojsWeqam4cMMzjQmhf80p08NVXwh6Iw-M8FriDYIviYLKR1zzPsMWxN-Usgau1tThohpdvrtDkRgu5Ymdluj9m-wVSA5JcaL9WCF8gLCmAmk654pQjH2DrH-4EwSd8122AkoVUBqLj8jeWI4kKW3BRRUB1BvxJO7rnoNkCL45wE3vTS0NQ9Du8AhSIsxF7jd2FBtXohMPdJLlrdq_QjDynD9XIabgvJSDwiRSRcnvVlTUs0LMz5fPGw"
+      },
+      {
+        "filename": "The Pool Boy - Regular Pool Maintenance.pdf",
+        "mimeType": "application/pdf",
+        "attachmentId": "ANGjdJ9ZRiymdXytpEWCDkFVg8RJeDMdnsmYN7O7v4ej3EYEqQmt0F-gDoTdbgo80dsUFAtsMjrhyqekx43Z9DCq5LCdDTvnyhNxKJ9U1awxnMDptvpXp6lF7fg8XPc7op-kPy_ogG0mBUprM0EXOsRBZI0bq_Cik2WKYgV65WKsdJSNpS6zmW6503PvODaxvrQB-gBGY9UjPIFq73ZrVV1tsqN87zkGtcE2B1XiAQMQxGznNx1bKJxcHFO8gKy2elQrNDG32rzNXBYflZWO3e4tzd_1TNs4INYfUboNEoBXq-Sh8BNL87KgIOwtMOMvZhlU2avS-C-aXpt3eJGI_NS9uFdeqF7zxG8zd4bIbOw4D8wRs4RUK8pSfzuxK3dwkyi4uU_S3GJwupBvI8651a6x-Kf9Ox1nmh_1cDbwfQ"
+      }
+    ],
+    "status": "PENDING",
+    "needsReview": false,
+    "parseError": null,
+    "data": {
+      "bodyText": "Email\n\n \n \n \n \n \n \n \n \n \n \n | \n \n \n \n | \n \n \n \n | \n\n \n\n \n \n \n \n \n \n \n Hi Simonna Chimone Pencev & Marel-Kim Pencev,We have created a statement&#160;detailing the financial activity up to 2/03/2026&#160;for:\n7 Schultz Ct, West Wodonga The key information is below and a link to the full statement is here:&#160;Statement #81 - OWN02584 .pdf&#160;Income$980.00 | Expenses$260.20 | You Received$719.80 | \n&#160;\nIf there are any attached bills for this statement they will be listed below.\n The Pool Boy - Regular Pool Maintenance.pdf The Pool Boy - Regular Pool Maintenance.pdf Please don’t hesitate to contact me if you have any queries.With thanks, &#160;\nAlex Gale02 6056 9688alex@elitepmagency.com.auwww.elitepmagency.com.au\n\n | \n \n\n \n | \n \n\n \n\n \n \n \n \n \n | \n \n \n \n | \n \n \n \n | \n\n \n\n \n \n | \n \n\n \n\n \n \n \n Click to unsubscribe from future email communication\n |",
+      "receive": [
+        {
+          "description": "7 Schultz Ct, West Wodonga The key information is below and a link to the full statement is here:&#1",
+          "amount": 980
+        }
+      ],
+      "spend": [],
+      "note": "PDF attached — full parse via pencev-parse-statement.js"
+    }
+  },
+  {
+    "id": "19cac763308e6a54-1773384756394",
+    "msgId": "19cac763308e6a54",
+    "scannedAt": "2026-03-13T06:52:36.394Z",
+    "emailDate": "Mon, 02 Mar 2026 02:52:32 +0000 (UTC)",
     "from": "Elite PM Agency NSW <elitepmnsw@email.propertyme.com>",
-    "subject": "Gutter Cleaning - 379 Prune St, Lavington NSW 2641",
+    "subject": "Rental income statement #84 from Elite Property Management Agency",
     "type": "MAINTENANCE",
     "property": "379 Prune St, Lavington NSW",
     "propertyId": "lavington-nsw",
     "pm": "Elite PM Agency NSW",
     "period": null,
-    "hasPdf": false,
-    "attachments": [],
+    "hasPdf": true,
+    "attachments": [
+      {
+        "filename": "Statement #84 - OWN01085 .pdf",
+        "mimeType": "application/pdf",
+        "attachmentId": "ANGjdJ_UydSc1hHn7kJDpGCZXLrZaBFmrGLzkmWjJgWoGKRjtxmDh1Fu-5BN2Z_Qu9eI5kCvu5WmpjejHkdrIpTDq7mJ2ay93nWY0LBuZi3AXcV6jhOvdgzTv2mQaoCyiyOpWCU7TyFU-NgjNOmohur5xEJVTUP8g-bv2hBGa5h6oDP_yeQ-ZdWLWqRpJwCaqkWpK64WBnZjiG3OMU_8YZbilLCUttNRgfJlc9dhB0NglKKJxLL9kWrHU0ooZAtrXQ9zRR0p_atauB6V-EShLfwLgGkrGBAyrvQHgXNgkSDVmUS3avoSHQPghtbxl7DnET_2A5522oK2_SGrZDUzOAf4scJ7LQiIR6g8ZEgmVDbjgCthR5Hjn7F-SfPaKy64Mi5OsbT0EmeZDj8pKfzs"
+      },
+      {
+        "filename": "Graham Singleton - The Mould Group - Mould Inspection.pdf",
+        "mimeType": "application/pdf",
+        "attachmentId": "ANGjdJ9ENhUFiRY7c73Y7UlMn9bFoOHFChubMgiVMeLMEJuB_aetd4FP3o1RQbdLYhW3fynn95ID90Kx-AHPix7mO_aU7H6s13iANNSsoJ8MVhGumPBceNDLf8WOPh5cGFV8xjoAHJFrwZiLshrQVe2LZZu6q2ebyKhrKMfXlEE3i-OBjUiZQjqsWexlIfIm18tqp5Tsd7WWFbMPxuEmprQjIWYQMmcm0nVQ925gVID2P5F1xK4ZvmsKQF98RcB68YIgN_OqyVeN9DU-AbmfFEAXGcwPvbm5GAsQJXN1pOED7hlSGAvCmKftM7KC-kFa3VfTd1_5YyVdDRIusIbNTmUfLLnhOnfHk23QRT2MHSzccDqDOf5MZw4p7qgiXbGT1iouneqiK6Z5wShnH9j-2r-n0bHS1WREdGZA7vZ88A"
+      },
+      {
+        "filename": "Howlong Handyman Service - General maintenance.pdf",
+        "mimeType": "application/pdf",
+        "attachmentId": "ANGjdJ_7P5DI9H4ELAXMfDZ8dK1VSVoOyAH2KNotPISTNT7pCjbXAT-1h3YV195fPoUWBOdn7ZGf0W4dQHnQrXdW6GAUlrSpymBJb6tKN_6LVEqY_wIjr9j27UGukAl242dmyq3IoXjuut8o479x8k59dt_Wh9sHqpQFPXxAN69aCgNL0jAlRE3N4e8ohMg_DQPnbNKHKf_1MPhb-ZfNFmOj8oF1KoBsreIX8nCku51L4DEQWHBqhgVptaOr-EVnu6ZeYnXeMY40ngns9LdBOPW-q98wfiP1qXAKTzQmJCS7qo17sViWBVfRHCBNnZpXoGvqN9Jq8QlkFhOdsDubgyhqHJ_RqwvLhlJCZdBaIa0M9xcKGafb0vL-AlwUB1mD7dYfrDpV6zIr01NvOzDpaICsM88ZYkC8D55Bin4U8A"
+      }
+    ],
     "status": "PENDING",
     "needsReview": false,
     "parseError": null,
     "data": {
       "urgency": "LOW",
-      "issue": "Good Afternoon,I’m writing to discuss establishing regular gutter cleaning as part of the property’s annual preventative maintenance schedule as we are coming into Autumn.With the recent severe weather events we have experienced across the Albury–Wodonga region, we have seen a number of properties affected by roof leaks, water ingress, internal leaks, and associated damage. In many cases, these issues have been linked to blocked or overflowing gutters that were unable to manage the volume of rainfall during storms.When gutters are not cleaned regularly, debris such as leaves, dirt, and pine needles can accumulate and cause blockages. This can lead to water overflow, which may result in roof damage, fascia and soffit deterioration, foundation issues, leaks, and even mould growth. In colder months, clogged gutters can also contribute to ice dams, which can further damage roofing materials and interior ceilings.Scheduling professional gutter cleaning once per year (or twice, if needed based on surrounding trees) is a relatively low-cost preventative measure compared to the potential expense of repairing water-related damage. In most cases, gutter cleaning typically costs between $200.00 – $400.00, depending on the size of the property, roof access, and the amount of debris present.It is also important to note that some landlord insurance policies may not cover water damage if the cause is determined to be preventable maintenance issues, such as gutters being full or not maintained.&#160;Ensuring gutters are cleaned regularly can help reduce the risk of damage and potential insurance complications. Regular maintenance also helps extend the life of the roofing system and drainage infrastructure.We highly recommend that gutter cleaning be added to the property’s routine annual maintenance to ensure the home remains in good condition and to help prevent further maintenance issues in the future.Please don’t hesitate to reach out if you would like us to arrange a quotation for gutter cleaning at your property. We value working collaboratively with our landlords to proactively maintain their properties and protect the long-term condition of their investment&#160;Thank you for your time and consideration.Kind Regards,&#160;Diaz Willis&#160;Property Managers Assistant&#160;Elite Property Management Agency02 6056 9688www.elitepmagency.com.au",
-      "bodyText": "Email\n\n \n \n \n \n \n \n \n \n \n \n | \n \n \n \n | \n \n \n \n | \n\n \n\n \n \n \n \n \n \n \n Good Afternoon,I’m writing to discuss establishing regular gutter cleaning as part of the property’s annual preventative maintenance schedule as we are coming into Autumn.With the recent severe weather events we have experienced across the Albury–Wodonga region, we have seen a number of properties affected by roof leaks, water ingress, internal leaks, and associated damage. In many cases, these issues have been linked to blocked or overflowing gutters that were unable to manage the volume of rainfall during storms.When gutters are not cleaned regularly, debris such as leaves, dirt, and pine needles can accumulate and cause blockages. This can lead to water overflow, which may result in roof damage, fascia and soffit deterioration, foundation issues, leaks, and even mould growth. In colder months, clogged gutters can also contribute to ice dams, which can further damage roofing materials and interior ceilings.Scheduli"
+      "issue": "Graham Singleton - The Mould Group - Mould Inspection.pdf Howlong Handyman Service - General maintenance.pdf Please don’t hesitate to contact me if you have any queries.With thanks, &#160;",
+      "bodyText": "Email\n\n \n \n \n \n \n \n \n \n \n \n | \n \n \n \n | \n \n \n \n | \n\n \n\n \n \n \n \n \n \n \n Hi Marel-Kim Pencev & Simonna Chimone Pencev,We have created a statement&#160;detailing the financial activity up to 2/03/2026&#160;for:\n379 Prune St, Lavington The key information is below and a link to the full statement is here:&#160;Statement #84 - OWN01085 .pdf&#160;Income$1,100.00 | Expenses$476.30 | You Received$623.70 | \n&#160;\nIf there are any attached bills for this statement they will be listed below.\n Graham Singleton - The Mould Group - Mould Inspection.pdf Howlong Handyman Service - General maintenance.pdf Please don’t hesitate to contact me if you have any queries.With thanks, &#160;\nAlex Gale02 6056 9688alex@elitepmagency.com.auwww.elitepmagency.com.au\n\n | \n \n\n \n | \n \n\n \n\n \n \n \n \n \n | \n \n \n \n | \n \n \n \n | \n\n \n\n \n \n | \n \n\n \n\n \n \n \n Click to unsubscribe from future email communication\n |"
     }
   },
   {
-    "id": "19ce5bc4d84ecceb-1773382297024",
-    "msgId": "19ce5bc4d84ecceb",
-    "scannedAt": "2026-03-13T06:11:37.024Z",
-    "emailDate": "Fri, 13 Mar 2026 05:47:27 +0000 (UTC)",
-    "from": "Elite PM Agency VIC <elitepmvic@email.propertyme.com>",
-    "subject": "Gutter Cleaning - 7 Schultz Ct, West Wodonga VIC 3690",
-    "type": "MAINTENANCE",
-    "property": "379 Prune St, Lavington NSW",
-    "propertyId": "lavington-nsw",
-    "pm": "Elite PM Agency NSW",
-    "period": null,
-    "hasPdf": false,
-    "attachments": [],
+    "id": "19cabfe0812ece5e-1773384757479",
+    "msgId": "19cabfe0812ece5e",
+    "scannedAt": "2026-03-13T06:52:37.479Z",
+    "emailDate": "Mon, 02 Mar 2026 00:41:17 +0000",
+    "from": "myhouse Realty Toowoomba <emaildelivery@console.com.au>",
+    "subject": "Owner Statement #95 : 16/02/2026 - 02/03/2026",
+    "type": "REMITTANCE",
+    "property": "36 Catalina Dr, Wilsonton QLD",
+    "propertyId": "wilsonton-qld",
+    "pm": "myhouse Realty",
+    "period": "16/02/2026 - 02/03/2026",
+    "hasPdf": true,
+    "attachments": [
+      {
+        "filename": "Owner_Statement_Marel-Kim_Pencev_36CATA_2026-03-02.pdf",
+        "mimeType": "application/pdf",
+        "attachmentId": "ANGjdJ83GEqt9gzp70DumvghkxliZcjr60hJXfCjUPlLIrheGNkdrt3C3RFHFelOfX2E6H_bciLR7Q9I5UshXtYCBZgBqlfuRmnikzbJYioJq3wWAtTSfu8QEOw6XwI0tI5yODb4xXo7Ja7GfdXNAHHgYNu9eUN247t5rYF9k0VJeMXYlAgd1pFPS67r4OD3opiC0FnHjGICz5jHhi9j56RxDnjkFb6EDX432tUz9Jj2iTT-CcAwdFSbFOaWJ_8z6qD4mwmbCTpKmZv5OukCi22y0UfL8ykSQNEsmHVzUWFWvA21xlH-GrX-inuTyy3E_6RcfFZwHujsi9yhwClYYGIcLxka-b02x2YsZBxKvQUNT1ILUoufhIT1c4HfWJN6fhZHOPoPXkucr11Uz-4H"
+      }
+    ],
     "status": "PENDING",
     "needsReview": false,
     "parseError": null,
     "data": {
-      "urgency": "LOW",
-      "issue": "Good Afternoon,I’m writing to discuss establishing regular gutter cleaning as part of the property’s annual preventative maintenance schedule as we are coming into Autumn.With the recent severe weather events we have experienced across the Albury–Wodonga region, we have seen a number of properties affected by roof leaks, water ingress, internal leaks, and associated damage. In many cases, these issues have been linked to blocked or overflowing gutters that were unable to manage the volume of rainfall during storms.When gutters are not cleaned regularly, debris such as leaves, dirt, and pine needles can accumulate and cause blockages. This can lead to water overflow, which may result in roof damage, fascia and soffit deterioration, foundation issues, leaks, and even mould growth. In colder months, clogged gutters can also contribute to ice dams, which can further damage roofing materials and interior ceilings.Scheduling professional gutter cleaning once per year (or twice, if needed based on surrounding trees) is a relatively low-cost preventative measure compared to the potential expense of repairing water-related damage. In most cases, gutter cleaning typically costs between $200.00 – $400.00, depending on the size of the property, roof access, and the amount of debris present.It is also important to note that some landlord insurance policies may not cover water damage if the cause is determined to be preventable maintenance issues, such as gutters being full or not maintained.&#160;Ensuring gutters are cleaned regularly can help reduce the risk of damage and potential insurance complications. Regular maintenance also helps extend the life of the roofing system and drainage infrastructure.We highly recommend that gutter cleaning be added to the property’s routine annual maintenance to ensure the home remains in good condition and to help prevent further maintenance issues in the future.Please don’t hesitate to reach out if you would like us to arrange a quotation for gutter cleaning at your property. We value working collaboratively with our landlords to proactively maintain their properties and protect the long-term condition of their investment&#160;Thank you for your time and consideration.Kind Regards,&#160;Diaz Willis&#160;Property Managers AssistantElite Property Management Agency02 6056 9688www.elitepmagency.com.au",
-      "bodyText": "Email\n\n \n \n \n \n \n \n \n \n \n \n | \n \n \n \n | \n \n \n \n | \n\n \n\n \n \n \n \n \n \n \n Good Afternoon,I’m writing to discuss establishing regular gutter cleaning as part of the property’s annual preventative maintenance schedule as we are coming into Autumn.With the recent severe weather events we have experienced across the Albury–Wodonga region, we have seen a number of properties affected by roof leaks, water ingress, internal leaks, and associated damage. In many cases, these issues have been linked to blocked or overflowing gutters that were unable to manage the volume of rainfall during storms.When gutters are not cleaned regularly, debris such as leaves, dirt, and pine needles can accumulate and cause blockages. This can lead to water overflow, which may result in roof damage, fascia and soffit deterioration, foundation issues, leaks, and even mould growth. In colder months, clogged gutters can also contribute to ice dams, which can further damage roofing materials and interior ceilings.Scheduli"
+      "bodyText": "Please find attached the owner statement in relation to your property:\r\n\r\n36 Catalina Dr, Wilsonton QLD 4350\r\n\r\nKind Regards,\r\nmyhouse Realty Toowoomba   \r\n\r\nKind Regards, \r\n\r\nAdam Mitchell\r\nProperty Manager of Tomorrow - 2022 Award Finalist\r\nMyhouse Realty - 2022 Console Excellence Award Winners\r\nPh: (07) 4635 2135\r\nFax: (07) 4635 2126\r\npm@myhousetoowoomba.com.au\r\nhttps://email.console.com.au/c/eJxMjE1u6zAMhE8j72LQFC0mCy3eazc9BiXRiAHLEhIlbm5fBPlpd_Phm5nkI1EQ6NQPzEgDAnN39JNTi_txZAqsMRw4EMl-igeQOCQH3ewR0IEFBKBh4B6BRpApULJpQrKGIJb1XBbtY8m9XLrFb9vW59uxXM56UlnarZWylZKDvDonLynPqyGouka9Rqlzk-Wlm6-nkrqrx-5797zfJWniDf83iLpeDaKx_x7YblWfjHhf3gE_DOIq-ddIrffMnw-nWeblK731wMR2JOfe63MsVf809u4wusfFTwAAAP__-FhgsQ\r\n\r\n227b West Street, Toowoomba QLD 4350 (corner of West St and Drayton Road)\r\nLike us on Facebook!  \r\n\r\n\r\n“no sale, no fee, that’s the myhouse guarantee”    \r\n\r\n\r\nmyhouse Toowoomba Pty Ltd Disclaimer: The content of this email including attachments may contain confidential information privileged solely to the intended recipient. If it has been sent to you by mistake you are not entitled to use it in any way and legal privilege is not waived or lost in any way. It is your responsibility to scan this email for the presence of viruses as it is not guaranteed to be error free or secure and the sender does not accept liability for any error or omission in its contents. If you are not the intended recipient please contact the sender immediately and delete the email.\r\npm@myhousetoowoomba.com.au\r\n(07) 4635 2135",
+      "receive": [],
+      "spend": [],
+      "note": "PDF attached — full parse via pencev-parse-statement.js"
     }
   },
   {
-    "id": "19ce5bc4b441b025-1773382297819",
-    "msgId": "19ce5bc4b441b025",
-    "scannedAt": "2026-03-13T06:11:37.819Z",
-    "emailDate": "Fri, 13 Mar 2026 05:47:27 +0000 (UTC)",
-    "from": "Elite PM Agency VIC <elitepmvic@email.propertyme.com>",
-    "subject": "Gutter Cleaning - 7 Schultz Ct, West Wodonga VIC 3690",
+    "id": "19c9c945d5b8a7fb-1773384759263",
+    "msgId": "19c9c945d5b8a7fb",
+    "scannedAt": "2026-03-13T06:52:39.263Z",
+    "emailDate": "Fri, 27 Feb 2026 00:51:34 +0000 (UTC)",
+    "from": "McGrath Townsville <propertytree@propertytree.com>",
+    "subject": "Ownership Statement",
+    "type": "LEASE",
+    "property": "13 President Street, Townsville QLD",
+    "propertyId": "townsville-qld",
+    "pm": "McGrath",
+    "period": null,
+    "hasPdf": false,
+    "attachments": [
+      {
+        "filename": "Banner.jpg",
+        "mimeType": "image/jpeg",
+        "attachmentId": "ANGjdJ-V2cA4LwaX9gLgwvMLE6eSx1M0n7BlEQ1EtRc-8NXhAF8oyB6edZ7dW5HksSfcJo3NxXBDYfxGZHMXBycB-3kxBN66kLnYLHARVDWJwFhax5IAZnzKO0JrxaGKuYHC6kCt0QRz-8uHR71nyBQ6zvC1Up8aEwQKUGJit2Hm2WhHcxgmpaqctfKrMt3PmVoSh_z8VtB5rGStfZH22Xo5rxCmKdZyo87feO_cEixIzgDcsC0gq69p92cPac3ajVad5cxJrxxccCNYZ32SmVmXxeT5Y0SWqGKHv_MnzpQpPwWfwEpDEhii0UPtF7Y_sLULjOIuJ6Moq87DhnWeM-7FfuT6SN3weIu6x6fo3OZ4OCvVocxo_Q8zVT6xHiRkOaZsFzkeg3pD-bvija4C"
+      }
+    ],
+    "status": "PENDING",
+    "needsReview": false,
+    "parseError": null,
+    "data": {
+      "bodyText": "Dear Marel-Kim Pencev,\r\n\r\nA copy of your ownership statement as of 27/02/2026 is available at the following link: OwnershipStatement9_27022026_13PresidentStreet.pdf\r\n\r\nIf any creditor invoices were paid during the statement period you can view them using the links below.\r\n\r\nPlease don&rsquo;t hesitate to contact me if you have any questions.\r\n\r\nRegards\r\n\r\nMcGrath Townsville\r\n\r\n13Pres-Gudgee-QU-089.pdf",
+      "amounts": []
+    }
+  },
+  {
+    "id": "19c92b59939bf3aa-1773384760359",
+    "msgId": "19c92b59939bf3aa",
+    "scannedAt": "2026-03-13T06:52:40.359Z",
+    "emailDate": "Wed, 25 Feb 2026 02:51:37 +0000",
+    "from": "Caitlin Wheeler <messaging-service@ipropertyexpress.com>",
+    "subject": "Exit Inspection Report | 13 President Street, Kirwan 4817",
+    "type": "LEASE",
+    "property": "13 President Street, Townsville QLD",
+    "propertyId": "townsville-qld",
+    "pm": "McGrath",
+    "period": null,
+    "hasPdf": false,
+    "attachments": [],
+    "status": "PENDING",
+    "needsReview": false,
+    "parseError": null,
+    "data": {
+      "bodyText": "Dear Simmona,\n\nRE: EXIT CONDITION REPORT\n\n Property: \n 13 President Street, Kirwan 4817\n \n\n Date of Inspection: \n Fri 20/02/2026\n\n \n\nI&rsquo;m pleased to inform you that the tenants have vacated the property, and the final inspection was completed. The property was returned in excellent condition, with not noticeable damage. We will be getting the lawns mowed and taking it from the tenants bond. Please note there was some slight wear and tear presented in the property, we have made notes of then in the report.\nWe have processed the necessary steps to refund the tenant&rsquo;s bond in full.\nWe have supplied a copy of your Exit Condition Report for your record. Please click the following link to download a copy of the exit condition report.\n\n Exit Inspection Report\n Please use the following code to access your document: 831904\n\n This link will expire in 30 days.\n\n \n \n\nHave a good day, should you have any queries, please contact me on 07 4781 0500 to discuss.\n\n Yours sincerely,\n\n Caitlin\n",
+      "amounts": []
+    }
+  },
+  {
+    "id": "19c8791ae9b0591e-1773384762043",
+    "msgId": "19c8791ae9b0591e",
+    "scannedAt": "2026-03-13T06:52:42.043Z",
+    "emailDate": "Sun, 22 Feb 2026 22:56:36 +0000 (UTC)",
+    "from": "Elite PM Agency NSW <elitepmnsw@email.propertyme.com>",
+    "subject": "AUTO REPLY (Office Closed) - Elite PM Agency",
+    "type": "MAINTENANCE",
+    "property": "379 Prune St, Lavington NSW",
+    "propertyId": "lavington-nsw",
+    "pm": "Elite PM Agency NSW",
+    "period": null,
+    "hasPdf": false,
+    "attachments": [],
+    "status": "PENDING",
+    "needsReview": false,
+    "parseError": null,
+    "data": {
+      "urgency": "HIGH",
+      "issue": "Hello Marel,&#160;Thank you for your email – it has been received into a generic inbox.&#160;&#160;In this digital age we receive hundreds of emails each day.Our roles as Estate Agents see us in and out of the office across the working day.We attend routine inspections, meet with owners and tenants, perform key collections and open home inspections (among other things).&#160;Unfortunately we are not able to respond to you instantly, however we will respond to your as soon as practicable.&#160;&#160;If your matter is of an urgent nature, please phone our office & one of our lovely staff members will be able to assist you (02) 6056 9688&#160;In the mean time our owner and tenant portal/app is live and may be able to provide you what you need.&#160;Check it out!&#160;With PropertyMe’s owner & tenant mobile app, there’s so much you can do:OWNERS (PropertyMe Owner)View all your property and rental informationTake a deep dive into your rental income details and expensesView upcoming events like jobs and inspectionsAccess all your financial documentsDownload and share all your documents with your financial consultantTENANTS (PropertyMe Tenant)View all your relevant property and lease informationSee when your rent and invoices are dueLog maintenance requests and add photos or videos for extra detailSee upcoming events like inspectionsDownload and share all your relevant documents including invoices, receipts and lease agreements&#160;How do you use the app?1. Download the app from the App Store or Google Play2. Login with your PropertyMe email address and password3. If you don’t have a PropertyMe account, you will need to create one&#160; &#160;&#160;Please let me know if you have any questions.&#160;Kind regards,Your Property Management TeamElite Property Management Agency(02) 6056 9688&#160;",
+      "bodyText": "Email\n\n \n \n \n \n \n \n \n \n \n \n | \n \n \n \n | \n \n \n \n | \n\n \n\n \n \n \n \n \n \n \n Hello Marel,&#160;Thank you for your email – it has been received into a generic inbox.&#160;&#160;In this digital age we receive hundreds of emails each day.Our roles as Estate Agents see us in and out of the office across the working day.We attend routine inspections, meet with owners and tenants, perform key collections and open home inspections (among other things).&#160;Unfortunately we are not able to respond to you instantly, however we will respond to your as soon as practicable.&#160;&#160;If your matter is of an urgent nature, please phone our office & one of our lovely staff members will be able to assist you (02) 6056 9688&#160;In the mean time our owner and tenant portal/app is live and may be able to provide you what you need.&#160;Check it out!&#160;With PropertyMe’s owner & tenant mobile app, there’s so much you can do:OWNERS (PropertyMe Owner)View all your property and rental informationTake a deep d"
+    }
+  },
+  {
+    "id": "19c63f8369e1c155-1773384762606",
+    "msgId": "19c63f8369e1c155",
+    "scannedAt": "2026-03-13T06:52:42.606Z",
+    "emailDate": "Mon, 16 Feb 2026 01:02:16 +0000",
+    "from": "myhouse Realty Toowoomba <emaildelivery@console.com.au>",
+    "subject": "Owner Statement #94 : 02/02/2026 - 16/02/2026",
+    "type": "REMITTANCE",
+    "property": "36 Catalina Dr, Wilsonton QLD",
+    "propertyId": "wilsonton-qld",
+    "pm": "myhouse Realty",
+    "period": "02/02/2026 - 16/02/2026",
+    "hasPdf": true,
+    "attachments": [
+      {
+        "filename": "Owner_Statement_Simonna_Pencev_36CATA_2026-02-16.pdf",
+        "mimeType": "application/pdf",
+        "attachmentId": "ANGjdJ-PKP8itNGs9SI6NI5W9dqdZSJN0gLjTVje3ypqyrUvS30o4282yrYaAb23XNHu8TT3aWfg-P9BeGTb1ugBvq8cowgjnNfLDGYEgqLX7z7EnYccrZJ8_TPWlfVe_m4mpxyc8TyOF3kQjJwITmbgjJdEXQVlSCdGA8TqiLoRL2dkTVf8tn8xLfuAzO-ZM8ePuNv90bN-BqOfG4N7awUD76BiIvbvbfmE4C57zSAHEHJiUbfTUbzRkq29WZXI0y2ELGJobPy96nsQewbctAsWPMtvRaQL0mWp6N2xF9V7ulB7d_joDrQ3jdKNFyWkzhezr10C70_h1z7S0AMOk5plHex0ljPHvjZCvOaRApaYwvVp4klXB-Be_EWOiVDLf3PmCdwzWEBAgXrM-v_h"
+      }
+    ],
+    "status": "PENDING",
+    "needsReview": false,
+    "parseError": null,
+    "data": {
+      "bodyText": "Please find attached the owner statement in relation to your property:\r\n\r\n36 Catalina Dr, Wilsonton QLD 4350\r\n\r\nKind Regards,\r\nmyhouse Realty Toowoomba   \r\n\r\nKind Regards, \r\n\r\nAdam Mitchell\r\nProperty Manager of Tomorrow - 2022 Award Finalist\r\nMyhouse Realty - 2022 Console Excellence Award Winners\r\nPh: (07) 4635 2135\r\nFax: (07) 4635 2126\r\npm@myhousetoowoomba.com.au\r\nhttps://email.console.com.au/c/eJxMjM1u6yAQhZ8GdrFmBgzJgsW97aaPMcBEsWQMSkjcvH1l5afdjObTd87JIVkbGbQE9B4JjDdOnwK4Y_IHzBCdlzhyxDRmRrs_mhRpRD0FAnJA6AC3OzBksHHEnHxEFKsspLpc6ixDqmXgq57Duq5DuZ_q9SJn4bnfe61rrSXyK3MOnMu0KAtNliS3xG3qPL90D-1cs74F0t-75_wuc-eg_H9FJMtNESnz74H93uTJRFtzA_pQRAuXX8Otbb__fDgpPM1f-a3RG4Peg3u3L6k2-ZPYu8PoHhM_AQAA__9B1GDs\r\n\r\n227b West Street, Toowoomba QLD 4350 (corner of West St and Drayton Road)\r\nLike us on Facebook!  \r\n\r\n\r\n“no sale, no fee, that’s the myhouse guarantee”    \r\n\r\n\r\nmyhouse Toowoomba Pty Ltd Disclaimer: The content of this email including attachments may contain confidential information privileged solely to the intended recipient. If it has been sent to you by mistake you are not entitled to use it in any way and legal privilege is not waived or lost in any way. It is your responsibility to scan this email for the presence of viruses as it is not guaranteed to be error free or secure and the sender does not accept liability for any error or omission in its contents. If you are not the intended recipient please contact the sender immediately and delete the email.\r\npm@myhousetoowoomba.com.au\r\n(07) 4635 2135",
+      "receive": [],
+      "spend": [],
+      "note": "PDF attached — full parse via pencev-parse-statement.js"
+    }
+  },
+  {
+    "id": "19c552db0d6b6dfc-1773384763668",
+    "msgId": "19c552db0d6b6dfc",
+    "scannedAt": "2026-03-13T06:52:43.668Z",
+    "emailDate": "Fri, 13 Feb 2026 04:06:23 +0000",
+    "from": "myhouse Realty Toowoomba <emaildelivery@console.com.au>",
+    "subject": "36 Catalina Dr, Wilsonton QLD 4350 - Rent recommendation",
+    "type": "LEASE",
+    "property": "36 Catalina Dr, Wilsonton QLD",
+    "propertyId": "wilsonton-qld",
+    "pm": "myhouse Realty",
+    "period": null,
+    "hasPdf": false,
+    "attachments": [],
+    "status": "PENDING",
+    "needsReview": false,
+    "parseError": null,
+    "data": {
+      "bodyText": "Hi Marel-Kim\r\n\r\nThe tenant’s lease is due to expire on 28/4/2026 at the current rent of $500.00 weekly.\r\n\r\nWe recommend offering a lease renewal for 12 months at $530.00 per week.\r\n\r\nPlease advise your instructions by clicking the button below so we can prepare required documents as soon as possible.\r\n\r\n\r\nKind regards\r\nAdam Mitchell\r\n\r\nClick here to respond: https://email.console.com.au/c/eJxUjklu6zAQRE9D7SSQJYrDgos_QMA_RotswsLXQFi0kdw-8BAnWRZeVfdLIWo9kWw4KGulH4bB9c0pIDlv3YQpRs6wKbPNSpNhzzFhomYOkDASqpdaGvSdz1k67QzkoFLPLLSM-3bsC3dxXzu6NEs41VoO0f8SGAXGeZv2y5bauK_r0f0sC4xUisCYmdNE8b_AGKnUy5kFRpZsoDzayWdqdfSu9cDQZmUGikZDK92cA6V13oSWhbfI10hlrrR82tRQzntqrgHNW_t83iaqFIT9LQDergK4yd5jfS_8zMBteQv4I4CN1i9yl4awfx-MV5qXf-mFle2V7p2Xr_UR98LfGs74wTxOfAQAAP__8Y11pg \r\n\r\n\r\nAdam Mitchell\r\nSenior Property Investment Manager\r\n\r\nMyhouse Realty - 2022 Console Excellence Award Winners\r\nPh: (07) 4635 2135\r\nFax: (07) 4635 2126\r\npm@myhousetoowoomba.com.au\r\nhttps://email.console.com.au/c/eJxMjMFu8yAQhJ8GbrGWBWw4cP",
+      "amounts": [
+        500,
+        530
+      ]
+    }
+  },
+  {
+    "id": "19c5089e9dbd3421-1773384764722",
+    "msgId": "19c5089e9dbd3421",
+    "scannedAt": "2026-03-13T06:52:44.722Z",
+    "emailDate": "Thu, 12 Feb 2026 06:29:00 +0000 (UTC)",
+    "from": "\"Jessica Gibbons (via Tapi)\" <hi@tapihq.com>",
+    "subject": "New invoice for 61 Amanda Drive, Camillo, WA",
+    "type": "MAINTENANCE",
+    "property": "61 Amanda Drive, Camillo WA",
+    "propertyId": "camillo-wa",
+    "pm": "O'Neil Real Estate",
+    "period": null,
+    "hasPdf": true,
+    "attachments": [
+      {
+        "filename": "e23b6444-fe9a-4ce2-b865-3f2a889992ba.pdf",
+        "mimeType": "application/pdf",
+        "attachmentId": "ANGjdJ-BfAtvEGXj10FIsM2pZuED8r65AIMOffTysOMNWLMLdT9lO1vW0CiMS5RnWDp7WGW-ol4NF9o_5KUpUafF4dEEu9wEnPrKk9T2rVkeI02G_XUyTuk80m5rJdZ0zckhTR_ERvyJ-0_N2xj09YdFy4dgJNG6uTiOycEK7-0GUIXA1IFYhXWtvROTMHLBP9svR9gzk3pJSq-h5VL_72f_aWvfKYu7hBrAFYD0O27Xa5tuVlsqfnhakpz26ErStAGBpb5acWK2hEaegBTSJvWGDbIqG_Nva9YBANKoipacjDyX9u0Y3znKOlOnQk9x6kuUgMlDYUVGdRcQj4wrDKztwYJRT1dfM1Tus_UsUJE0zb9WAT_mf8PeDJLLl0w_uBNaWY4WSLYjMvv8gNKB"
+      }
+    ],
+    "status": "PENDING",
+    "needsReview": false,
+    "parseError": null,
+    "data": {
+      "urgency": "LOW",
+      "issue": "Tapi helps you organise repairs and maintenance in rentals.",
+      "bodyText": "~~~ New invoice ~~~\r\n\r\n\r\nHi Marel,\r\n\r\n\r\nAttached is a copy of an invoice Jessica has received for work at your property.\r\n\r\n\r\n\r\nYou do not need to pay this — it will be paid from your rental income or the funds you have transferred to O&amp;#39;Neil Real Estate for payment.\r\n\r\n\r\n\r\nUnderground Leak\r\n\r\n61 Amanda Drive\r\n\r\nView full work order – open this link:\r\nhttps://url6277.tapihq.com/ls/click?upn=u001.FDrmjlsXkL15ZRyTjPZRcA2vWotdJwKvfKkZWbCs7uEYcvxM9AiMDcWdsVNZ9FbpyYCAL6EJ5aiacjmvCOoUj9Toc6LXCu04eRbOuvdRXKqd1At7h92OaA-2F4TThkgfppoh73te-2F8hVCCpLyo4ogOlazq6yB3lIjzxtl9-2FHINEiE-3DhKZ2_A3nRQoop3xGTTNLdbAlLJepW4-2B01BbGCvG4GoqB50EI3HfrTAoC39fm2d5SBmHh3JPIq-2FPp6w92tz8fsVVUu1X-2BZ5sLeQH698rX-2B91nWFqXm99bkAVL5N74lZg8o3aMHKCCQQITAMsptG-2BfrQSofq8zXAALzqoAylZdO4BfHPJz-2BFaou2aEqwTcnNtva51EugQz42xtqCN7VYfEgoX1qug-3D-3D\r\n\r\n\r\nRegards,\r\nO&#39;Neil Real Estate\r\n\r\n\r\n\r\n\r\n~~~\r\nPowered by Tapi.\r\nTapi helps you organise repairs and maintenance in rentals.\r\n\r\nLearn more: https://url6277.tapihq.com/ls/c"
+    }
+  },
+  {
+    "id": "19c4b792d839cf23-1773384765861",
+    "msgId": "19c4b792d839cf23",
+    "scannedAt": "2026-03-13T06:52:45.861Z",
+    "emailDate": "Wed, 11 Feb 2026 06:52:35 +0000",
+    "from": "Jessica Gibbons <messaging-service@ipropertyexpress.com>",
+    "subject": "Routine Inspection Report | 61 Amanda Drive, Camillo 6111",
+    "type": "MAINTENANCE",
+    "property": "61 Amanda Drive, Camillo WA",
+    "propertyId": "camillo-wa",
+    "pm": "O'Neil Real Estate",
+    "period": null,
+    "hasPdf": false,
+    "attachments": [],
+    "status": "PENDING",
+    "needsReview": false,
+    "parseError": null,
+    "data": {
+      "urgency": "LOW",
+      "issue": "RE: ROUTINE INSPECTION REPORT",
+      "bodyText": "Dear Marel,\n\nRE: ROUTINE INSPECTION REPORT\n\n Property: \n 61 Amanda Drive, Camillo 6111\n \n\n Date of Inspection: \n Thu 05/02/2026\n \n\n Lease Commencement Date: \n Thu 12/06/2025 \n \n\n Lease Expiry Date: \n Wed 17/06/2026 \n \n\n Current Rental Amount: \n $670 per week\n \n\n Tenant Name/s: \n Noah Wheldon, Amy - Louise Wheldon \n\nAs a part of our management service to you, we regularly undertake a routine inspection of your property.\n\nPlease click the link below to view a recently completed inspection report online. We ask that you take the time to carefully read the comments within this report.\n\n Routine Inspection Report\n\nIf there are any maintenance items or recommendations raised within this report, please contact me with your instructions.\n\n Should you have any queries, please contact me on 08 9495 9999 to discuss.\n\n Yours sincerely,\n\n Jessica\n Gibbons\n \n\n O'Neil Real Estate\n\n P: 08 9495 9999\n\n E: pm5@oneilrealestate.com.au\n\n \n\n Disclaimer:\n \n\n This tenancy inspection report is a visual one carr"
+    }
+  },
+  {
+    "id": "19c4542e832df198-1773384766974",
+    "msgId": "19c4542e832df198",
+    "scannedAt": "2026-03-13T06:52:46.974Z",
+    "emailDate": "Tue, 10 Feb 2026 01:55:34 +0000",
+    "from": "Caitlin Wheeler <CaitlinWheeler@mcgrath.com.au>",
+    "subject": "RE: 13 President Street - application",
+    "type": "LEASE",
+    "property": "13 President Street, Townsville QLD",
+    "propertyId": "townsville-qld",
+    "pm": "McGrath",
+    "period": "February 2026",
+    "hasPdf": false,
+    "attachments": [
+      {
+        "filename": "image001.png",
+        "mimeType": "image/png",
+        "attachmentId": "ANGjdJ9WpFqY7DyJd8Zm1YwCpi7GoRGQSfeKdSbtm9LU2Ch-YAILC412ClzCuPPwP3Jhg8oiO5LD6oQcHJPzncjqSpzqwawNBhRKMEheHsGHcRhDe7HRq4dxGzNQnj9TP3IAN8_nojj9RE3SNGymGIlo00crCvjqa-DcaFbtOIbqYc1qjiyExlBuBkdE2joVzsGye4v_vTEJZubYhAfri4GK5Zs2K6rHVdisL201UEB4uG8ZwkIk4nxbUCcZOlQODW-Eekx8OBjsX9qjSAAzYQIBoI3AkKdVuEEWDhEsUu7sZf7Tp937Wr4w4fmcV-CLYi95JYBQP6a9pXrwc8C1CHrlk3FPqfvleX0UXwp2KEQ4JF_ZMFRa9Hy7s3250aK21U741TwfLSoHXK7Xl2Vi"
+      }
+    ],
+    "status": "PENDING",
+    "needsReview": false,
+    "parseError": null,
+    "data": {
+      "bodyText": "Great to hear 😊\r\n\r\nI’ll let the applicant know the good news. I’ll be in touch if anything changes.\r\n\r\nKind Regards\r\n\r\nCaitlin Wheeler\r\nProperty Manager\r\nMcGrath Estate Agents\r\nTownsville\r\nM     0439 674 141\r\nD      07 4781 0500\r\nW     mcgrath.com.au<http://mcgrath.com.au/>\r\n\r\nReport Maintenance Here<https://tapi.app/embed/bot/web?management_id=5c90068c-e792-47ba-afce-ce1f783933e8>\r\n\r\nIf you would like to pass on feedback in relation to the service you are receiving, please contact my manager via kayematheson@mcgrath.com.au<mailto:kayematheson@mcgrath.com.au>\r\nBeing a referral based business, the best compliment any client can give is the referral of a friend, family member or colleague who would also benefit from our service. If we can assist please contact me directly.\r\n[cid:image001.png@01DC9A84.29C8AC50]\r\n\r\n\r\nFrom: Admin User <admin@pencevcapital.com.au>\r\nSent: Friday, 6 February 2026 5:23 AM\r\nTo: Caitlin Wheeler <CaitlinWheeler@mcgrath.com.au>\r\nSubject: Re: 13 President Street - ",
+      "amounts": [
+        169.58,
+        469.59,
+        639.17,
+        500
+      ]
+    }
+  },
+  {
+    "id": "19c4500335401d18-1773384767555",
+    "msgId": "19c4500335401d18",
+    "scannedAt": "2026-03-13T06:52:47.555Z",
+    "emailDate": "Tue, 10 Feb 2026 00:42:44 +0000",
+    "from": "Sophia Mulkearns <messaging-service@ipropertyexpress.com>",
+    "subject": "Routine Inspection Report | 379 Prune St, Lavington 2641",
     "type": "MAINTENANCE",
     "property": "379 Prune St, Lavington NSW",
     "propertyId": "lavington-nsw",
@@ -64,8 +597,143 @@
     "parseError": null,
     "data": {
       "urgency": "LOW",
-      "issue": "Good Afternoon,I’m writing to discuss establishing regular gutter cleaning as part of the property’s annual preventative maintenance schedule as we are coming into Autumn.With the recent severe weather events we have experienced across the Albury–Wodonga region, we have seen a number of properties affected by roof leaks, water ingress, internal leaks, and associated damage. In many cases, these issues have been linked to blocked or overflowing gutters that were unable to manage the volume of rainfall during storms.When gutters are not cleaned regularly, debris such as leaves, dirt, and pine needles can accumulate and cause blockages. This can lead to water overflow, which may result in roof damage, fascia and soffit deterioration, foundation issues, leaks, and even mould growth. In colder months, clogged gutters can also contribute to ice dams, which can further damage roofing materials and interior ceilings.Scheduling professional gutter cleaning once per year (or twice, if needed based on surrounding trees) is a relatively low-cost preventative measure compared to the potential expense of repairing water-related damage. In most cases, gutter cleaning typically costs between $200.00 – $400.00, depending on the size of the property, roof access, and the amount of debris present.It is also important to note that some landlord insurance policies may not cover water damage if the cause is determined to be preventable maintenance issues, such as gutters being full or not maintained.&#160;Ensuring gutters are cleaned regularly can help reduce the risk of damage and potential insurance complications. Regular maintenance also helps extend the life of the roofing system and drainage infrastructure.We highly recommend that gutter cleaning be added to the property’s routine annual maintenance to ensure the home remains in good condition and to help prevent further maintenance issues in the future.Please don’t hesitate to reach out if you would like us to arrange a quotation for gutter cleaning at your property. We value working collaboratively with our landlords to proactively maintain their properties and protect the long-term condition of their investment&#160;Thank you for your time and consideration.Kind Regards,&#160;Diaz Willis&#160;Property Managers AssistantElite Property Management Agency02 6056 9688www.elitepmagency.com.au",
-      "bodyText": "Email\n\n \n \n \n \n \n \n \n \n \n \n | \n \n \n \n | \n \n \n \n | \n\n \n\n \n \n \n \n \n \n \n Good Afternoon,I’m writing to discuss establishing regular gutter cleaning as part of the property’s annual preventative maintenance schedule as we are coming into Autumn.With the recent severe weather events we have experienced across the Albury–Wodonga region, we have seen a number of properties affected by roof leaks, water ingress, internal leaks, and associated damage. In many cases, these issues have been linked to blocked or overflowing gutters that were unable to manage the volume of rainfall during storms.When gutters are not cleaned regularly, debris such as leaves, dirt, and pine needles can accumulate and cause blockages. This can lead to water overflow, which may result in roof damage, fascia and soffit deterioration, foundation issues, leaks, and even mould growth. In colder months, clogged gutters can also contribute to ice dams, which can further damage roofing materials and interior ceilings.Scheduli"
+      "issue": "RE: ROUTINE INSPECTION REPORT",
+      "bodyText": "Dear Marel,\n\nRE: ROUTINE INSPECTION REPORT\n\n Property: \n 379 Prune St, Lavington 2641\n \n\n Date of Inspection: \n Tue 10/02/2026\n \n\n Lease Commencement Date: \n Thu 04/12/2025 \n \n\n Lease Expiry Date: \n Wed 03/06/2026 \n \n\n Current Rental Amount: \n $550 per week\n \n\n Tenant Name/s: \n Luke Coughlan, Shannon Heffernan-Walsh \n\nAs a part of our management service to you, we regularly undertake a routine inspection of your property.\n\nPlease click the link below to view a recently completed inspection report online. We ask that you take the time to carefully read the comments within this report.\n\n Routine Inspection Report\n\nIf there are any maintenance items or recommendations raised within this report, please contact me with your instructions.\n\n Should you have any queries, please contact me on 02 6056 9688 to discuss.\n\n Yours sincerely,\n\n Sophia\n Mulkearns\n \n\n Elite Property Management Agency\n\n P: 02 6056 9688\n\n E: sophia@elitepmagency.com.au\n\n \n\n Disclaimer:\n \n\n This tenancy inspection report i"
+    }
+  },
+  {
+    "id": "19c3f9d0f02a4c5a-1773384768113",
+    "msgId": "19c3f9d0f02a4c5a",
+    "scannedAt": "2026-03-13T06:52:48.113Z",
+    "emailDate": "Sun, 8 Feb 2026 23:36:13 +0000",
+    "from": "John David <JohnDavid@mcgrath.com.au>",
+    "subject": "Listing Performance Reporting - 13 President Street",
+    "type": "LEASE",
+    "property": "13 President Street, Townsville QLD",
+    "propertyId": "townsville-qld",
+    "pm": "McGrath",
+    "period": null,
+    "hasPdf": true,
+    "attachments": [
+      {
+        "filename": "13-President-Street_2026-02-09.pdf",
+        "mimeType": "application/pdf",
+        "attachmentId": "ANGjdJ9oObJnzRu0CCglAvFGftzT0dfBzLn96GwtaAgUJktQqaqGb6lVvRhb6dCJrxVDJLQ67BTmnr1oWLiep7mnSQgtRmwp6eICRGpyg5IIik69v8BS20JehFgYXzuUbFWBsA7bwuYIxAve8T4KTE85YYV2azoTCpSSH2SFRVYryjIRKNkuUOwgDXJw3ts2I1JJODGONLN7BRyRZDiBNQj3al8kf338zyrWO4QcxmXRdzwg4V_MCNCpSAGfLBVgB20PAdT_mpjLluwc6SzFtMIMgAqmFfsd2FbBLkdEzS_rMxcADWVU9Z5hpd9gbTCR8Hbiqmf8daADPPkQP2dWhglztdO114H3XzCHdqm8A093CktgpjU4AfAj0UsWvkt43We7uwH4r_0yjwN9wXADApliJaGvh1Tp1l9E6xMs0w"
+      },
+      {
+        "filename": "DOMAIN_SLPR_13_President_Street_Kirwan_QLD_4817 (1).pdf",
+        "mimeType": "application/pdf",
+        "attachmentId": "ANGjdJ_DpNQdCAWAKak_WHwUNrOTGUk9wgoIH_DTWCvryGLkdul291G8cbR_Of_6RWrJlcih-ExFvnAKK32IpVa00YvQqu-8X_P59ANv6senzZ6fMLpUEJsQNL6wiJkidZX6q66ftzeBnMT4JwV3sT3yq1UL1ey9nXU0RxrVu5uHN3AC9p1OII01H7OomO-GzsVw3ujIMnnDUym6N7BW2ZeCNsLE2u7IwoHlNaZMk82Y9pOpY18qXVmX8eEfaVWsUPS5L2jjtGsxrKVnUTClUd5Q49Jw0olaTldVOJwzrpU9OZMAzKcWH2Ub03FcaKDBnIGueeUeA489FuJny6IyzsSPEGFcwJwQ4EckMt-2PrUD4sEB-6WwawoT2okGgXVcxp1lCFzvybywOnIo2jCpJqUDBjZc6HPkPuxg_vyFyg"
+      }
+    ],
+    "status": "PENDING",
+    "needsReview": false,
+    "parseError": null,
+    "data": {
+      "bodyText": "Hi Marel & Simmona,\r\n\r\nI hope you are well.\r\n\r\nI've been asked by Caitlin to send you this. Enclosed, you will find the latest listing reports from realestate.com.au and domain.com.au for your property.\r\n\r\nWithin each report, you will discover an overview of your property's views, enquiry statistics, and various other essential details.\r\n\r\nCaitlin will reach out to keep you updated on any applications or any other matters that might require discussion.\r\n\r\nHave a nice day!\r\n\r\n\r\n\r\n\r\n\r\n\r\nKind Regards,\r\n\r\n\r\nJohn David\r\n\r\nProperty Management Assistant\r\n\r\nMcGrath Estate Agents\r\n\r\nTownsville\r\n\r\nD      07 4781 0500\r\n\r\nW     mcgrath.com.au<http://mcgrath.com.au/>\r\n\r\n[Guiding you Home] <https://www.mcgrath.com.au>\r\n\r\n________________________________\r\nAttention:\r\nThe information contained in this message and or attachments is intended only for the person or entity to which it is addressed and may contain confidential and/or privileged material. Any review, retransmission, dissemination or other u",
+      "amounts": []
+    }
+  },
+  {
+    "id": "19c31882615230f3-1773384768675",
+    "msgId": "19c31882615230f3",
+    "scannedAt": "2026-03-13T06:52:48.675Z",
+    "emailDate": "Fri, 06 Feb 2026 05:58:51 +0000 (UTC)",
+    "from": "Elite PM Agency NSW <elitepmnsw@email.propertyme.com>",
+    "subject": "Job request for your property at 379 Prune St, Lavington NSW 2641",
+    "type": "MAINTENANCE",
+    "property": "379 Prune St, Lavington NSW",
+    "propertyId": "lavington-nsw",
+    "pm": "Elite PM Agency NSW",
+    "period": null,
+    "hasPdf": false,
+    "attachments": [],
+    "status": "PENDING",
+    "needsReview": false,
+    "parseError": null,
+    "data": {
+      "urgency": "HIGH",
+      "issue": "We were recently made aware of an item at your property that requires some maintenance, we've summarised the details below.",
+      "bodyText": "Email\n\n \n \n \n \n \n \n \n \n \n \n | \n \n \n \n | \n \n \n \n | \n\n \n\n \n \n \n \n \n \n \n Dear Marel-Kim Pencev & Simonna Chimone Pencev,\nWe were recently made aware of an item at your property that requires some maintenance, we've summarised the details below.\nURGENT: Air-Conditioner Replacement\n06/02/2026\nWello's Plumbing and Gas have attended the property and advised that the air-conditioner unit is in extremely poor condition. They believe the most economical solution is to replace the unit:\n\"Quote to supply and install new Coolair CPQ850, run new wire, install new controller, test operation, take away rubbish and old unit $3150+gst \"\nSM\nWe request your approval to attend this item if you could respond by return email.\nIf you have any questions or would like to discuss I can be reached on the numbers below.\nRegards\nSophia MulkearnsElite Property Management Agency02 6056 9688sophia@elitepmagency.com.auwww.elitepmagency.com.au\n&#160;\n\n | \n \n\n \n | \n \n\n \n\n \n \n \n \n \n | \n \n \n \n | \n \n \n \n | \n\n \n\n \n \n | \n \n\n "
+    }
+  },
+  {
+    "id": "19bfcb6ae26fe31a-1773384772099",
+    "msgId": "19bfcb6ae26fe31a",
+    "scannedAt": "2026-03-13T06:52:52.099Z",
+    "emailDate": "Mon, 26 Jan 2026 23:49:46 +0000",
+    "from": "Sophia Mulkearns <messaging-service@ipropertyexpress.com>",
+    "subject": "Routine Inspection Report | 7 Schultz Ct, West Wodonga 3690",
+    "type": "MAINTENANCE",
+    "property": "7 Schultz Ct, West Wodonga VIC",
+    "propertyId": "west-wodonga-vic",
+    "pm": "Elite PM Agency VIC",
+    "period": null,
+    "hasPdf": false,
+    "attachments": [],
+    "status": "PENDING",
+    "needsReview": false,
+    "parseError": null,
+    "data": {
+      "urgency": "LOW",
+      "issue": "RE: ROUTINE INSPECTION REPORT",
+      "bodyText": "Dear Simonna,\n\nRE: ROUTINE INSPECTION REPORT\n\n Property: \n 7 Schultz Ct, West Wodonga 3690\n \n\n Date of Inspection: \n Tue 27/01/2026\n \n\n Agreement Commencement Date: \n Fri 28/11/2025 \n \n\n Agreement Expiry Date: \n Fri 27/11/2026 \n \n\n Current Rental Amount: \n $490 per week\n \n\n Renter Name/s: \n Krystal Taylor, Nathan Thomson \n\nAs a part of our management service to you, we regularly undertake a routine inspection of your property.\n\nPlease click the link below to view a recently completed inspection report online. We ask that you take the time to carefully read the comments within this report.\n\n Routine Inspection Report\n\nIf there are any maintenance items or recommendations raised within this report, please contact me with your instructions.\n\n Should you have any queries, please contact me on 02 6056 9688 to discuss.\n\n Yours sincerely,\n\n Sophia\n Mulkearns\n \n\n Elite Property Management Agency\n\n P: 02 6056 9688\n\n E: sophia@elitepmagency.com.au\n\n \n\n Disclaimer:\n \n\n This tenancy inspection rep"
+    }
+  },
+  {
+    "id": "19be307afee0741f-1773384772667",
+    "msgId": "19be307afee0741f",
+    "scannedAt": "2026-03-13T06:52:52.667Z",
+    "emailDate": "Thu, 22 Jan 2026 00:08:08 +0000",
+    "from": "myhouse Realty Toowoomba <emaildelivery@console.com.au>",
+    "subject": "PUBLIC HOLIDAY - OFFICE CLOSURE",
+    "type": "LEASE",
+    "property": "36 Catalina Dr, Wilsonton QLD",
+    "propertyId": "wilsonton-qld",
+    "pm": "myhouse Realty",
+    "period": null,
+    "hasPdf": false,
+    "attachments": [],
+    "status": "PENDING",
+    "needsReview": false,
+    "parseError": null,
+    "data": {
+      "bodyText": "Good morning,\r\n\r\nOur office will be shut for the Public Holiday on Monday 26/01/2026.\r\nOur office will re-open on Tuesday 27/01/2026 at 8:30am.\r\n\r\nOur after hours phone will still be monitored for emergencies only.\r\n\r\nAll emails will be responded to on Tuesday morning.\r\n\r\nThank you for your understanding!\r\n\r\n*Please do not respond to this automated email*\r\n\r\nAssistant Property Manager/Sales Administration Support\r\n\r\nPh: (07) 4635 2135\r\nFax: (07) 4635 2126\r\nrentals@myhousetoowoomba.com.au\r\nhttps://email.console.com.au/c/eJxMjM1uqzAUhJ_G3gUdn_h34cW97aaPcbAdBQljCxwob18hkrS7-fTNTPRByp6AJy-MdiBBWsvvXger7I1sAGnQ9YmUdWBVQCtUjzHwwSOgBoEIABZs565O34REgT1FIYlJCGVaypi6UHJHDz76bdu6vN_LY0lzorHtrZStlNzTqzN7inmYmISappDWQHVoNL5083Uuka8e-ffleX-J1Mgz858hpmlliOz678S21_RkxGN5AH4wxInyr6Faj2w-T5cyDeNXfGthwBkhr-q9XkKp6U_Daqf0efETAAD__3IiYDI\r\n227b West Street, Toowoomba QLD 4350 (corner of West St and Drayton Road) \r\n  Like us on Facebook! \r\n    “no sale, no fee, that’s the myhouse guarantee”     \r\n \r\nmyhouse ",
+      "amounts": []
+    }
+  },
+  {
+    "id": "19bddda3c9926475-1773384773730",
+    "msgId": "19bddda3c9926475",
+    "scannedAt": "2026-03-13T06:52:53.730Z",
+    "emailDate": "Wed, 21 Jan 2026 00:00:18 +0000",
+    "from": "Caitlin Wheeler <CaitlinWheeler@mcgrath.com.au>",
+    "subject": "13 President Street - Comparative Market report",
+    "type": "MAINTENANCE",
+    "property": "13 President Street, Townsville QLD",
+    "propertyId": "townsville-qld",
+    "pm": "McGrath",
+    "period": null,
+    "hasPdf": true,
+    "attachments": [
+      {
+        "filename": "image001.png",
+        "mimeType": "image/png",
+        "attachmentId": "ANGjdJ9h-7CmUiNXOpoh-Wbvr-SKpIRhE6tTZiXqkfYRUAy1VquoNiQV8zuHdfLvrmeXgUxBmN4pAtEOjrrKGkfdjqtS1WsZrQ3ct4ovpOUvi4-KujJP0BKeYLDmztd5GuEtmob4sInJnQX63InpBAwtM0NKr6rq6uIprA5122DMTM1IACMywOp54rOn87bcsqKeJvliTdEynwltNnF2iyu0Zy1-wv7SyXYzWoQNvnCZxoIsqCXpmYenyRsnN1KXKBmCfGiO1eo82utdXmhRoSSwlWp3UmfdsMYKXOd9Y-AM3ElnwuqOTd1O3KxRO7sZZjg1phFu59elxxBT1Fs4IchzWOYjSh1EZSqRFynP7RS7J2GsjbNbctYkgNji0fFKST1yGJAaKxCVlv2n1_15"
+      },
+      {
+        "filename": "RENTAL-Report-13-PRESIDENT-STREET-KIRWAN-QLD-4817-016615cb-cf2f-4c9c-a339-4f3d063b6b09.pdf",
+        "mimeType": "application/pdf",
+        "attachmentId": "ANGjdJ-Nyz1QCLl15Ewgpj9hZACr7k7E26AuwDYbsxL4n2mfhT5uqHDFT5WcXm7kpZaltAfs3wbrPPswLn2NKGF_WFL2wTF5ScLM8Mlf5hR0V4OWZniPDQ3WwB2uZ1En_fqGo9uRP3mNNIIvf68-FpR0EwMZik0NNF4-O4eDsw5d9V9VkTL2IY5NLCnORgur2ZCPt8a8PHajIrdroVR-P15ibGlj5bTlmXzlcrnMxn-hnSRpYgbm8drqo51Zw5IH5ehjnBZALMfJ_WkBp4cNOlMhVTsUMyxxzZ_6JJEPXXxaTjuJLU_TobIqf-GpS_lffmYfb7UiD3lR3RqNn0nHLZnOiakpAuBlBoklIRFb73x1jLknOLWDqD4I47AyM8WeIon1O9dbpuu_Xnz4Pm23MGtcTqrf28Eb_MJcAA01tw"
+      }
+    ],
+    "status": "PENDING",
+    "needsReview": false,
+    "parseError": null,
+    "data": {
+      "urgency": "LOW",
+      "issue": "Report Maintenance Here<https://tapi.app/embed/bot/web?management_id=5c90068c-e792-47ba-afce-ce1f783933e8>",
+      "bodyText": "Hi Marel\r\n\r\nKaye has asked me to supply you with a current comparative market report, as attached.\r\n\r\nShe will be giving you a call back shortly as well.\r\n\r\nLet me know if you need anything further 😊\r\n\r\nKind Regards\r\n\r\nCaitlin Wheeler\r\nProperty Manager\r\nMcGrath Estate Agents\r\nTownsville\r\nM     0439 674 141\r\nD      07 4781 0500\r\nW     mcgrath.com.au<http://mcgrath.com.au/>\r\n\r\nReport Maintenance Here<https://tapi.app/embed/bot/web?management_id=5c90068c-e792-47ba-afce-ce1f783933e8>\r\n\r\nIf you would like to pass on feedback in relation to the service you are receiving, please contact my manager via kayematheson@mcgrath.com.au<mailto:kayematheson@mcgrath.com.au>\r\nBeing a referral based business, the best compliment any client can give is the referral of a friend, family member or colleague who would also benefit from our service. If we can assist please contact me directly.\r\n[cid:image001.png@01DC8ABC.8CA87FD0]\r\n\r\n\r\n\r\n[Guiding you Home] <https://www.mcgrath.com.au>\r\n\r\n_____________________"
     }
   }
 ]
