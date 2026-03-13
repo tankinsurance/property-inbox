@@ -7,7 +7,7 @@
     "start": "2026-03-10",
     "expiry": "2026-09-16",
     "weeklyRent": 500,
-    "driveUrl": "https://drive.google.com/file/d/1P61jpvKcqhwTcGPwk26-xxRAHh_dt9bo/view?usp=drivesdk",
+    "driveUrl": "https://drive.google.com/file/d/106o1sc-QM6Dft9jej2wF7bBtEMxzXOkV/view?usp=drivesdk",
     "fileName": "2025-09-02-13_President_Street,_Kirwan_QLD_4817_owner.pdf"
   },
   "lavington-nsw": {
@@ -42,7 +42,9 @@
     "weeklyRent": 500,
     "pendingRent": 530,
     "driveUrl": "https://drive.google.com/file/d/17awqf55-wMjsVRxFplENv0YyMC257XoN/view?usp=drivesdk",
-    "fileName": "2025-04-29-Signed lease agreement - 36 Catalina - 29.4.25.pdf"
+    "fileName": "2025-04-29-Signed lease agreement - 36 Catalina - 29.4.25.pdf",
+    "actionStatus": "Awaiting tenant response — renewal at /wk",
+    "actionStatusType": "pending"
   },
   "camillo-wa": {
     "propertyId": "camillo-wa",
