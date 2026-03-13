@@ -451,7 +451,7 @@ html, body {
 
   // ── Constants ──
   const DATA_URL = 'https://raw.githubusercontent.com/tankinsurance/property-inbox/main/queue.json';
-  const LS_KEY = 'pc-inbox-status';
+  const API_URL = 'https://property-inbox-api.marel-e1f.workers.dev';
 
   const PROPERTY_MAP = {
     'camillo-wa':        { name: 'Camillo WA',        address: '61 Amanda Drive, Camillo WA' },
@@ -491,20 +491,37 @@ html, body {
     return d.innerHTML;
   }
 
-  function getStatusMap() {
-    try { return JSON.parse(localStorage.getItem(LS_KEY)) || {}; } catch { return {}; }
+  // Status map loaded from Worker KV on startup
+  let _statusMap = {};
+
+  async function fetchStatusMap() {
+    try {
+      const res = await fetch(API_URL + '/status');
+      if (res.ok) _statusMap = await res.json();
+    } catch (e) {
+      // Fall back to empty map — UI still works, just won't have persisted statuses
+      console.warn('Status API unavailable, using session memory:', e.message);
+    }
   }
 
-  function setStatus(msgId, status) {
-    const map = getStatusMap();
-    if (status === 'PENDING') { delete map[msgId]; }
-    else { map[msgId] = status; }
-    localStorage.setItem(LS_KEY, JSON.stringify(map));
+  async function setStatus(msgId, status) {
+    if (status === 'PENDING') { delete _statusMap[msgId]; }
+    else { _statusMap[msgId] = status; }
+    try {
+      await fetch(API_URL + '/status', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ msgId, status })
+      });
+    } catch (e) {
+      console.warn('Status save failed (offline?):', e.message);
+    }
   }
 
   function resolveStatus(item) {
-    const map = getStatusMap();
-    if (map[item.msgId]) return map[item.msgId];
+    // REMITTANCE → always auto-done (processed in background)
+    if (item.type === 'REMITTANCE') return 'DONE';
+    if (_statusMap[item.msgId]) return _statusMap[item.msgId];
     if (item.needsReview) return 'NEEDS_DECISION';
     return 'PENDING';
   }
@@ -770,9 +787,9 @@ html, body {
 
     // Bind action buttons
     document.getElementById('detail-actions').querySelectorAll('.action-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
+      btn.addEventListener('click', async function() {
         const action = this.getAttribute('data-action');
-        setStatus(msgId, action);
+        await setStatus(msgId, action);
         closeDetail();
         render();
       });
@@ -862,9 +879,13 @@ html, body {
   // ── Fetch Data ──
   async function loadData() {
     try {
-      const res = await fetch(DATA_URL + '?_=' + Date.now());
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      const data = await res.json();
+      // Load queue data + persisted statuses in parallel
+      const [queueRes] = await Promise.all([
+        fetch(DATA_URL + '?_=' + Date.now()),
+        fetchStatusMap()
+      ]);
+      if (!queueRes.ok) throw new Error('HTTP ' + queueRes.status);
+      const data = await queueRes.json();
       items = Array.isArray(data) ? data : (data.items || data.queue || []);
       // Sort newest first
       items.sort((a, b) => new Date(b.emailDate || b.scannedAt) - new Date(a.emailDate || a.scannedAt));
