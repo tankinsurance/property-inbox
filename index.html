@@ -1258,6 +1258,7 @@ html, body {
       { label: 'Annual Income', value: weeklyRent ? '$' + annualIncome.toLocaleString() : '—', sub: 'gross estimate' },
       { label: 'Purchase Price', value: fmtCurrency(purchasePrice), sub: pd.purchaseDate ? formatLeaseDate(pd.purchaseDate) : 'not set' },
       { label: 'Valuation', value: valuation ? fmtCurrency(valuation) : '—', sub: valuation ? (pd.valuationLow && pd.valuationHigh ? '$' + Math.round(pd.valuationLow/1000) + 'k–$' + Math.round(pd.valuationHigh/1000) + 'k range' : pd.valuationSource || '') : 'not set' },
+      { label: 'Yield on Purchase', value: grossYield ? grossYield + '%' : '—', sub: grossYield ? 'annual rent / purchase price' : 'data missing', subColor: grossYield ? (parseFloat(grossYield) >= 6 ? '#2ec98e' : parseFloat(grossYield) >= 5 ? '#f0a020' : null) : null },
     ];
     html += `<div class="pds-stat-grid">`;
     statCards.forEach(sc => {
