@@ -1251,11 +1251,13 @@ html, body {
     </div>`;
 
     // ── Stat Cards ──
+    const marketRent = pd.marketRent;
+    const rentVsMarket = marketRent && weeklyRent ? weeklyRent - marketRent : null;
     const statCards = [
-      { label: 'Weekly Rent', value: weeklyRent ? '$' + weeklyRent + '/wk' : '—', sub: 'current' },
+      { label: 'Weekly Rent', value: weeklyRent ? '$' + weeklyRent + '/wk' : '—', sub: marketRent ? (rentVsMarket >= 0 ? '✓ at market' : '$' + Math.abs(rentVsMarket) + ' below market $' + marketRent) : 'current', subColor: rentVsMarket !== null ? (rentVsMarket >= 0 ? '#2ec98e' : '#f0a020') : null },
       { label: 'Annual Income', value: weeklyRent ? '$' + annualIncome.toLocaleString() : '—', sub: 'gross estimate' },
       { label: 'Purchase Price', value: fmtCurrency(purchasePrice), sub: pd.purchaseDate ? formatLeaseDate(pd.purchaseDate) : 'not set' },
-      { label: valuation ? 'Valuation' : 'Gross Yield', value: valuation ? fmtCurrency(valuation) : (grossYield ? grossYield + '%' : '—'), sub: valuation ? (pd.valuationDate ? formatLeaseDate(pd.valuationDate) : 'estimate') : 'yield on cost' },
+      { label: 'Valuation', value: valuation ? fmtCurrency(valuation) : '—', sub: valuation ? (pd.valuationLow && pd.valuationHigh ? '$' + Math.round(pd.valuationLow/1000) + 'k–$' + Math.round(pd.valuationHigh/1000) + 'k range' : pd.valuationSource || '') : 'not set' },
     ];
     html += `<div class="pds-stat-grid">`;
     statCards.forEach(sc => {
@@ -1263,7 +1265,7 @@ html, body {
       html += `<div class="pds-stat-card">
         <div class="pds-stat-label">${esc(sc.label)}</div>
         <div class="pds-stat-value" style="${isPending ? 'color:#C4CDDF' : ''}">${esc(sc.value)}</div>
-        <div class="pds-stat-sub">${esc(sc.sub)}</div>
+        <div class="pds-stat-sub" style="${sc.subColor ? 'color:' + sc.subColor : ''}">${esc(sc.sub)}</div>
       </div>`;
     });
     if (capitalGrowth) {

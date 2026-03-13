@@ -1,51 +1,77 @@
 {
   "camillo-wa": {
-    "purchasePrice": null,
-    "purchaseDate": null,
-    "valuation": null,
-    "valuationDate": null,
+    "purchasePrice": 430000,
+    "purchaseDate": "2023-03-01",
+    "valuation": 830000,
+    "valuationLow": 710000,
+    "valuationHigh": 950000,
+    "valuationDate": "2026-03-02",
+    "valuationSource": "Domain Insight",
+    "marketRent": 700,
     "rentHistory": [
-      { "date": "2024-06-11", "amount": 650, "note": "Lease start" },
-      { "date": "2025-06-11", "amount": 670, "note": "Renewal increase" }
-    ]
-  },
-  "west-wodonga-vic": {
-    "purchasePrice": null,
-    "purchaseDate": null,
-    "valuation": null,
-    "valuationDate": null,
-    "rentHistory": [
-      { "date": "2024-11-20", "amount": 490, "note": "Lease start" }
-    ]
-  },
-  "wilsonton-qld": {
-    "purchasePrice": null,
-    "purchaseDate": null,
-    "valuation": null,
-    "valuationDate": null,
-    "rentHistory": [
-      { "date": "2024-04-28", "amount": 480, "note": "Lease start" },
-      { "date": "2025-04-28", "amount": 500, "note": "Renewal increase" },
-      { "date": "2026-04-28", "amount": 530, "note": "Pending renewal" }
+      { "date": "2023-05-01", "amount": 520, "note": "Lease start" },
+      { "date": "2024-06-11", "amount": 650, "note": "Renewal increase" },
+      { "date": "2025-06-11", "amount": 670, "note": "Current" }
     ]
   },
   "lavington-nsw": {
-    "purchasePrice": null,
-    "purchaseDate": null,
-    "valuation": null,
-    "valuationDate": null,
+    "purchasePrice": 437000,
+    "purchaseDate": "2021-12-01",
+    "valuation": 650000,
+    "valuationLow": 560000,
+    "valuationHigh": 740000,
+    "valuationDate": "2026-03-02",
+    "valuationSource": "Domain Insight",
+    "marketRent": 595,
     "rentHistory": [
-      { "date": "2024-05-16", "amount": 530, "note": "Lease start" },
-      { "date": "2025-05-16", "amount": 550, "note": "Renewal increase" }
+      { "date": "2023-09-01", "amount": 520, "note": "Lease start" },
+      { "date": "2024-05-01", "amount": 540, "note": "Renewal" },
+      { "date": "2025-05-16", "amount": 550, "note": "Current" }
+    ]
+  },
+  "west-wodonga-vic": {
+    "purchasePrice": 430000,
+    "purchaseDate": "2022-06-01",
+    "valuation": 560000,
+    "valuationLow": 480000,
+    "valuationHigh": 640000,
+    "valuationDate": "2026-03-02",
+    "valuationSource": "Domain Insight",
+    "marketRent": 520,
+    "rentHistory": [
+      { "date": "2022-09-01", "amount": 460, "note": "Lease start" },
+      { "date": "2023-11-01", "amount": 470, "note": "Renewal" },
+      { "date": "2024-11-20", "amount": 490, "note": "Current" }
+    ]
+  },
+  "wilsonton-qld": {
+    "purchasePrice": 435000,
+    "purchaseDate": "2022-03-01",
+    "valuation": 770000,
+    "valuationLow": 660000,
+    "valuationHigh": 880000,
+    "valuationDate": "2026-03-02",
+    "valuationSource": "Domain Insight",
+    "marketRent": 540,
+    "rentHistory": [
+      { "date": "2022-04-01", "amount": 460, "note": "Lease start" },
+      { "date": "2023-04-01", "amount": 470, "note": "Renewal" },
+      { "date": "2024-04-28", "amount": 480, "note": "Renewal" },
+      { "date": "2025-04-28", "amount": 500, "note": "Current" },
+      { "date": "2026-04-28", "amount": 530, "note": "Pending renewal" }
     ]
   },
   "townsville-qld": {
-    "purchasePrice": null,
-    "purchaseDate": null,
-    "valuation": null,
-    "valuationDate": null,
+    "purchasePrice": 534000,
+    "purchaseDate": "2025-01-01",
+    "valuation": 640000,
+    "valuationLow": 550000,
+    "valuationHigh": 730000,
+    "valuationDate": "2026-03-02",
+    "valuationSource": "Domain Insight",
+    "marketRent": 500,
     "rentHistory": [
-      { "date": "2025-09-16", "amount": 500, "note": "Lease start" }
+      { "date": "2025-09-16", "amount": 500, "note": "Current" }
     ]
   }
 }
