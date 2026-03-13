@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Property Inbox — Pencev Capital</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --surface: #161b27;
+      --surface-2: #1e2535;
+      --border: #2a3349;
+      --border-hover: #3d4f72;
+      --text: #e8eaf0;
+      --text-muted: #7b8ab0;
+      --text-dim: #4a5578;
+      --accent: #4f7df7;
+      --accent-soft: rgba(79,125,247,0.12);
+
+      --col-inbox: #4f7df7;
+      --col-decision: #f0a500;
+      --col-progress: #9b59f7;
+      --col-done: #27c27b;
+
+      --badge-maintenance: #e05c4a;
+      --badge-remittance: #27c27b;
+      --badge-lease: #4f7df7;
+      --badge-other: #7b8ab0;
+
+      --urgency-high: #e05c4a;
+      --urgency-med: #f0a500;
+      --urgency-low: #27c27b;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100vh;
+      overflow-x: auto;
+    }
+
+    /* ── Header ── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 32px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-left { display: flex; align-items: center; gap: 16px; }
+
+    .wordmark {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .header-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--border);
+    }
+
+    .page-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    #last-updated {
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .btn-refresh {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-refresh:hover {
+      border-color: var(--border-hover);
+      color: var(--text);
+      background: var(--surface);
+    }
+    .btn-refresh svg { width: 14px; height: 14px; }
+
+    /* ── Filter bar ── */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      flex-wrap: wrap;
+    }
+
+    .filter-label {
+      font-size: 12px;
+      color: var(--text-dim);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-right: 4px;
+    }
+
+    .filter-chip {
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .filter-chip:hover { border-color: var(--border-hover); color: var(--text); }
+    .filter-chip.active { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+
+    /* ── Board ── */
+    .board-wrap {
+      padding: 24px 32px;
+      overflow-x: auto;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(280px, 1fr));
+      gap: 16px;
+      min-width: 1100px;
+    }
+
+    /* ── Column ── */
+    .column {
+      background: var(--surface);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      min-height: 200px;
+    }
+
+    .col-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .col-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .col-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .col-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text);
+    }
+
+    .col-count {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: var(--surface-2);
+      color: var(--text-muted);
+    }
+
+    .col-body {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .col-empty {
+      padding: 32px 16px;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 13px;
+    }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      transition: all 0.15s;
+      cursor: default;
+      position: relative;
+    }
+    .card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .card-property {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .card-address {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    .badges {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 2px 7px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .badge-type-MAINTENANCE { background: rgba(224,92,74,0.15); color: var(--badge-maintenance); border: 1px solid rgba(224,92,74,0.3); }
+    .badge-type-REMITTANCE  { background: rgba(39,194,123,0.12); color: var(--badge-remittance);  border: 1px solid rgba(39,194,123,0.25); }
+    .badge-type-LEASE       { background: rgba(79,125,247,0.12); color: var(--badge-lease);       border: 1px solid rgba(79,125,247,0.25); }
+    .badge-type-OTHER       { background: rgba(123,138,176,0.12); color: var(--badge-other);      border: 1px solid rgba(123,138,176,0.25); }
+
+    .badge-urgency-HIGH { background: rgba(224,92,74,0.15); color: var(--urgency-high); border: 1px solid rgba(224,92,74,0.3); }
+    .badge-urgency-MED  { background: rgba(240,165,0,0.12); color: var(--urgency-med);  border: 1px solid rgba(240,165,0,0.25); }
+    .badge-urgency-LOW  { background: rgba(39,194,123,0.10); color: var(--urgency-low); border: 1px solid rgba(39,194,123,0.25); }
+
+    .card-subject {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-weight: 500;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-desc {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.5;
+    }
+
+    .card-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .card-date {
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    .card-remittance {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .remit-item {
+      font-size: 11px;
+    }
+
+    .remit-label { color: var(--text-dim); }
+    .remit-income { color: var(--badge-remittance); font-weight: 600; }
+    .remit-expense { color: var(--badge-maintenance); font-weight: 600; }
+
+    .card-flags {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .flag-chip {
+      font-size: 10px;
+      padding: 1px 7px;
+      border-radius: 3px;
+      background: rgba(240,165,0,0.12);
+      color: var(--urgency-med);
+      border: 1px solid rgba(240,165,0,0.25);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .needs-review-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--urgency-med);
+      display: inline-block;
+      margin-left: 4px;
+      flex-shrink: 0;
+    }
+
+    /* ── Loading / Error ── */
+    .state-overlay {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 300px;
+      gap: 12px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .spinner {
+      width: 28px;
+      height: 28px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .error-msg { color: var(--badge-maintenance); font-size: 13px; text-align: center; max-width: 400px; }
+
+    /* ── Stats bar ── */
+    .stats-bar {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 10px 32px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      font-size: 12px;
+      color: var(--text-dim);
+      flex-wrap: wrap;
+    }
+    .stat { display: flex; align-items: center; gap: 6px; }
+    .stat-val { color: var(--text-muted); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <span class="wordmark">Pencev Capital</span>
+    <div class="header-divider"></div>
+    <span class="page-title">Property Inbox</span>
+  </div>
+  <div class="header-right">
+    <span id="last-updated">Loading...</span>
+    <button class="btn-refresh" onclick="loadData()">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M13.5 8A5.5 5.5 0 1 1 8 2.5c1.8 0 3.4.87 4.4 2.2"/>
+        <polyline points="10 1 13.5 4.5 10 8"/>
+      </svg>
+      Refresh
+    </button>
+  </div>
+</header>
+
+<div class="filter-bar">
+  <span class="filter-label">Filter</span>
+  <button class="filter-chip active" data-filter="ALL" onclick="setFilter('ALL', this)">All</button>
+  <button class="filter-chip" data-filter="MAINTENANCE" onclick="setFilter('MAINTENANCE', this)">Maintenance</button>
+  <button class="filter-chip" data-filter="REMITTANCE" onclick="setFilter('REMITTANCE', this)">Remittance</button>
+  <button class="filter-chip" data-filter="LEASE" onclick="setFilter('LEASE', this)">Lease</button>
+  <button class="filter-chip" data-filter="OTHER" onclick="setFilter('OTHER', this)">Other</button>
+  <button class="filter-chip" data-filter="REVIEW" onclick="setFilter('REVIEW', this)">Needs Review</button>
+</div>
+
+<div id="stats-bar" class="stats-bar" style="display:none"></div>
+
+<div class="board-wrap" id="board-wrap">
+  <div class="state-overlay">
+    <div class="spinner"></div>
+    <span>Loading property inbox...</span>
+  </div>
+</div>
+
+<script>
+  // ── Config ──────────────────────────────────────────────────────────────────
+  // Raw URL for queue.json from GitHub (public repo, main branch)
+  const DATA_URL = 'https://raw.githubusercontent.com/tankinsurance/property-inbox/main/queue.json';
+
+  // Property ID → display name mapping
+  const PROPERTY_NAMES = {
+    'camillo-wa':       { name: 'Camillo WA',       address: '61 Amanda Drive, Camillo WA' },
+    'west-wodonga-vic': { name: 'West Wodonga VIC',  address: '7 Schultz Ct, West Wodonga VIC' },
+    'wilsonton-qld':    { name: 'Wilsonton QLD',     address: '36 Catalina Dr, Wilsonton QLD' },
+    'lavington-nsw':    { name: 'Lavington NSW',     address: '379 Prune St, Lavington NSW' },
+    'kirwan-qld':       { name: 'Kirwan QLD',        address: '13 President St, Kirwan (Townsville) QLD' },
+  };
+
+  // Status → column mapping
+  const STATUS_COLUMNS = {
+    'PENDING':          'inbox',
+    'NEEDS_DECISION':   'decision',
+    'IN_PROGRESS':      'progress',
+    'DONE':             'done',
+  };
+
+  const COLUMNS = [
+    { id: 'inbox',    label: 'Inbox',          color: '#4f7df7' },
+    { id: 'decision', label: 'Needs Decision', color: '#f0a500' },
+    { id: 'progress', label: 'In Progress',    color: '#9b59f7' },
+    { id: 'done',     label: 'Done',           color: '#27c27b' },
+  ];
+
+  let allItems = [];
+  let activeFilter = 'ALL';
+
+  // ── Data loading ─────────────────────────────────────────────────────────────
+  async function loadData() {
+    const wrap = document.getElementById('board-wrap');
+    wrap.innerHTML = '<div class="state-overlay"><div class="spinner"></div><span>Loading...</span></div>';
+    document.getElementById('stats-bar').style.display = 'none';
+
+    try {
+      // Cache-bust so refresh always gets fresh data
+      const res = await fetch(DATA_URL + '?_=' + Date.now());
+      if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+      allItems = await res.json();
+      render();
+      const now = new Date();
+      document.getElementById('last-updated').textContent =
+        'Updated ' + now.toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' });
+    } catch (err) {
+      wrap.innerHTML = `
+        <div class="state-overlay">
+          <div class="error-msg">
+            <strong>Could not load queue data</strong><br/>
+            ${escHtml(err.message)}<br/><br/>
+            <small>Ensure queue.json is committed to the repo and the repo is public.</small>
+          </div>
+        </div>`;
+    }
+  }
+
+  // ── Filter ───────────────────────────────────────────────────────────────────
+  function setFilter(f, btn) {
+    activeFilter = f;
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+  }
+
+  function filtered() {
+    if (activeFilter === 'ALL') return allItems;
+    if (activeFilter === 'REVIEW') return allItems.filter(i => i.needsReview);
+    return allItems.filter(i => i.type === activeFilter);
+  }
+
+  // ── Render ───────────────────────────────────────────────────────────────────
+  function render() {
+    const items = filtered();
+
+    // Stats
+    const statsBar = document.getElementById('stats-bar');
+    const total = allItems.length;
+    const highUrgency = allItems.filter(i => i.type === 'MAINTENANCE' && i.data?.urgency === 'HIGH').length;
+    const needsReview = allItems.filter(i => i.needsReview).length;
+    statsBar.style.display = 'flex';
+    statsBar.innerHTML = `
+      <span class="stat">Total items: <span class="stat-val">${total}</span></span>
+      <span class="stat">High urgency: <span class="stat-val" style="color:var(--urgency-high)">${highUrgency}</span></span>
+      <span class="stat">Needs review: <span class="stat-val" style="color:var(--urgency-med)">${needsReview}</span></span>
+      <span class="stat">Showing: <span class="stat-val">${items.length}</span></span>
+    `;
+
+    // Group into columns
+    const cols = {};
+    COLUMNS.forEach(c => cols[c.id] = []);
+    items.forEach(item => {
+      const colId = STATUS_COLUMNS[item.status] || 'inbox';
+      cols[colId].push(item);
+    });
+
+    const wrap = document.getElementById('board-wrap');
+    wrap.innerHTML = '';
+    const board = document.createElement('div');
+    board.className = 'board';
+
+    COLUMNS.forEach(col => {
+      const cards = cols[col.id];
+      const colEl = document.createElement('div');
+      colEl.className = 'column';
+      colEl.innerHTML = `
+        <div class="col-header">
+          <div class="col-title-row">
+            <div class="col-dot" style="background:${col.color}"></div>
+            <span class="col-title">${escHtml(col.label)}</span>
+          </div>
+          <span class="col-count">${cards.length}</span>
+        </div>
+        <div class="col-body">
+          ${cards.length === 0
+            ? '<div class="col-empty">No items</div>'
+            : cards.map(renderCard).join('')}
+        </div>
+      `;
+      board.appendChild(colEl);
+    });
+
+    wrap.appendChild(board);
+  }
+
+  // ── Card rendering ───────────────────────────────────────────────────────────
+  function renderCard(item) {
+    const propInfo = PROPERTY_NAMES[item.propertyId] || {};
+    const displayName = propInfo.name || item.property || item.propertyId || 'Unknown Property';
+    const address = propInfo.address || item.property || '';
+    const type = item.type || 'OTHER';
+    const date = formatDate(item.emailDate || item.receivedAt || item.scannedAt);
+    const desc = getDesc(item);
+    const flags = item.flags || [];
+
+    let extraHtml = '';
+
+    // Urgency badge (maintenance)
+    let urgencyBadge = '';
+    if (type === 'MAINTENANCE' && item.data?.urgency) {
+      urgencyBadge = `<span class="badge badge-urgency-${item.data.urgency}">${item.data.urgency}</span>`;
+    }
+
+    // Remittance totals
+    if (type === 'REMITTANCE' && item.data?.transactions) {
+      const txns = item.data.transactions;
+      const income   = txns.filter(t => t.amount > 0).reduce((s, t) => s + t.amount, 0);
+      const expenses = txns.filter(t => t.amount < 0).reduce((s, t) => s + Math.abs(t.amount), 0);
+      extraHtml = `
+        <div class="card-remittance">
+          <span class="remit-item"><span class="remit-label">Income </span><span class="remit-income">${formatMoney(income)}</span></span>
+          <span class="remit-item"><span class="remit-label">Expenses </span><span class="remit-expense">${formatMoney(expenses)}</span></span>
+        </div>`;
+    }
+
+    // Flags
+    const flagsHtml = flags.length > 0
+      ? `<div class="card-flags">${flags.map(f => `<span class="flag-chip">${escHtml(f)}</span>`).join('')}</div>`
+      : '';
+
+    const reviewDot = item.needsReview ? '<span class="needs-review-dot" title="Needs review"></span>' : '';
+
+    return `
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <div class="card-property">${escHtml(displayName)}${reviewDot}</div>
+            ${address && address !== displayName ? `<div class="card-address">${escHtml(address)}</div>` : ''}
+          </div>
+          <div class="badges">
+            <span class="badge badge-type-${type}">${type}</span>
+            ${urgencyBadge}
+          </div>
+        </div>
+        <div class="card-subject">${escHtml(item.subject || '')}</div>
+        ${extraHtml}
+        ${desc ? `<div class="card-desc">${escHtml(desc)}</div>` : ''}
+        <div class="card-meta-row">
+          <span class="card-date">${date}</span>
+        </div>
+        ${flagsHtml}
+      </div>`;
+  }
+
+  // ── Helpers ──────────────────────────────────────────────────────────────────
+  function getDesc(item) {
+    const d = item.data || {};
+    if (item.type === 'MAINTENANCE' && d.issue) {
+      // Strip HTML entities and get first ~150 chars
+      const plain = d.issue.replace(/&#\d+;/g, ' ').replace(/<[^>]+>/g, '').trim();
+      return plain.length > 180 ? plain.slice(0, 180) + '...' : plain;
+    }
+    if (item.type === 'REMITTANCE' && d.period) {
+      return `Statement period: ${d.period}`;
+    }
+    return '';
+  }
+
+  function formatDate(str) {
+    if (!str) return '';
+    try {
+      const d = new Date(str);
+      if (isNaN(d)) return str;
+      return d.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' });
+    } catch { return str; }
+  }
+
+  function formatMoney(n) {
+    return '$' + n.toLocaleString('en-AU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function escHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  // ── Init ─────────────────────────────────────────────────────────────────────
+  loadData();
+</script>
+</body>
+</html>
