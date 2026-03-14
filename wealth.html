@@ -44,21 +44,21 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 .btn-update:hover { background: rgba(255,255,255,0.18); color: #fff; }
 
 /* Stat bar */
-.hero-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: rgba(255,255,255,0.08); border-radius: 10px; overflow: hidden; margin-bottom: 16px; }
-.hero-stat { padding: 12px 16px; background: rgba(255,255,255,0.04); }
-.hero-stat-label { font-size: 10px; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 4px; }
-.hero-stat-value { font-size: 16px; font-weight: 700; color: #fff; letter-spacing: -0.4px; }
-.hero-stat-value.zero { color: rgba(255,255,255,0.2); }
-.hero-stat-value.dimmed { opacity: 0.3; text-decoration: line-through; }
+.hero-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: rgba(255,255,255,0.12); border-radius: 10px; overflow: hidden; margin-bottom: 16px; }
+.hero-stat { padding: 12px 16px; background: rgba(255,255,255,0.07); }
+.hero-stat-label { font-size: 10px; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 4px; }
+.hero-stat-value { font-size: 16px; font-weight: 700; color: rgba(255,255,255,0.95); letter-spacing: -0.4px; }
+.hero-stat-value.zero { color: rgba(255,255,255,0.25); }
+.hero-stat-value.dimmed { opacity: 0.35; text-decoration: line-through; }
 @media (max-width: 800px) { .hero-stats { grid-template-columns: repeat(3, 1fr); } .hero-nw { font-size: 38px; } }
 @media (max-width: 500px) { .hero-stats { grid-template-columns: repeat(2, 1fr); } }
 
 /* Toggles */
 .hero-toggles { display: flex; flex-wrap: wrap; gap: 6px; }
-.toggle-pill { padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; cursor: pointer; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); transition: all 0.15s; font-family: inherit; letter-spacing: 0.2px; }
-.toggle-pill.active { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.4); color: #fff; }
-.toggle-pill.inactive { background: transparent; border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); }
-.toggle-label { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.5px; margin-right: 6px; align-self: center; }
+.toggle-pill { padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; cursor: pointer; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.85); transition: all 0.15s; font-family: inherit; letter-spacing: 0.2px; }
+.toggle-pill.active { background: rgba(255,255,255,0.25); border-color: rgba(255,255,255,0.55); color: #fff; }
+.toggle-pill.inactive { background: transparent; border-color: rgba(255,255,255,0.15); color: rgba(255,255,255,0.35); }
+.toggle-label { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.5px; margin-right: 6px; align-self: center; }
 
 /* Main */
 .main { max-width: 1200px; margin: 0 auto; padding: 24px 28px 60px; }
@@ -219,34 +219,6 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 </section>
 
 <main class="main">
-
-  <div class="summary-grid">
-    <div class="summary-card" id="card-property">
-      <div class="sc-label">Property Equity</div>
-      <div class="sc-value" id="sc-property">—</div>
-      <div class="sc-sub" id="sc-property-sub">—</div>
-    </div>
-    <div class="summary-card" id="card-crypto">
-      <div class="sc-label">Crypto & Gold</div>
-      <div class="sc-value" id="sc-crypto">—</div>
-      <div class="sc-sub" id="sc-crypto-sub">Live prices</div>
-    </div>
-    <div class="summary-card" id="card-business">
-      <div class="sc-label">Business</div>
-      <div class="sc-value" id="sc-business">—</div>
-      <div class="sc-sub">Tank + Tykhe</div>
-    </div>
-    <div class="summary-card" id="card-pe">
-      <div class="sc-label">Private Equity</div>
-      <div class="sc-value" id="sc-pe">—</div>
-      <div class="sc-sub" id="sc-pe-sub">—</div>
-    </div>
-    <div class="summary-card" id="card-cash">
-      <div class="sc-label">SMSF</div>
-      <div class="sc-value" id="sc-cash">—</div>
-      <div class="sc-sub" id="sc-cash-sub">Macquarie + BTC/ETH</div>
-    </div>
-  </div>
 
   <!-- Allocation + Waterfall 2-col -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px" id="two-col-row">
