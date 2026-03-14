@@ -236,13 +236,20 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
     </div>
     <div class="card-body" id="body-chart">
       <div class="chart-wrap">
-        <div class="chart-legend" id="chart-legend" style="display:none">
-          <div class="legend-item"><div class="legend-dot" style="background:#0A1327"></div>Total Net Worth</div>
-          <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div>Property</div>
-          <div class="legend-item"><div class="legend-dot" style="background:#f0a020"></div>Crypto</div>
-          <div class="legend-item"><div class="legend-dot" style="background:#2ec98e"></div>Business & Cash</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:10px">
+          <div class="chart-legend" id="chart-legend" style="display:none;margin:0">
+            <div class="legend-item"><div class="legend-dot" style="background:#0A1327"></div>Net Worth</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div>Property</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#f0a020"></div>Crypto</div>
+          </div>
+          <div style="display:flex;gap:4px;margin-left:auto" id="chart-range-btns">
+            <button onclick="setChartRange('1y',this)" style="padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:var(--surface-2);font-size:11px;font-weight:600;color:var(--text-muted);cursor:pointer;font-family:inherit">1Y</button>
+            <button onclick="setChartRange('3y',this)" style="padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:var(--surface-2);font-size:11px;font-weight:600;color:var(--text-muted);cursor:pointer;font-family:inherit">3Y</button>
+            <button onclick="setChartRange('5y',this)" style="padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:var(--surface-2);font-size:11px;font-weight:600;color:var(--text-muted);cursor:pointer;font-family:inherit">5Y</button>
+            <button onclick="setChartRange('all',this)" style="padding:4px 10px;border-radius:6px;border:1px solid var(--navy);background:var(--navy);font-size:11px;font-weight:600;color:#fff;cursor:pointer;font-family:inherit">All</button>
+          </div>
         </div>
-        <div id="chart-container"><div class="chart-empty"><div style="opacity:0.2;font-size:24px">—</div><div>Loading chart…</div></div></div>
+        <div style="position:relative" id="chart-container"><div class="chart-empty"><div style="opacity:0.2;font-size:24px">—</div><div>Loading chart…</div></div></div>
       </div>
     </div>
   </div>
@@ -757,48 +764,215 @@ function renderSnapshots() {
   }).join('');
 }
 
+// ── Chart state ───────────────────────────────────────────────────────────────
+let chartRange = 'all'; // '1y' | '3y' | '5y' | 'all'
+
 function renderChart() {
-  const container=document.getElementById('chart-container');
-  const legendEl=document.getElementById('chart-legend');
-  const data=snapshots.filter(s=>s.netWorth>0);
-  if (data.length<2) { legendEl.style.display='none'; container.innerHTML=`<div class="chart-empty"><div style="opacity:0.2;font-size:24px">—</div><div>Save 2+ snapshots to see trend</div></div>`; return; }
-  legendEl.style.display='flex';
-  const W=900,H=300,P={top:20,right:20,bottom:44,left:76};
-  const cW=W-P.left-P.right,cH=H-P.top-P.bottom;
-  const vals=data.flatMap(d=>[d.netWorth,(d.breakdown?.property||0),(d.breakdown?.crypto||0),((d.breakdown?.business||0)+(d.breakdown?.cash||0))]);
-  const maxV=Math.max(...vals,1);
-  const xS=i=>P.left+(i/(data.length-1))*cW;
-  const yS=v=>P.top+cH-(v/maxV)*cH;
-  const showDots=data.length<=24;
-  const line=(key,color,sub,w)=>{
-    const pts=data.map((d,i)=>{const v=sub?(d.breakdown?.[key]||0):d[key];return`${xS(i)},${yS(v)}`;}).join(' ');
-    const dots=showDots?data.map((d,i)=>{const v=sub?(d.breakdown?.[key]||0):d[key];return`<circle cx="${xS(i)}" cy="${yS(v)}" r="3" fill="${color}" stroke="white" stroke-width="1.5"/>`;}).join(''):'';
-    return `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="${w||2}" stroke-linejoin="round" stroke-linecap="round"/>${dots}`;
-  };
-  const areaPts=data.map((d,i)=>`${xS(i)},${yS(d.netWorth)}`).join(' ');
-  const areaFill=`<polygon points="${xS(0)},${yS(0)} ${areaPts} ${xS(data.length-1)},${yS(0)}" fill="url(#nwGrad)" opacity="0.12"/>`;
-  const yTicks=Array.from({length:6},(_,i)=>i/5).map(t=>{const v=maxV*t,y=yS(v);return`<text x="${P.left-8}" y="${y+4}" text-anchor="end" fill="#8F9BB3" font-size="10">${fmtK(v)}</text><line x1="${P.left}" y1="${y}" x2="${P.left+cW}" y2="${y}" stroke="#E8ECF2" stroke-width="0.5"/>`;});
-  const seen=new Set();
-  const xLabels=[];
-  data.forEach((d,i)=>{
-    const yr=d.date.slice(0,4),mo=d.date.slice(5,7);
-    if(mo==='01'||i===0||i===data.length-1){
-      if(!seen.has(yr)||i===data.length-1){seen.add(yr);xLabels.push(`<text x="${xS(i)}" y="${H-8}" text-anchor="middle" fill="#8F9BB3" font-size="10" font-weight="600">${mo==='01'?yr:d.date.slice(0,7)}</text>`);}
+  const container = document.getElementById('chart-container');
+  const legendEl  = document.getElementById('chart-legend');
+  const all = snapshots.filter(s => s.netWorth > 0);
+  if (all.length < 2) {
+    legendEl.style.display = 'none';
+    container.innerHTML = `<div class="chart-empty"><div style="opacity:0.2;font-size:24px">—</div><div>Save 2+ snapshots to see trend</div></div>`;
+    return;
+  }
+  legendEl.style.display = 'flex';
+
+  // Range filter
+  const cutoffs = { '1y': 12, '3y': 36, '5y': 60, 'all': Infinity };
+  const months  = cutoffs[chartRange] || Infinity;
+  const cutDate = months === Infinity ? '' : (() => {
+    const d = new Date(); d.setMonth(d.getMonth() - months); return d.toISOString().slice(0,10);
+  })();
+  const data = cutDate ? all.filter(s => s.date >= cutDate) : all;
+  if (data.length < 2) { container.innerHTML = `<div class="chart-empty"><div>Not enough data for this range</div></div>`; return; }
+
+  const W=900, H=320, P={top:36,right:24,bottom:44,left:80};
+  const cW = W-P.left-P.right, cH = H-P.top-P.bottom;
+
+  const maxV = Math.max(...data.map(d => d.netWorth), 1);
+  // Round up max to a clean number
+  const mag = Math.pow(10, Math.floor(Math.log10(maxV)));
+  const cleanMax = Math.ceil(maxV / mag) * mag;
+
+  const xS = i  => P.left + (i / (data.length-1)) * cW;
+  const yS = v  => P.top  + cH - (v / cleanMax) * cH;
+
+  // Y-axis ticks — pick nice intervals
+  const tickCount = 5;
+  const tickStep  = cleanMax / tickCount;
+  const yTicks = Array.from({length: tickCount+1}, (_,i) => {
+    const v = i * tickStep, y = yS(v);
+    return `<text x="${P.left-10}" y="${y+4}" text-anchor="end" fill="#8F9BB3" font-size="10">${fmtK(v)}</text>
+            <line x1="${P.left}" y1="${y}" x2="${P.left+cW}" y2="${y}" stroke="#E8ECF2" stroke-width="0.5"/>`;
+  });
+
+  // X-axis labels — year boundaries only
+  const seen = new Set();
+  const xLabels = [];
+  data.forEach((d,i) => {
+    const yr = d.date.slice(0,4), mo = d.date.slice(5,7);
+    const isFirst = i===0, isLast = i===data.length-1;
+    if (mo==='01' || isFirst || isLast) {
+      const label = (mo==='01'||isFirst) ? yr : d.date.slice(0,7);
+      if (!seen.has(label)) {
+        seen.add(label);
+        const x = xS(i);
+        // Clamp label so it doesn't clip edges
+        const anchor = x < 50 ? 'start' : x > W-50 ? 'end' : 'middle';
+        xLabels.push(`<text x="${x}" y="${H-10}" text-anchor="${anchor}" fill="#8F9BB3" font-size="10" font-weight="600">${label}</text>`);
+      }
     }
   });
-  const milestones=[];
-  data.forEach((d,i)=>{
-    if(i===0)return;
-    const prev=data[i-1].netWorth;
-    [250000,500000,750000,1000000].forEach(m=>{
-      if(prev<m&&d.netWorth>=m){
-        milestones.push(`<line x1="${xS(i)}" y1="${P.top}" x2="${xS(i)}" y2="${P.top+cH}" stroke="#2ec98e" stroke-width="1" stroke-dasharray="4,3" opacity="0.4"/>
-          <text x="${xS(i)}" y="${P.top-4}" text-anchor="middle" fill="#2ec98e" font-size="9" font-weight="700">${fmtK(m)}</text>`);
+
+  // Milestones — stagger overlapping labels
+  const milestones = [];
+  const usedX = [];
+  data.forEach((d,i) => {
+    if (i===0) return;
+    const prev = data[i-1].netWorth;
+    [250000,500000,750000,1000000,1500000,2000000].forEach((m,mi) => {
+      if (prev < m && d.netWorth >= m) {
+        const x = xS(i);
+        // Check for nearby labels (within 60px)
+        const tooClose = usedX.some(ux => Math.abs(ux-x) < 65);
+        const labelY = P.top - (tooClose ? 18 : 6);
+        usedX.push(x);
+        milestones.push(
+          `<line x1="${x}" y1="${P.top}" x2="${x}" y2="${P.top+cH}" stroke="#2ec98e" stroke-width="1" stroke-dasharray="4,3" opacity="0.35"/>` +
+          `<text x="${x}" y="${labelY}" text-anchor="middle" fill="#2ec98e" font-size="9" font-weight="700">${fmtK(m)}</text>`
+        );
       }
     });
   });
-  const grad=`<defs><linearGradient id="nwGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0A1327"/><stop offset="100%" stop-color="#0A1327" stop-opacity="0"/></linearGradient></defs>`;
-  container.innerHTML=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block">${grad}${yTicks.join('')}${milestones.join('')}${areaFill}${line('property','#3b82f6',true,1.5)}${line('crypto','#f0a020',true,1.5)}${line('netWorth','#0A1327',false,2.5)}${xLabels.join('')}</svg>`;
+
+  // Lines
+  const polyline = (vals, color, w) => {
+    const pts = vals.map((v,i) => `${xS(i)},${yS(v)}`).join(' ');
+    return `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"/>`;
+  };
+  const nwVals   = data.map(d => d.netWorth);
+  const propVals = data.map(d => d.breakdown?.property||0);
+  const cryptoV  = data.map(d => d.breakdown?.crypto||0);
+
+  // Area fill
+  const areaPts = nwVals.map((v,i) => `${xS(i)},${yS(v)}`).join(' ');
+  const areaFill = `<polygon points="${P.left},${yS(0)} ${areaPts} ${xS(data.length-1)},${yS(0)}" fill="url(#nwGrad)" opacity="0.10"/>`;
+
+  // Hover hit targets (invisible wide rects per data point)
+  const hitRects = data.map((d,i) => {
+    const x  = xS(i);
+    const bw = cW / (data.length-1);
+    const rx = x - bw/2, rw = bw;
+    const nw = d.netWorth, prop = d.breakdown?.property||0, cry = d.breakdown?.crypto||0;
+    const pe = d.breakdown?.pe||0, biz = d.breakdown?.business||0, cash = d.breakdown?.cash||0;
+    const tip = `${d.date}|${nw}|${prop}|${cry}|${pe}|${biz}|${cash}`;
+    return `<rect x="${Math.max(P.left,rx)}" y="${P.top}" width="${Math.min(rw, cW-(rx-P.left))}" height="${cH}" fill="transparent" data-tip="${tip}" class="chart-hit" style="cursor:crosshair"/>`;
+  });
+
+  // Crosshair + dots (rendered via JS on hover, not static SVG)
+  const grad = `<defs>
+    <linearGradient id="nwGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0A1327"/>
+      <stop offset="100%" stop-color="#0A1327" stop-opacity="0"/>
+    </linearGradient>
+  </defs>`;
+
+  container.innerHTML = `
+    <svg id="wealth-chart-svg" viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;overflow:visible">
+      ${grad}
+      ${yTicks.join('')}
+      ${milestones.join('')}
+      ${areaFill}
+      ${polyline(propVals,'#3b82f6',1.5)}
+      ${polyline(cryptoV,'#f0a020',1.5)}
+      ${polyline(nwVals,'#0A1327',2.5)}
+      ${xLabels.join('')}
+      ${hitRects.join('')}
+      <line id="chart-xhair" x1="0" y1="${P.top}" x2="0" y2="${P.top+cH}" stroke="#0A1327" stroke-width="1" stroke-dasharray="4,3" opacity="0.3" style="display:none"/>
+      <circle id="chart-dot-nw"   r="5" fill="#0A1327" stroke="white" stroke-width="2" style="display:none"/>
+      <circle id="chart-dot-prop" r="4" fill="#3b82f6" stroke="white" stroke-width="1.5" style="display:none"/>
+      <circle id="chart-dot-cry"  r="4" fill="#f0a020" stroke="white" stroke-width="1.5" style="display:none"/>
+    </svg>
+    <div id="chart-tooltip" style="display:none;position:absolute;background:#0A1327;color:#fff;border-radius:10px;padding:12px 16px;font-size:12px;pointer-events:none;z-index:50;min-width:180px;box-shadow:0 8px 24px rgba(0,0,0,0.25)"></div>`;
+
+  // Store chart params for hover handler
+  window._chartState = { data, W, H, P, cW, cH, cleanMax, xS, yS };
+
+  // Attach hover listeners
+  document.querySelectorAll('.chart-hit').forEach(rect => {
+    rect.addEventListener('mousemove', chartHover);
+    rect.addEventListener('mouseleave', chartLeave);
+  });
+}
+
+function chartHover(e) {
+  const tip = e.currentTarget.dataset.tip.split('|');
+  const [date, nw, prop, cry, pe, biz, cash] = tip;
+  const { xS, yS, P, cH } = window._chartState;
+
+  // Find index
+  const { data } = window._chartState;
+  const idx = data.findIndex(d => d.date === date);
+  if (idx < 0) return;
+
+  const x = xS(idx);
+  const nwV = parseFloat(nw), propV = parseFloat(prop), cryV = parseFloat(cry);
+
+  // Crosshair
+  const xhair = document.getElementById('chart-xhair');
+  xhair.setAttribute('x1', x); xhair.setAttribute('x2', x); xhair.style.display = '';
+
+  // Dots
+  const dotNW = document.getElementById('chart-dot-nw');
+  dotNW.setAttribute('cx', x); dotNW.setAttribute('cy', yS(nwV)); dotNW.style.display = '';
+  const dotP = document.getElementById('chart-dot-prop');
+  dotP.setAttribute('cx', x); dotP.setAttribute('cy', yS(propV)); dotP.style.display = propV>0?'':'none';
+  const dotC = document.getElementById('chart-dot-cry');
+  dotC.setAttribute('cx', x); dotC.setAttribute('cy', yS(cryV)); dotC.style.display = cryV>0?'':'none';
+
+  // Tooltip
+  const svg = document.getElementById('wealth-chart-svg');
+  const rect = svg.getBoundingClientRect();
+  const svgW = rect.width;
+  const svgX = (x / window._chartState.W) * svgW;
+  const tt = document.getElementById('chart-tooltip');
+  const peV=parseFloat(pe), bizV=parseFloat(biz), cashV=parseFloat(cash);
+  tt.innerHTML = `
+    <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:8px;letter-spacing:0.5px">${date}</div>
+    <div style="display:flex;justify-content:space-between;gap:20px;margin-bottom:4px"><span style="color:rgba(255,255,255,0.7)">Net Worth</span><span style="font-weight:800;font-size:14px">${fmtK(nwV)}</span></div>
+    ${propV>0?`<div style="display:flex;justify-content:space-between;gap:20px;margin-bottom:2px"><span style="color:#3b82f6">Property</span><span>${fmtK(propV)}</span></div>`:''}
+    ${cryV>0?`<div style="display:flex;justify-content:space-between;gap:20px;margin-bottom:2px"><span style="color:#f0a020">Crypto</span><span>${fmtK(cryV)}</span></div>`:''}
+    ${peV>0?`<div style="display:flex;justify-content:space-between;gap:20px;margin-bottom:2px"><span style="color:rgba(255,255,255,0.5)">PE</span><span>${fmtK(peV)}</span></div>`:''}
+    ${bizV>0?`<div style="display:flex;justify-content:space-between;gap:20px;margin-bottom:2px"><span style="color:rgba(255,255,255,0.5)">Business</span><span>${fmtK(bizV)}</span></div>`:''}
+    ${cashV>0?`<div style="display:flex;justify-content:space-between;gap:20px;margin-bottom:2px"><span style="color:rgba(255,255,255,0.5)">SMSF</span><span>${fmtK(cashV)}</span></div>`:''}`;
+  tt.style.display = 'block';
+  // Position tooltip — flip to left if near right edge
+  const chartWrap = svg.parentElement;
+  const wrapRect  = chartWrap.getBoundingClientRect();
+  const ttW = 200;
+  let ttLeft = svgX + 16;
+  if (ttLeft + ttW > wrapRect.width - 20) ttLeft = svgX - ttW - 8;
+  tt.style.left = ttLeft + 'px';
+  tt.style.top  = '20px';
+}
+
+function chartLeave() {
+  document.getElementById('chart-xhair').style.display = 'none';
+  document.getElementById('chart-dot-nw').style.display = 'none';
+  document.getElementById('chart-dot-prop').style.display = 'none';
+  document.getElementById('chart-dot-cry').style.display = 'none';
+  document.getElementById('chart-tooltip').style.display = 'none';
+}
+
+// ── Chart range ───────────────────────────────────────────────────────────────
+function setChartRange(range, btn) {
+  chartRange = range;
+  document.querySelectorAll('#chart-range-btns button').forEach(b => {
+    b.style.background = 'var(--surface-2)'; b.style.color = 'var(--text-muted)'; b.style.borderColor = 'var(--border)';
+  });
+  btn.style.background = 'var(--navy)'; btn.style.color = '#fff'; btn.style.borderColor = 'var(--navy)';
+  renderChart();
 }
 
 // ── Card toggle ───────────────────────────────────────────────────────────────
