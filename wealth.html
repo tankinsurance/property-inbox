@@ -669,15 +669,7 @@ function renderHeroDelta() {
 
 function renderTables(c) {
   // Summary cards
-  document.getElementById('sc-property').textContent = fmtK(c.propEquity);
-  document.getElementById('sc-property-sub').textContent = `${fmtK(c.propGross)} value — ${fmtK(c.propLoans)} loans`;
-  document.getElementById('sc-crypto').textContent = fmtK(c.cryptoVal);
-  document.getElementById('sc-crypto-sub').textContent = c.btcP ? `BTC ${fmtK(c.btcP)}` : 'Live prices';
-  document.getElementById('sc-business').textContent = fmtK(c.businessVal);
-  document.getElementById('sc-pe').textContent = fmtK(c.peVal);
-  document.getElementById('sc-pe-sub').textContent = c.peEntries.length ? c.peEntries.map(e=>e.name).join(', ') : '—';
-  document.getElementById('sc-cash').textContent = fmtK(c.cashVal);
-  document.getElementById('sc-cash-sub').textContent = `Macquarie + ${fmtK(c.smsfCryptoVal)} crypto`;
+  // Summary cards removed — no-op (elements no longer in DOM)
 
   // Properties
   const erLoan = (c.loans.other||{}).balance||0;
