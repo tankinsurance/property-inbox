@@ -280,7 +280,7 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
   <!-- Snapshot history -->
   <div class="card">
     <div class="card-header" onclick="toggleCard('history')">
-      <span class="card-title">History</span>
+      <span class="card-title">History <span class="badge" id="history-count"></span></span>
       <span class="card-toggle" id="toggle-history">▾</span>
     </div>
     <div class="card-body collapsed" id="body-history">
@@ -447,10 +447,11 @@ async function loadAll() {
   document.getElementById('hero-nw').textContent = 'Loading…';
   document.getElementById('hero-updated').textContent = 'Refreshing…';
 
-  const [pdRes, wcRes, snapRes, cryptoRes, goldRes] = await Promise.allSettled([
+  const [pdRes, wcRes, snapRes, histRes, cryptoRes, goldRes] = await Promise.allSettled([
     fetch('property-details.json').then(r => r.json()),
     fetch('wealth-config.json').then(r => r.json()),
     fetch(`${WORKER}/wealth/snapshots`).then(r => r.json()),
+    fetch('wealth-snapshots-historical.json').then(r => r.json()),
     fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=aud').then(r => r.json()),
     fetch('https://data-asg.goldprice.org/dbXRates/AUD').then(r => r.json()),
   ]);
@@ -458,10 +459,14 @@ async function loadAll() {
   propDetails = pdRes.status === 'fulfilled' ? pdRes.value : {};
   baseConfig  = wcRes.status === 'fulfilled' ? wcRes.value : {};
 
+  // Merge snapshots: historical (base) < worker < local (highest priority)
+  const historicalSnaps = (histRes.status === 'fulfilled' && Array.isArray(histRes.value)) ? histRes.value : [];
   const workerSnaps = (snapRes.status === 'fulfilled' && Array.isArray(snapRes.value)) ? snapRes.value : [];
   const localSnaps  = loadLocalSnaps();
   const seen = new Set();
-  snapshots = [...workerSnaps, ...localSnaps]
+  // Live/local snapshots take priority over historical, worker over historical
+  snapshots = [...historicalSnaps, ...workerSnaps, ...localSnaps]
+    .reverse() // Process in reverse so later entries (higher priority) are kept
     .filter(s => { if (seen.has(s.date)) return false; seen.add(s.date); return true; })
     .sort((a,b) => a.date.localeCompare(b.date));
 
@@ -680,11 +685,13 @@ function renderSnapshots() {
     tbody.innerHTML = '<tr><td colspan="4" style="color:var(--text-dim);text-align:center;padding:24px">No snapshots yet — update your holdings above</td></tr>';
     return;
   }
+  document.getElementById('history-count').textContent = visible.length + ' snapshots';
   tbody.innerHTML = [...visible].reverse().map((s, i, arr) => {
     const prev = arr[i + 1];
     const delta = prev ? s.netWorth - prev.netWorth : null;
     const ds = delta != null ? `<span class="${delta >= 0 ? 'val-pos' : 'val-neg'}">${delta >= 0 ? '+' : ''}${fmtK(delta)}</span>` : '—';
-    return `<tr><td>${s.date}</td><td><strong>${fmtK(s.netWorth)}</strong></td><td>${ds}</td><td style="color:var(--text-muted);font-size:12px">${esc(s.notes || '—')}</td></tr>`;
+    const badge = s.source === 'historical' ? '<span class="badge" style="background:var(--navy);color:#fff;margin-left:6px">Historical</span>' : '';
+    return `<tr><td>${s.date}${badge}</td><td><strong>${fmtK(s.netWorth)}</strong></td><td>${ds}</td><td style="color:var(--text-muted);font-size:12px">${esc(s.notes || '—')}</td></tr>`;
   }).join('');
 }
 
@@ -698,23 +705,76 @@ function renderChart() {
     return;
   }
   legendEl.style.display = 'flex';
-  const W = 800, H = 240, P = { top: 16, right: 16, bottom: 36, left: 76 };
+  const W = 900, H = 300, P = { top: 20, right: 20, bottom: 44, left: 76 };
   const cW = W - P.left - P.right, cH = H - P.top - P.bottom;
   const vals = data.flatMap(d => [d.netWorth, (d.breakdown?.property||0), (d.breakdown?.crypto||0), ((d.breakdown?.business||0)+(d.breakdown?.cash||0))]);
   const maxV = Math.max(...vals, 1);
   const xS = i => P.left + (i / (data.length - 1)) * cW;
   const yS = v => P.top + cH - (v / maxV) * cH;
-  const line = (key, color, sub) => {
+
+  // Line without dots for large datasets, with dots for small
+  const showDots = data.length <= 24;
+  const line = (key, color, sub, width) => {
     const pts = data.map((d,i) => { const v = sub ? (d.breakdown?.[key]||0) : d[key]; return `${xS(i)},${yS(v)}`; }).join(' ');
-    const dots = data.map((d,i) => { const v = sub ? (d.breakdown?.[key]||0) : d[key]; return `<circle cx="${xS(i)}" cy="${yS(v)}" r="3.5" fill="${color}" stroke="white" stroke-width="1.5"/>`; }).join('');
-    return `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round"/>${dots}`;
+    let dots = '';
+    if (showDots) {
+      dots = data.map((d,i) => { const v = sub ? (d.breakdown?.[key]||0) : d[key]; return `<circle cx="${xS(i)}" cy="${yS(v)}" r="3" fill="${color}" stroke="white" stroke-width="1.5"/>`; }).join('');
+    }
+    return `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="${width||2}" stroke-linejoin="round" stroke-linecap="round"/>${dots}`;
   };
-  const yTicks = Array.from({length:5},(_,i)=>i/4).map(t => {
+
+  // Area fill under net worth line
+  const areaPoints = data.map((d,i) => `${xS(i)},${yS(d.netWorth)}`).join(' ');
+  const areaFill = `<polygon points="${xS(0)},${yS(0)} ${areaPoints} ${xS(data.length-1)},${yS(0)}" fill="url(#nwGrad)" opacity="0.15"/>`;
+
+  const yTicks = Array.from({length:6},(_,i)=>i/5).map(t => {
     const v = maxV * t; const y = yS(v);
-    return `<text x="${P.left-8}" y="${y+4}" text-anchor="end" fill="#8F9BB3" font-size="10">${fmtK(v)}</text><line x1="${P.left}" y1="${y}" x2="${P.left+cW}" y2="${y}" stroke="#E8ECF2" stroke-width="1"/>`;
+    return `<text x="${P.left-8}" y="${y+4}" text-anchor="end" fill="#8F9BB3" font-size="10">${fmtK(v)}</text><line x1="${P.left}" y1="${y}" x2="${P.left+cW}" y2="${y}" stroke="#E8ECF2" stroke-width="0.5"/>`;
   });
-  const xLabels = data.map((d,i) => `<text x="${xS(i)}" y="${H-6}" text-anchor="middle" fill="#8F9BB3" font-size="10">${d.date.slice(0,7)}</text>`);
-  container.innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block">${yTicks.join('')}${line('netWorth','#0A1327',false)}${line('property','#3b82f6',true)}${line('crypto','#f0a020',true)}${xLabels.join('')}</svg>`;
+
+  // Smart x-axis labels: show Jan of each year + current month
+  const xLabels = [];
+  const seen = new Set();
+  data.forEach((d, i) => {
+    const ym = d.date.slice(0, 7);
+    const year = d.date.slice(0, 4);
+    const month = d.date.slice(5, 7);
+    // Show label for Jan of each year, or first/last point
+    if (month === '01' || i === 0 || i === data.length - 1) {
+      if (!seen.has(year) || i === data.length - 1) {
+        seen.add(year);
+        const label = month === '01' ? year : ym;
+        xLabels.push(`<text x="${xS(i)}" y="${H-8}" text-anchor="middle" fill="#8F9BB3" font-size="10" font-weight="600">${label}</text>`);
+      }
+    }
+  });
+
+  // Milestone markers
+  const milestones = [];
+  data.forEach((d, i) => {
+    const nw = d.netWorth;
+    const prev = i > 0 ? data[i-1].netWorth : 0;
+    // Mark when crossing $250k, $500k, $750k, $1M
+    [250000, 500000, 750000, 1000000].forEach(m => {
+      if (prev < m && nw >= m) {
+        milestones.push(`<line x1="${xS(i)}" y1="${P.top}" x2="${xS(i)}" y2="${P.top+cH}" stroke="#2ec98e" stroke-width="1" stroke-dasharray="4,3" opacity="0.4"/>
+          <text x="${xS(i)}" y="${P.top-4}" text-anchor="middle" fill="#2ec98e" font-size="9" font-weight="700">${fmtK(m)}</text>`);
+      }
+    });
+  });
+
+  const gradient = `<defs><linearGradient id="nwGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0A1327"/><stop offset="100%" stop-color="#0A1327" stop-opacity="0"/></linearGradient></defs>`;
+
+  container.innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block">
+    ${gradient}
+    ${yTicks.join('')}
+    ${milestones.join('')}
+    ${areaFill}
+    ${line('property','#3b82f6',true,1.5)}
+    ${line('crypto','#f0a020',true,1.5)}
+    ${line('netWorth','#0A1327',false,2.5)}
+    ${xLabels.join('')}
+  </svg>`;
 }
 
 // ── Card toggle ───────────────────────────────────────────────────────────────

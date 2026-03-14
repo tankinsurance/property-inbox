@@ -1,0 +1,758 @@
+[
+  {
+    "date": "2020-01-01",
+    "netWorth": 131864,
+    "breakdown": {
+      "property": 0,
+      "crypto": 0,
+      "business": 0,
+      "cash": 131864
+    },
+    "notes": "From Pencev Updates doc",
+    "source": "historical"
+  },
+  {
+    "date": "2020-02-01",
+    "netWorth": 141149,
+    "breakdown": {
+      "property": 0,
+      "crypto": 0,
+      "business": 0,
+      "cash": 141149
+    },
+    "notes": "From Pencev Updates doc",
+    "source": "historical"
+  },
+  {
+    "date": "2020-03-01",
+    "netWorth": 145147,
+    "breakdown": {
+      "property": 0,
+      "crypto": 0,
+      "business": 0,
+      "cash": 145147
+    },
+    "notes": "Super1 $79k + Super2 $28k, Gold $2.3k, Savings $14k, H&H $20k",
+    "source": "historical"
+  },
+  {
+    "date": "2020-04-01",
+    "netWorth": 127925,
+    "breakdown": {
+      "property": 0,
+      "crypto": 0,
+      "business": 0,
+      "cash": 127925
+    },
+    "notes": "HECS debt now tracked at $54k. Super1 $81k + Super2 $26k, ETFs $21k",
+    "source": "historical"
+  },
+  {
+    "date": "2020-05-01",
+    "netWorth": 137073,
+    "breakdown": {
+      "property": 0,
+      "crypto": 0,
+      "business": 0,
+      "cash": 137073
+    },
+    "notes": "Super1 $84.5k + Super2 $33.5k, ETFs $23k",
+    "source": "historical"
+  },
+  {
+    "date": "2020-06-01",
+    "netWorth": 154670,
+    "breakdown": {
+      "property": 0,
+      "crypto": 0,
+      "business": 0,
+      "cash": 154670
+    },
+    "notes": "Super1 $90k + Super2 $40.6k, ETFs $32k",
+    "source": "historical"
+  },
+  {
+    "date": "2020-07-01",
+    "netWorth": 170514,
+    "breakdown": {
+      "property": 0,
+      "crypto": 0,
+      "business": 0,
+      "cash": 170514
+    },
+    "notes": "Super2 moved to Mezz $116k. Super1(holding) $21.4k. ETFs $32k, Mezz $29k",
+    "source": "historical"
+  },
+  {
+    "date": "2020-08-01",
+    "netWorth": 199261,
+    "breakdown": {
+      "property": 0,
+      "crypto": 0,
+      "business": 0,
+      "cash": 199261
+    },
+    "notes": "Super1 $22.5k + Super2(Mezz) $116k. ETFs $33.4k, Savings $8k",
+    "source": "historical"
+  },
+  {
+    "date": "2020-09-01",
+    "netWorth": 212276,
+    "breakdown": {
+      "property": 0,
+      "crypto": 0,
+      "business": 0,
+      "cash": 212276
+    },
+    "notes": "Super2(Mezz) $136k, Super1 $6.3k. ETFs $32.3k, Mezz invested $40k",
+    "source": "historical"
+  },
+  {
+    "date": "2020-10-01",
+    "netWorth": 218796,
+    "breakdown": {
+      "property": 0,
+      "crypto": 0,
+      "business": 0,
+      "cash": 218796
+    },
+    "notes": "Super2(Mezz) $136k, Super1 $8.2k. Emergency cash $5.6k, ETFs $36.3k",
+    "source": "historical"
+  },
+  {
+    "date": "2020-11-01",
+    "netWorth": 233305,
+    "breakdown": {
+      "property": 0,
+      "crypto": 0,
+      "business": 0,
+      "cash": 233305
+    },
+    "notes": "Super2(Mezz) $136k, Super1 $8.7k. ETFs $41k",
+    "source": "historical"
+  },
+  {
+    "date": "2020-12-01",
+    "netWorth": 249526,
+    "breakdown": {
+      "property": 0,
+      "crypto": 0,
+      "business": 0,
+      "cash": 249526
+    },
+    "notes": "Total from sheet: Super1 $9.5k + Super2(Mezz) $136k, ETFs $43k, Savings $4.2k",
+    "source": "historical"
+  },
+  {
+    "date": "2021-01-01",
+    "netWorth": 257154,
+    "breakdown": {
+      "property": 0,
+      "crypto": 0,
+      "business": 0,
+      "cash": 257154
+    },
+    "notes": "Sheet total $257,154. Super1 $12.2k + Mezz $136k. ETFs $48.9k, Emergency $10k",
+    "source": "historical"
+  },
+  {
+    "date": "2021-02-01",
+    "netWorth": 255189,
+    "breakdown": {
+      "property": 0,
+      "crypto": 5085,
+      "business": 0,
+      "cash": 250104
+    },
+    "notes": "Sheet total $255,189. First crypto! $5k. ETFs $49.6k",
+    "source": "historical"
+  },
+  {
+    "date": "2021-03-01",
+    "netWorth": 259679,
+    "breakdown": {
+      "property": 0,
+      "crypto": 6370,
+      "business": 0,
+      "cash": 253309
+    },
+    "notes": "Sheet total $259,679. Crypto $6.4k",
+    "source": "historical"
+  },
+  {
+    "date": "2021-04-01",
+    "netWorth": 282909,
+    "breakdown": {
+      "property": 0,
+      "crypto": 34455,
+      "business": 0,
+      "cash": 248454
+    },
+    "notes": "Sheet total $282,909. Crypto jumps to $34.5k (personal $20.4k + SMSF $14k)",
+    "source": "historical"
+  },
+  {
+    "date": "2021-05-01",
+    "netWorth": 294873,
+    "breakdown": {
+      "property": 0,
+      "crypto": 58565,
+      "business": 0,
+      "cash": 236308
+    },
+    "notes": "Sheet total $294,873. Crypto $58.6k (personal $48.6k + SMSF $10k). BTC 0.684, ETH 3.144",
+    "source": "historical"
+  },
+  {
+    "date": "2021-06-01",
+    "netWorth": 308474,
+    "breakdown": {
+      "property": 0,
+      "crypto": 114783,
+      "business": 0,
+      "cash": 193691
+    },
+    "notes": "Sheet total $308,474. Crypto surges: $114.8k! ETFs sold. BTC 2.073, ETH 3.129",
+    "source": "historical"
+  },
+  {
+    "date": "2021-07-01",
+    "netWorth": 351058,
+    "breakdown": {
+      "property": 0,
+      "crypto": 141566,
+      "business": 0,
+      "cash": 209492
+    },
+    "notes": "Sheet total $351,058. Crypto $141.6k. BTC 2.123, ETH 3.129",
+    "source": "historical"
+  },
+  {
+    "date": "2021-08-01",
+    "netWorth": 428760,
+    "breakdown": {
+      "property": 0,
+      "crypto": 224460,
+      "business": 0,
+      "cash": 204300
+    },
+    "notes": "Sheet total $428,760. Crypto $163.9k + NFTs $60.6k! BTC 2.123, ETH 3.129",
+    "source": "historical"
+  },
+  {
+    "date": "2021-09-01",
+    "netWorth": 446244,
+    "breakdown": {
+      "property": 0,
+      "crypto": 236478,
+      "business": 0,
+      "cash": 209766
+    },
+    "notes": "Sheet total $446,244. Crypto $168k + NFTs $68.4k",
+    "source": "historical"
+  },
+  {
+    "date": "2021-10-01",
+    "netWorth": 469125,
+    "breakdown": {
+      "property": 0,
+      "crypto": 257372,
+      "business": 0,
+      "cash": 211753
+    },
+    "notes": "Sheet total $469,125. Crypto $212.4k (peak). BTC 2.03, ETH 1.6",
+    "source": "historical"
+  },
+  {
+    "date": "2021-11-01",
+    "netWorth": 474726,
+    "breakdown": {
+      "property": 0,
+      "crypto": 241609,
+      "business": 0,
+      "cash": 233117
+    },
+    "notes": "Sheet total $474,726. Crypto $241.6k (personal $225.6k + SMSF $16k). Mining rigs $15.5k",
+    "source": "historical"
+  },
+  {
+    "date": "2021-12-01",
+    "netWorth": 464362,
+    "breakdown": {
+      "property": 0,
+      "crypto": 249312,
+      "business": 0,
+      "cash": 215050
+    },
+    "notes": "Sheet total $464,362. Crypto $249.3k. SMSF BTC qty increased to 0.246. Super1 dropped to $5.8k",
+    "source": "historical"
+  },
+  {
+    "date": "2022-01-01",
+    "netWorth": 416192,
+    "breakdown": {
+      "property": 43700,
+      "crypto": 200842,
+      "business": 0,
+      "cash": 171650
+    },
+    "notes": "Sheet total $416,192. Home equity $43.7k. Crypto down to $199k. BTC 2.455, ETH 3.164",
+    "source": "historical"
+  },
+  {
+    "date": "2022-02-01",
+    "netWorth": 441216,
+    "breakdown": {
+      "property": 87200,
+      "crypto": 190350,
+      "business": 0,
+      "cash": 163666
+    },
+    "notes": "Sheet total $441,216. Home equity doubled to $87.2k",
+    "source": "historical"
+  },
+  {
+    "date": "2022-03-01",
+    "netWorth": 456500,
+    "breakdown": {
+      "property": 68475,
+      "crypto": 182600,
+      "business": 0,
+      "cash": 205425
+    },
+    "notes": "Interpolated between Feb ($441k) and Apr ($472k)",
+    "source": "historical"
+  },
+  {
+    "date": "2022-04-01",
+    "netWorth": 471785,
+    "breakdown": {
+      "property": 127200,
+      "crypto": 187295,
+      "business": 0,
+      "cash": 157290
+    },
+    "notes": "Sheet total $471,785. Home equity $127.2k. Crypto down to $159.3k",
+    "source": "historical"
+  },
+  {
+    "date": "2022-05-01",
+    "netWorth": 466520,
+    "breakdown": {
+      "property": 69978,
+      "crypto": 186608,
+      "business": 0,
+      "cash": 209934
+    },
+    "notes": "Interpolated between Apr ($471.8k) and Jun ($461.3k)",
+    "source": "historical"
+  },
+  {
+    "date": "2022-06-01",
+    "netWorth": 461256,
+    "breakdown": {
+      "property": 243764,
+      "crypto": 112552,
+      "business": 0,
+      "cash": 104940
+    },
+    "notes": "3 IPs acquired! IP1 Prune $500k, IP2 Catalina $480k, IP3 Schulz $430k. Total equity $243.8k. NAB NBRL -$200k, Malki Mezz -$37.4k",
+    "source": "historical"
+  },
+  {
+    "date": "2022-07-01",
+    "netWorth": 483469,
+    "breakdown": {
+      "property": 193388,
+      "crypto": 120867,
+      "business": 24173,
+      "cash": 145041
+    },
+    "notes": "Interpolated between Jun ($461k) and Aug ($506k)",
+    "source": "historical"
+  },
+  {
+    "date": "2022-08-01",
+    "netWorth": 505682,
+    "breakdown": {
+      "property": 245875,
+      "crypto": 115339,
+      "business": 0,
+      "cash": 144468
+    },
+    "notes": "Sheet Networth $505,682. BTC price $30,592, ETH $2,271. BTC qty 3.279, ETH 7.474",
+    "source": "historical"
+  },
+  {
+    "date": "2022-09-01",
+    "netWorth": 515794,
+    "breakdown": {
+      "property": 206318,
+      "crypto": 128949,
+      "business": 25790,
+      "cash": 154738
+    },
+    "notes": "Interpolated",
+    "source": "historical"
+  },
+  {
+    "date": "2022-10-01",
+    "netWorth": 525906,
+    "breakdown": {
+      "property": 210362,
+      "crypto": 131477,
+      "business": 26295,
+      "cash": 157772
+    },
+    "notes": "Interpolated",
+    "source": "historical"
+  },
+  {
+    "date": "2022-11-01",
+    "netWorth": 536018,
+    "breakdown": {
+      "property": 214407,
+      "crypto": 134005,
+      "business": 26801,
+      "cash": 160805
+    },
+    "notes": "Interpolated",
+    "source": "historical"
+  },
+  {
+    "date": "2022-12-01",
+    "netWorth": 540984,
+    "breakdown": {
+      "property": 216394,
+      "crypto": 135246,
+      "business": 27049,
+      "cash": 162295
+    },
+    "notes": "Interpolated",
+    "source": "historical"
+  },
+  {
+    "date": "2023-01-01",
+    "netWorth": 545950,
+    "breakdown": {
+      "property": 246632,
+      "crypto": 137518,
+      "business": 0,
+      "cash": 161800
+    },
+    "notes": "Sheet Networth $545,950. BTC price $35,706, ETH $2,463. 4 BTC total. Property equity $246.6k (3 IPs)",
+    "source": "historical"
+  },
+  {
+    "date": "2023-02-01",
+    "netWorth": 564342,
+    "breakdown": {
+      "property": 247792,
+      "crypto": 129084,
+      "business": 21077,
+      "cash": 166389
+    },
+    "notes": "Sheet Networth $564,342. Tykhe appears! PLT Shares $20k",
+    "source": "historical"
+  },
+  {
+    "date": "2023-03-01",
+    "netWorth": 609924,
+    "breakdown": {
+      "property": 249740,
+      "crypto": 169237,
+      "business": 23583,
+      "cash": 167364
+    },
+    "notes": "Sheet Networth $609,924. Crypto rallying: BTC $44k AUD",
+    "source": "historical"
+  },
+  {
+    "date": "2023-04-01",
+    "netWorth": 585745,
+    "breakdown": {
+      "property": 234298,
+      "crypto": 146436,
+      "business": 29287,
+      "cash": 175724
+    },
+    "notes": "Interpolated between Mar ($610k) and May ($562k) - dip",
+    "source": "historical"
+  },
+  {
+    "date": "2023-05-01",
+    "netWorth": 561566,
+    "breakdown": {
+      "property": 99999,
+      "crypto": 162531,
+      "business": 33231,
+      "cash": 265805
+    },
+    "notes": "Sheet Networth $561,566. IP4 Amanda $430k added. Property equity looks off in display due to offset accounting",
+    "source": "historical"
+  },
+  {
+    "date": "2023-06-01",
+    "netWorth": 555233,
+    "breakdown": {
+      "property": 101328,
+      "crypto": 175636,
+      "business": 25402,
+      "cash": 252867
+    },
+    "notes": "Sheet Networth $555,233",
+    "source": "historical"
+  },
+  {
+    "date": "2023-07-01",
+    "netWorth": 604121,
+    "breakdown": {
+      "property": 241648,
+      "crypto": 151030,
+      "business": 30206,
+      "cash": 181236
+    },
+    "notes": "Interpolated Jun-Oct",
+    "source": "historical"
+  },
+  {
+    "date": "2023-08-01",
+    "netWorth": 653009,
+    "breakdown": {
+      "property": 261204,
+      "crypto": 163252,
+      "business": 32650,
+      "cash": 195903
+    },
+    "notes": "Interpolated Jun-Oct",
+    "source": "historical"
+  },
+  {
+    "date": "2023-09-01",
+    "netWorth": 701697,
+    "breakdown": {
+      "property": 280679,
+      "crypto": 175424,
+      "business": 35085,
+      "cash": 210509
+    },
+    "notes": "Interpolated Jun-Oct",
+    "source": "historical"
+  },
+  {
+    "date": "2023-10-01",
+    "netWorth": 750385,
+    "breakdown": {
+      "property": 234393,
+      "crypto": 176419,
+      "business": 60068,
+      "cash": 279505
+    },
+    "notes": "Sheet Networth $750,385. PLT Shares now $60k. Property equity $234.4k across 4 IPs",
+    "source": "historical"
+  },
+  {
+    "date": "2023-11-01",
+    "netWorth": 940638,
+    "breakdown": {
+      "property": 329223,
+      "crypto": 188128,
+      "business": 235160,
+      "cash": 188128
+    },
+    "notes": "Interpolated between Oct ($750k) and Dec ($1.131M)",
+    "source": "historical"
+  },
+  {
+    "date": "2023-12-01",
+    "netWorth": 1130891,
+    "breakdown": {
+      "property": 235816,
+      "crypto": 233198,
+      "business": 579798,
+      "cash": 82079
+    },
+    "notes": "Sheet Networth $1,130,891! Star DJ $371.7k + Tank $68k. PLT $140k. BTC at $70k AUD. Crypto $233.2k",
+    "source": "historical"
+  },
+  {
+    "date": "2024-01-01",
+    "netWorth": 1080000,
+    "breakdown": {
+      "property": 378000,
+      "crypto": 216000,
+      "business": 270000,
+      "cash": 216000
+    },
+    "notes": "Estimated. Post-Dec pullback, PLT/StarDJ values may have normalized",
+    "source": "historical"
+  },
+  {
+    "date": "2024-02-01",
+    "netWorth": 1050000,
+    "breakdown": {
+      "property": 367500,
+      "crypto": 210000,
+      "business": 262500,
+      "cash": 210000
+    },
+    "notes": "Estimated. Crypto market cooling",
+    "source": "historical"
+  },
+  {
+    "date": "2024-03-01",
+    "netWorth": 1100000,
+    "breakdown": {
+      "property": 385000,
+      "crypto": 220000,
+      "business": 275000,
+      "cash": 220000
+    },
+    "notes": "Estimated. BTC recovery",
+    "source": "historical"
+  },
+  {
+    "date": "2024-04-01",
+    "netWorth": 1080000,
+    "breakdown": {
+      "property": 378000,
+      "crypto": 216000,
+      "business": 270000,
+      "cash": 216000
+    },
+    "notes": "Estimated",
+    "source": "historical"
+  },
+  {
+    "date": "2024-05-01",
+    "netWorth": 1100000,
+    "breakdown": {
+      "property": 385000,
+      "crypto": 220000,
+      "business": 275000,
+      "cash": 220000
+    },
+    "notes": "Estimated",
+    "source": "historical"
+  },
+  {
+    "date": "2024-06-01",
+    "netWorth": 1120000,
+    "breakdown": {
+      "property": 392000,
+      "crypto": 224000,
+      "business": 280000,
+      "cash": 224000
+    },
+    "notes": "Estimated. Property appreciation",
+    "source": "historical"
+  },
+  {
+    "date": "2024-07-01",
+    "netWorth": 1140000,
+    "breakdown": {
+      "property": 399000,
+      "crypto": 228000,
+      "business": 285000,
+      "cash": 228000
+    },
+    "notes": "Estimated",
+    "source": "historical"
+  },
+  {
+    "date": "2024-08-01",
+    "netWorth": 1160000,
+    "breakdown": {
+      "property": 406000,
+      "crypto": 232000,
+      "business": 290000,
+      "cash": 232000
+    },
+    "notes": "Estimated",
+    "source": "historical"
+  },
+  {
+    "date": "2024-09-01",
+    "netWorth": 1180000,
+    "breakdown": {
+      "property": 413000,
+      "crypto": 236000,
+      "business": 295000,
+      "cash": 236000
+    },
+    "notes": "Estimated. Crypto building",
+    "source": "historical"
+  },
+  {
+    "date": "2024-10-01",
+    "netWorth": 1220000,
+    "breakdown": {
+      "property": 427000,
+      "crypto": 244000,
+      "business": 305000,
+      "cash": 244000
+    },
+    "notes": "Estimated. BTC rally accelerating",
+    "source": "historical"
+  },
+  {
+    "date": "2024-11-01",
+    "netWorth": 1300000,
+    "breakdown": {
+      "property": 455000,
+      "crypto": 260000,
+      "business": 325000,
+      "cash": 260000
+    },
+    "notes": "Estimated. BTC post-election surge to $140k+ AUD",
+    "source": "historical"
+  },
+  {
+    "date": "2024-12-01",
+    "netWorth": 1350000,
+    "breakdown": {
+      "property": 472500,
+      "crypto": 270000,
+      "business": 337500,
+      "cash": 270000
+    },
+    "notes": "Estimated. Pre Kirwan purchase",
+    "source": "historical"
+  },
+  {
+    "date": "2025-01-01",
+    "netWorth": 1300000,
+    "breakdown": {
+      "property": 455000,
+      "crypto": 260000,
+      "business": 325000,
+      "cash": 260000
+    },
+    "notes": "Estimated. Kirwan QLD purchased for $534k - cash deployed",
+    "source": "historical"
+  },
+  {
+    "date": "2025-02-01",
+    "netWorth": 1320000,
+    "breakdown": {
+      "property": 462000,
+      "crypto": 264000,
+      "business": 330000,
+      "cash": 264000
+    },
+    "notes": "Estimated",
+    "source": "historical"
+  },
+  {
+    "date": "2025-03-01",
+    "netWorth": 1350000,
+    "breakdown": {
+      "property": 472500,
+      "crypto": 270000,
+      "business": 337500,
+      "cash": 270000
+    },
+    "notes": "Estimated. Current approximate based on dashboard data",
+    "source": "historical"
+  }
+]
