@@ -443,7 +443,16 @@ function toggleCat(cat, btn) {
 }
 
 // ── Config ────────────────────────────────────────────────────────────────────
-function loadConfig() { try { return JSON.parse(localStorage.getItem(CFG_KEY) || '{}'); } catch { return {}; } }
+function loadConfig() {
+  try {
+    const v3 = localStorage.getItem(CFG_KEY);
+    if (v3) return JSON.parse(v3);
+    // Migrate from v2 if present
+    const v2 = localStorage.getItem('wealth-config-v2');
+    if (v2) { const d = JSON.parse(v2); saveConfig(d); return d; }
+    return {};
+  } catch { return {}; }
+}
 function saveConfig(c) { try { localStorage.setItem(CFG_KEY, JSON.stringify(c)); } catch {} }
 function mergedConfig() {
   const local = loadConfig();
