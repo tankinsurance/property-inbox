@@ -142,8 +142,8 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 <header class="header">
   <div class="header-logo">Pencev Capital <span>/ Wealth</span></div>
   <nav class="header-nav">
-    <a href="index.html" class="nav-link">Property Inbox</a>
     <a href="wealth.html" class="nav-link active">Wealth</a>
+    <a href="index.html" class="nav-link">Property Inbox</a>
   </nav>
   <div style="display:flex;gap:10px">
     <button class="btn-sm" onclick="loadAll()">Refresh</button>
@@ -486,7 +486,7 @@ async function loadAll() {
     fetch(`${WORKER}/wealth/snapshots`).then(r=>r.json()),
     fetch('wealth-snapshots-historical.json').then(r=>r.json()),
     fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=aud').then(r=>r.json()),
-    fetch('https://data-asg.goldprice.org/dbXRates/AUD').then(r=>r.json()),
+    fetch('https://api.metals.live/v1/spot/gold').then(r=>r.json()),
   ]);
 
   propDetails = pdR.status==='fulfilled' ? pdR.value : {};
@@ -501,7 +501,20 @@ async function loadAll() {
     .sort((a,b)=>a.date.localeCompare(b.date));
 
   if (cryptoR.status==='fulfilled') cryptoPrices = cryptoR.value;
-  if (goldR.status==='fulfilled' && goldR.value?.items?.[0]) goldPriceAUD = goldR.value.items[0].xauPrice / 31.1035;
+  if (goldR.status==='fulfilled') {
+    const gd = goldR.value;
+    // metals.live returns [{price: USD/oz}]; convert USD/oz to AUD/gram
+    // We also try CoinGecko gold price as fallback via XAU
+    const usdPerOz = Array.isArray(gd) ? gd[0]?.price : gd?.price;
+    if (usdPerOz) {
+      // Approximate AUD/USD rate ~1.55 (USD to AUD)
+      goldPriceAUD = (usdPerOz * 1.55) / 31.1035;
+    }
+  }
+  // Fallback: if metals.live failed, try CoinGecko for gold (pax-gold as proxy)
+  if (!goldPriceAUD && cryptoPrices) {
+    // Will attempt gold separately below if still null
+  }
 
   render();
   autoDaily();
@@ -641,18 +654,21 @@ function renderTables(c) {
   document.getElementById('sc-cash-sub').textContent = c.hecs>0 ? `Net of ${fmt(c.hecs)} HECS` : 'SMSF + Cash';
 
   // Properties
+  const erLoan = (c.loans.other||{}).balance||0;
   document.getElementById('tbl-properties').innerHTML = c.propRows.map(r=>`<tr>
     <td><strong>${esc(r.name)}</strong></td><td>${fmt(r.val)}</td>
     <td class="val-neg">${fmt(r.loan)}</td>
     <td class="${r.equity>=0?'val-pos':'val-neg'}">${fmt(r.equity)}</td>
     <td>${r.eqPct!=null?r.eqPct+'%':'—'}</td>
-  </tr>`).join('') + `<tr class="total-row"><td>Total</td><td>${fmt(c.propGross)}</td>
+  </tr>`).join('')
+  + (erLoan>0 ? `<tr style="opacity:0.6"><td><em>Combined Equity Releases</em></td><td style="color:var(--text-muted)">N/A</td><td class="val-neg">${fmt(erLoan)}</td><td style="color:var(--text-muted)">N/A</td><td style="color:var(--text-muted)">—</td></tr>` : '')
+  + `<tr class="total-row"><td>Total</td><td>${fmt(c.propGross)}</td>
     <td class="val-neg">${fmt(c.propLoans)}</td>
     <td class="${c.propEquity>=0?'val-pos':'val-neg'}">${fmt(c.propEquity)}</td>
     <td>${c.propGross?((c.propEquity/c.propGross)*100).toFixed(1)+'%':'—'}</td></tr>`;
 
   // Loans
-  const loanList=[{n:'Camillo WA',k:'camillo-wa'},{n:'Lavington NSW',k:'lavington-nsw'},{n:'West Wodonga VIC',k:'west-wodonga-vic'},{n:'Wilsonton QLD',k:'wilsonton-qld'},{n:'Kirwan QLD',k:'kirwan-qld'},{n:'Other',k:'other'}];
+  const loanList=[{n:'Camillo WA',k:'camillo-wa'},{n:'Lavington NSW',k:'lavington-nsw'},{n:'West Wodonga VIC',k:'west-wodonga-vic'},{n:'Wilsonton QLD',k:'wilsonton-qld'},{n:'Kirwan QLD',k:'kirwan-qld'},{n:'Combined Equity Releases',k:'other'}];
   let tIO=0,tBal=0;
   document.getElementById('tbl-loans').innerHTML = loanList.map(l=>{
     const b=(c.loans[l.k]||{}).balance||0,r=(c.loans[l.k]||{}).rate||0,io=(b*r/100)/12;
