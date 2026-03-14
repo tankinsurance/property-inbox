@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pencev Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #F4F5F7;
+  --surface: #FFFFFF;
+  --surface-2: #F4F6F9;
+  --border: #E8ECF2;
+  --border-hover: #C8D2E2;
+  --text: #0A1327;
+  --text-muted: #8F9BB3;
+  --text-dim: #C4CDDF;
+  --accent: #0A1327;
+  --green: #2ec98e;
+  --amber: #f0a020;
+  --red: #e55a48;
+  --purple: #9b6cf7;
+  --header-h: 64px;
+}
+
+html, body {
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Header ── */
+.header {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: var(--header-h);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  z-index: 100;
+}
+.header-left { display: flex; align-items: center; gap: 12px; }
+.monogram {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: #0A1327;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 13px; color: #fff;
+  letter-spacing: -0.5px; flex-shrink: 0;
+}
+.header-title-group { }
+.header-title { font-size: 15px; font-weight: 700; color: #0A1327; letter-spacing: -0.3px; line-height: 1.2; }
+.header-subtitle { font-size: 11px; color: #8F9BB3; font-weight: 500; }
+.header-nav { display: flex; align-items: center; gap: 4px; }
+.nav-link {
+  font-size: 13px; font-weight: 500; color: var(--text-muted);
+  text-decoration: none; padding: 6px 12px; border-radius: 8px;
+  transition: all 150ms;
+}
+.nav-link:hover { color: var(--text); background: var(--surface); }
+.nav-link.active { color: var(--text); background: var(--surface); font-weight: 600; }
+
+/* ── Main ── */
+.main {
+  padding-top: calc(var(--header-h) + 40px);
+  padding-bottom: 60px;
+  max-width: 960px;
+  margin: 0 auto;
+  padding-left: 28px;
+  padding-right: 28px;
+}
+
+/* ── Hero ── */
+.hero { margin-bottom: 40px; }
+.hero-greeting {
+  font-size: 32px; font-weight: 800; color: var(--text);
+  letter-spacing: -0.8px; line-height: 1.15;
+}
+.hero-greeting span { color: var(--text-muted); font-weight: 400; }
+.hero-sub { font-size: 15px; color: var(--text-muted); margin-top: 6px; font-weight: 400; }
+
+/* ── Stats strip ── */
+.stats-strip {
+  display: flex; gap: 16px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+.stat-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 18px 22px;
+  flex: 1; min-width: 160px;
+}
+.stat-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px; }
+.stat-value { font-size: 24px; font-weight: 800; color: var(--text); letter-spacing: -0.6px; line-height: 1; }
+.stat-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.stat-green { color: var(--green); }
+
+/* ── Section heading ── */
+.section-heading {
+  font-size: 12px; font-weight: 700; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.8px;
+  margin-bottom: 14px;
+}
+
+/* ── Module grid ── */
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 48px;
+}
+@media (max-width: 640px) {
+  .modules-grid { grid-template-columns: 1fr; }
+}
+
+.module-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 24px;
+  text-decoration: none; color: inherit;
+  display: flex; flex-direction: column; gap: 12px;
+  transition: border-color 150ms, box-shadow 150ms, transform 120ms;
+  position: relative;
+}
+.module-card:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 4px 20px rgba(10,19,39,0.08);
+  transform: translateY(-1px);
+}
+.module-card.dimmed { opacity: 0.65; cursor: default; }
+.module-card.dimmed:hover { border-color: var(--border); box-shadow: none; transform: none; }
+
+.module-top { display: flex; align-items: flex-start; justify-content: space-between; }
+.module-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--surface-2, #F4F6F9); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+}
+.module-badge {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 600;
+  padding: 4px 9px; border-radius: 20px;
+}
+.badge-live { background: rgba(46,201,142,0.12); color: #1aaa70; }
+.badge-live::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green); display: inline-block;
+}
+.badge-soon { background: var(--surface-2, #F4F6F9); color: var(--text-muted); border: 1px solid var(--border); }
+
+.module-name { font-size: 17px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; }
+.module-desc { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
+
+.module-arrow {
+  margin-top: auto; align-self: flex-end;
+  width: 28px; height: 28px; border-radius: 8px;
+  background: var(--surface-2, #F4F6F9); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-muted); font-size: 14px;
+  transition: background 150ms, color 150ms;
+}
+.module-card:not(.dimmed):hover .module-arrow {
+  background: var(--accent); color: white; border-color: var(--accent);
+}
+
+/* ── Footer ── */
+.footer {
+  text-align: center;
+  font-size: 12px; color: var(--text-dim);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.footer strong { color: var(--text-muted); font-weight: 500; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <div class="monogram">MP</div>
+    <div class="header-title-group">
+      <div class="header-title">Pencev Hub</div>
+      <div class="header-subtitle">Pencev Capital Pty Ltd</div>
+    </div>
+  </div>
+  <nav class="header-nav">
+    <a href="hub.html" class="nav-link active">Hub</a>
+    <a href="index.html" class="nav-link">Properties</a>
+    <a href="wealth.html" class="nav-link">Wealth</a>
+    <a href="https://master.tank-command-center.pages.dev" class="nav-link" target="_blank">Tank</a>
+  </nav>
+</header>
+
+<main class="main">
+
+  <div class="hero">
+    <div class="hero-greeting" id="greeting">Good morning, <span>Marel.</span></div>
+    <div class="hero-sub">Your unified command centre.</div>
+  </div>
+
+  <div class="stats-strip" id="stats-strip">
+    <div class="stat-card">
+      <div class="stat-label">Portfolio Value</div>
+      <div class="stat-value" id="stat-value">—</div>
+      <div class="stat-sub" id="stat-growth"></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Weekly Rent</div>
+      <div class="stat-value" id="stat-rent">—</div>
+      <div class="stat-sub" id="stat-yield"></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Properties</div>
+      <div class="stat-value">5</div>
+      <div class="stat-sub">WA · QLD × 2 · NSW · VIC</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Total Gain</div>
+      <div class="stat-value stat-green" id="stat-gain">—</div>
+      <div class="stat-sub" id="stat-gain-pct"></div>
+    </div>
+  </div>
+
+  <div class="section-heading">Modules</div>
+
+  <div class="modules-grid">
+
+    <a href="index.html" class="module-card">
+      <div class="module-top">
+        <div class="module-icon">🏠</div>
+        <div class="module-badge badge-live">Live</div>
+      </div>
+      <div class="module-name">Property Inbox</div>
+      <div class="module-desc">Rent, leases, maintenance, and property manager updates across all 5 investment properties.</div>
+      <div class="module-arrow">→</div>
+    </a>
+
+    <a href="wealth.html" class="module-card">
+      <div class="module-top">
+        <div class="module-icon">📊</div>
+        <div class="module-badge badge-live">Live</div>
+      </div>
+      <div class="module-name">Wealth Dashboard</div>
+      <div class="module-desc">Portfolio valuations, net worth, equity, capital growth, and yield tracking.</div>
+      <div class="module-arrow">→</div>
+    </a>
+
+    <a href="https://master.tank-command-center.pages.dev" class="module-card" target="_blank">
+      <div class="module-top">
+        <div class="module-icon">🛡️</div>
+        <div class="module-badge badge-live">Live</div>
+      </div>
+      <div class="module-name">Tank Insurance</div>
+      <div class="module-desc">CRM activity, deals pipeline, team performance, and calendar. Opens Tank Command Centre.</div>
+      <div class="module-arrow">↗</div>
+    </a>
+
+    <a href="coming-soon.html?module=LinkedIn+Content" class="module-card dimmed">
+      <div class="module-top">
+        <div class="module-icon">✏️</div>
+        <div class="module-badge badge-soon">Soon</div>
+      </div>
+      <div class="module-name">LinkedIn Content</div>
+      <div class="module-desc">Draft, queue, and schedule LinkedIn posts. Built around your voice and tone guide.</div>
+      <div class="module-arrow">→</div>
+    </a>
+
+    <a href="coming-soon.html?module=Backlinks" class="module-card dimmed">
+      <div class="module-top">
+        <div class="module-icon">🔗</div>
+        <div class="module-badge badge-soon">Soon</div>
+      </div>
+      <div class="module-name">Backlinks</div>
+      <div class="module-desc">Outreach tracker, link status, domain authority, and follow-up queue for Tank's SEO campaign.</div>
+      <div class="module-arrow">→</div>
+    </a>
+
+    <a href="coming-soon.html?module=AEO+Scanner" class="module-card dimmed">
+      <div class="module-top">
+        <div class="module-icon">🔍</div>
+        <div class="module-badge badge-soon">Soon</div>
+      </div>
+      <div class="module-name">AEO Scanner</div>
+      <div class="module-desc">Monitor AI chatbots, Reddit, and forums for Tank Insurance mentions and opportunities.</div>
+      <div class="module-arrow">→</div>
+    </a>
+
+  </div>
+
+  <footer class="footer">
+    <strong>Pencev Capital Pty Ltd</strong> &nbsp;·&nbsp; Built with ⚡ Spectre
+  </footer>
+
+</main>
+
+<script>
+// Greeting based on time
+(function() {
+  const h = new Date().getHours();
+  const greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+  document.getElementById('greeting').innerHTML = greet + ', <span>Marel.</span>';
+})();
+
+// Load stats from property-details.json
+fetch('property-details.json')
+  .then(r => r.json())
+  .then(data => {
+    let totalValue = 0, totalPurchase = 0, totalRent = 0;
+    for (const key of Object.keys(data)) {
+      const p = data[key];
+      totalValue    += p.valuation || 0;
+      totalPurchase += p.purchasePrice || 0;
+      // Get most recent rent from rentHistory
+      if (p.rentHistory && p.rentHistory.length) {
+        const sorted = [...p.rentHistory].sort((a,b) => new Date(b.date) - new Date(a.date));
+        totalRent += sorted[0].amount || 0;
+      }
+    }
+    const gain    = totalValue - totalPurchase;
+    const gainPct = ((gain / totalPurchase) * 100).toFixed(0);
+    const annualRent = totalRent * 52;
+    const grossYield = ((annualRent / totalValue) * 100).toFixed(1);
+
+    function fmt(n) {
+      if (n >= 1000000) return '$' + (n/1000000).toFixed(2) + 'M';
+      if (n >= 1000)    return '$' + (n/1000).toFixed(0) + 'K';
+      return '$' + n;
+    }
+
+    document.getElementById('stat-value').textContent  = fmt(totalValue);
+    document.getElementById('stat-growth').textContent = 'Est. from Domain Insight';
+    document.getElementById('stat-rent').textContent   = fmt(totalRent) + '/wk';
+    document.getElementById('stat-yield').textContent  = grossYield + '% gross yield on value';
+    document.getElementById('stat-gain').textContent   = '+' + fmt(gain);
+    document.getElementById('stat-gain-pct').textContent = '+' + gainPct + '% since purchase';
+  })
+  .catch(() => {
+    // Fallback hardcoded values
+    document.getElementById('stat-value').textContent  = '$3.45M';
+    document.getElementById('stat-growth').textContent = 'Est. from Domain Insight';
+    document.getElementById('stat-rent').textContent   = '$2,190/wk';
+    document.getElementById('stat-yield').textContent  = '3.3% gross yield on value';
+    document.getElementById('stat-gain').textContent   = '+$1.18M';
+    document.getElementById('stat-gain-pct').textContent = '+52% since purchase';
+  });
+</script>
+
+</body>
+</html>
