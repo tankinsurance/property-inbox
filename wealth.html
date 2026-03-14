@@ -144,6 +144,8 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 .growth-card-val.neg { color: var(--red); }
 .growth-card-val.dim { color: rgba(255,255,255,0.2); }
 
+@media (max-width: 700px) { #two-col-row { grid-template-columns: 1fr !important; } }
+
 /* Waterfall */
 .wf-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
 .wf-label { font-size: 12px; font-weight: 600; color: var(--text); min-width: 130px; }
@@ -246,28 +248,28 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
     </div>
   </div>
 
-  <!-- Allocation -->
-  <div class="card" style="margin-bottom:16px">
-    <div class="card-header" onclick="toggleCard('alloc')">
-      <span class="card-title">Asset Allocation</span>
-      <span class="card-toggle open" id="toggle-alloc">▾</span>
-    </div>
-    <div class="card-body" id="body-alloc">
-      <div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap;padding-top:4px">
-        <svg id="alloc-donut" width="140" height="140" viewBox="0 0 140 140" style="flex-shrink:0"></svg>
-        <div id="alloc-legend" style="flex:1;display:flex;flex-direction:column;gap:10px;min-width:200px"></div>
+  <!-- Allocation + Waterfall 2-col -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px" id="two-col-row">
+    <div class="card" style="margin:0">
+      <div class="card-header" onclick="toggleCard('alloc')">
+        <span class="card-title">Asset Allocation</span>
+        <span class="card-toggle open" id="toggle-alloc">▾</span>
+      </div>
+      <div class="card-body" id="body-alloc">
+        <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap;padding-top:4px">
+          <svg id="alloc-donut" width="120" height="120" viewBox="0 0 140 140" style="flex-shrink:0"></svg>
+          <div id="alloc-legend" style="flex:1;display:flex;flex-direction:column;gap:8px;min-width:140px"></div>
+        </div>
       </div>
     </div>
-  </div>
-
-  <!-- Property Waterfall -->
-  <div class="card" style="margin-bottom:16px">
-    <div class="card-header" onclick="toggleCard('waterfall')">
-      <span class="card-title">Property Equity Waterfall</span>
-      <span class="card-toggle open" id="toggle-waterfall">▾</span>
-    </div>
-    <div class="card-body" id="body-waterfall">
-      <div id="waterfall-chart" style="padding-top:4px"></div>
+    <div class="card" style="margin:0">
+      <div class="card-header" onclick="toggleCard('waterfall')">
+        <span class="card-title">Property Equity</span>
+        <span class="card-toggle open" id="toggle-waterfall">▾</span>
+      </div>
+      <div class="card-body" id="body-waterfall">
+        <div id="waterfall-chart" style="padding-top:4px"></div>
+      </div>
     </div>
   </div>
 
