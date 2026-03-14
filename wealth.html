@@ -241,6 +241,9 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
             <div class="legend-item"><div class="legend-dot" style="background:#0A1327"></div>Net Worth</div>
             <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div>Property</div>
             <div class="legend-item"><div class="legend-dot" style="background:#f0a020"></div>Crypto</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#2ec98e"></div>PE</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#8F9BB3"></div>Business</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#9b6cf7"></div>SMSF</div>
           </div>
           <div style="display:flex;gap:4px;margin-left:auto" id="chart-range-btns">
             <button onclick="setChartRange('1y',this)" style="padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:var(--surface-2);font-size:11px;font-weight:600;color:var(--text-muted);cursor:pointer;font-family:inherit">1Y</button>
@@ -847,13 +850,18 @@ function renderChart() {
   });
 
   // Lines
-  const polyline = (vals, color, w) => {
+  const polyline = (vals, color, w, dash) => {
+    const nonZero = vals.some(v=>v>0);
+    if (!nonZero) return '';
     const pts = vals.map((v,i) => `${xS(i)},${yS(v)}`).join(' ');
-    return `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"/>`;
+    return `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"${dash?' stroke-dasharray="5,3"':''}/>`;
   };
   const nwVals   = data.map(d => d.netWorth);
   const propVals = data.map(d => d.breakdown?.property||0);
   const cryptoV  = data.map(d => d.breakdown?.crypto||0);
+  const peV      = data.map(d => d.breakdown?.pe||0);
+  const bizV     = data.map(d => d.breakdown?.business||0);
+  const cashV    = data.map(d => d.breakdown?.cash||0);
 
   // Area fill
   const areaPts = nwVals.map((v,i) => `${xS(i)},${yS(v)}`).join(' ');
@@ -862,7 +870,7 @@ function renderChart() {
   // Hover hit targets (invisible wide rects per data point)
   const hitRects = data.map((d,i) => {
     const x  = xS(i);
-    const bw = cW / (data.length-1);
+    const bw = cW / Math.max(data.length-1,1);
     const rx = x - bw/2, rw = bw;
     const nw = d.netWorth, prop = d.breakdown?.property||0, cry = d.breakdown?.crypto||0;
     const pe = d.breakdown?.pe||0, biz = d.breakdown?.business||0, cash = d.breakdown?.cash||0;
@@ -884,6 +892,9 @@ function renderChart() {
       ${yTicks.join('')}
       ${milestones.join('')}
       ${areaFill}
+      ${polyline(cashV,'#9b6cf7',1.5,true)}
+      ${polyline(bizV,'#8F9BB3',1.5,true)}
+      ${polyline(peV,'#2ec98e',1.5,true)}
       ${polyline(propVals,'#3b82f6',1.5)}
       ${polyline(cryptoV,'#f0a020',1.5)}
       ${polyline(nwVals,'#0A1327',2.5)}
