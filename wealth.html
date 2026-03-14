@@ -10,21 +10,14 @@
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
-  --bg: #F4F5F7;
-  --surface: #FFFFFF;
-  --surface-2: #F4F6F9;
-  --border: #E8ECF2;
-  --text: #0A1327;
-  --text-muted: #8F9BB3;
-  --text-dim: #C4CDDF;
-  --navy: #0A1327;
-  --green: #2ec98e;
-  --amber: #f0a020;
-  --red: #e55a48;
-  --blue: #3b82f6;
+  --bg: #F4F5F7; --surface: #FFFFFF; --surface-2: #F4F6F9;
+  --border: #E8ECF2; --text: #0A1327; --text-muted: #8F9BB3;
+  --text-dim: #C4CDDF; --navy: #0A1327;
+  --green: #2ec98e; --amber: #f0a020; --red: #e55a48; --blue: #3b82f6;
 }
 html, body { min-height: 100%; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
 
+/* Header */
 .header { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); padding: 0 28px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
 .header-logo { font-size: 15px; font-weight: 700; color: var(--navy); letter-spacing: -0.3px; }
 .header-logo span { color: var(--text-muted); font-weight: 400; }
@@ -32,16 +25,15 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 .nav-link { padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; color: var(--text-muted); text-decoration: none; transition: all 0.15s; }
 .nav-link:hover { background: var(--surface); color: var(--text); }
 .nav-link.active { background: var(--navy); color: #fff; }
-.header-actions { display: flex; align-items: center; gap: 10px; }
-.btn-sm { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 6px 14px; font-size: 13px; font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
+.btn-sm { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 6px 14px; font-size: 13px; font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all 0.15s; font-family: inherit; }
 .btn-sm:hover { border-color: var(--navy); color: var(--navy); }
 
 /* Hero */
-.hero { background: var(--navy); padding: 40px 28px 36px; }
+.hero { background: var(--navy); padding: 36px 28px 28px; }
 .hero-inner { max-width: 1200px; margin: 0 auto; }
-.hero-top { display: flex; align-items: flex-start; justify-content: space-between; }
-.hero-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; color: rgba(255,255,255,0.35); text-transform: uppercase; margin-bottom: 10px; }
-.hero-nw { font-size: 52px; font-weight: 800; color: #fff; letter-spacing: -2.5px; line-height: 1; }
+.hero-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px; }
+.hero-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; color: rgba(255,255,255,0.35); text-transform: uppercase; margin-bottom: 8px; }
+.hero-nw { font-size: 52px; font-weight: 800; color: #fff; letter-spacing: -2.5px; line-height: 1; transition: color 0.2s; }
 .hero-delta { display: inline-flex; align-items: center; gap: 5px; margin-top: 10px; font-size: 12px; font-weight: 600; }
 .hero-delta.positive { color: var(--green); }
 .hero-delta.negative { color: var(--red); }
@@ -51,24 +43,35 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 .btn-update { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.8); border-radius: 8px; padding: 9px 18px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; }
 .btn-update:hover { background: rgba(255,255,255,0.18); color: #fff; }
 
-/* Hero stat bar */
-.hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-top: 28px; background: rgba(255,255,255,0.08); border-radius: 10px; overflow: hidden; }
-.hero-stat { padding: 14px 18px; background: rgba(255,255,255,0.04); }
-.hero-stat-label { font-size: 10px; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 5px; }
-.hero-stat-value { font-size: 18px; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
-.hero-stat-value.zero { color: rgba(255,255,255,0.25); }
-@media (max-width: 700px) { .hero-stats { grid-template-columns: repeat(2, 1fr); } .hero-nw { font-size: 38px; } }
+/* Stat bar */
+.hero-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: rgba(255,255,255,0.08); border-radius: 10px; overflow: hidden; margin-bottom: 16px; }
+.hero-stat { padding: 12px 16px; background: rgba(255,255,255,0.04); }
+.hero-stat-label { font-size: 10px; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 4px; }
+.hero-stat-value { font-size: 16px; font-weight: 700; color: #fff; letter-spacing: -0.4px; }
+.hero-stat-value.zero { color: rgba(255,255,255,0.2); }
+.hero-stat-value.dimmed { opacity: 0.3; text-decoration: line-through; }
+@media (max-width: 800px) { .hero-stats { grid-template-columns: repeat(3, 1fr); } .hero-nw { font-size: 38px; } }
+@media (max-width: 500px) { .hero-stats { grid-template-columns: repeat(2, 1fr); } }
+
+/* Toggles */
+.hero-toggles { display: flex; flex-wrap: wrap; gap: 6px; }
+.toggle-pill { padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; cursor: pointer; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); transition: all 0.15s; font-family: inherit; letter-spacing: 0.2px; }
+.toggle-pill.active { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.4); color: #fff; }
+.toggle-pill.inactive { background: transparent; border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); }
+.toggle-label { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.5px; margin-right: 6px; align-self: center; }
 
 /* Main */
 .main { max-width: 1200px; margin: 0 auto; padding: 24px 28px 60px; }
 
 /* Summary cards */
-.summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
-@media (max-width: 900px) { .summary-grid { grid-template-columns: repeat(2, 1fr); } }
-.summary-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+.summary-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 24px; }
+@media (max-width: 1000px) { .summary-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 600px) { .summary-grid { grid-template-columns: repeat(2, 1fr); } }
+.summary-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px; }
+.summary-card.dimmed { opacity: 0.4; }
 .sc-label { font-size: 11px; font-weight: 600; letter-spacing: 0.5px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; }
-.sc-value { font-size: 24px; font-weight: 800; color: var(--navy); letter-spacing: -0.8px; }
-.sc-sub { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+.sc-value { font-size: 22px; font-weight: 800; color: var(--navy); letter-spacing: -0.8px; }
+.sc-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
 
 /* Cards */
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 16px; overflow: hidden; }
@@ -80,7 +83,7 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 .card-body { padding: 0 20px 20px; }
 .card-body.collapsed { display: none; }
 
-/* Table */
+/* Tables */
 .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .data-table th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 600; color: var(--text-muted); border-bottom: 1px solid var(--border); letter-spacing: 0.3px; text-transform: uppercase; }
 .data-table td { padding: 12px 12px; border-bottom: 1px solid var(--border); color: var(--text); }
@@ -90,6 +93,7 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 .val-pos { color: var(--green); font-weight: 600; }
 .val-neg { color: var(--red); font-weight: 600; }
 .val-muted { color: var(--text-dim); }
+.pe-commentary { font-size: 11px; color: var(--text-muted); margin-top: 2px; font-style: italic; }
 
 /* Chart */
 .chart-wrap { padding: 20px; }
@@ -99,29 +103,38 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
 
 /* Modal */
-.modal-bg { display: none; position: fixed; inset: 0; background: rgba(10,19,39,0.55); z-index: 200; align-items: center; justify-content: center; padding: 16px; }
+.modal-bg { display: none; position: fixed; inset: 0; background: rgba(10,19,39,0.55); z-index: 200; align-items: flex-start; justify-content: center; padding: 16px; overflow-y: auto; }
 .modal-bg.open { display: flex; }
-.modal { background: var(--surface); border-radius: 16px; padding: 28px; width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto; }
-.modal-title { font-size: 17px; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
-.modal-subtitle { font-size: 12px; color: var(--text-muted); margin-bottom: 24px; }
+.modal { background: var(--surface); border-radius: 16px; padding: 28px; width: 100%; max-width: 600px; margin: auto; }
+.modal-title { font-size: 17px; font-weight: 800; color: var(--navy); margin-bottom: 4px; }
+.modal-subtitle { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; }
 .modal-section-head { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; margin: 20px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
-.modal-section-head:first-of-type { margin-top: 0; }
 .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .field-group { display: flex; flex-direction: column; gap: 4px; }
 .field-group.full { grid-column: 1 / -1; }
 .field-label { font-size: 11px; font-weight: 600; color: var(--text-muted); }
-.field-input { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 13px; color: var(--text); background: var(--surface); transition: border-color 0.15s; }
+.field-note { font-size: 10px; color: var(--text-dim); margin-top: 1px; }
+.field-input { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 13px; color: var(--text); background: var(--surface); transition: border-color 0.15s; width: 100%; }
 .field-input:focus { outline: none; border-color: var(--navy); }
 .field-input::placeholder { color: var(--text-dim); }
-.modal-nw-display { background: var(--surface-2); border-radius: 10px; padding: 16px; margin: 16px 0; display: flex; justify-content: space-between; align-items: center; }
-.modal-nw-label { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.modal-nw-display { background: var(--surface-2); border-radius: 10px; padding: 14px 16px; margin: 16px 0; display: flex; justify-content: space-between; align-items: center; }
+.modal-nw-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
 .modal-nw-value { font-size: 26px; font-weight: 800; color: var(--navy); letter-spacing: -1px; }
-.modal-actions { display: flex; gap: 10px; margin-top: 24px; justify-content: flex-end; }
-.btn-cancel { background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 20px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text-muted); font-family: inherit; }
-.btn-save { background: var(--navy); color: #fff; border: none; border-radius: 8px; padding: 10px 24px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; }
+.modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+.btn-cancel { background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 9px 18px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text-muted); font-family: inherit; }
+.btn-save { background: var(--navy); color: #fff; border: none; border-radius: 8px; padding: 9px 22px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; }
 .btn-save:hover { opacity: 0.85; }
-.loading { color: var(--text-dim); font-style: italic; }
+
+/* PE entries in modal */
+.pe-list { display: flex; flex-direction: column; gap: 12px; }
+.pe-entry { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px; position: relative; }
+.pe-entry-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+.pe-remove { position: absolute; top: 10px; right: 10px; background: none; border: none; color: var(--text-dim); cursor: pointer; font-size: 16px; line-height: 1; padding: 2px 4px; border-radius: 4px; }
+.pe-remove:hover { color: var(--red); background: rgba(229,90,72,0.08); }
+.btn-add-pe { background: var(--surface); border: 1px dashed var(--border); border-radius: 8px; padding: 9px; font-size: 12px; font-weight: 600; color: var(--text-muted); cursor: pointer; font-family: inherit; width: 100%; margin-top: 10px; transition: all 0.15s; }
+.btn-add-pe:hover { border-color: var(--navy); color: var(--navy); }
 .badge { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 100px; background: var(--surface-2); color: var(--text-muted); font-weight: 600; margin-left: 6px; vertical-align: middle; }
+.loading { color: var(--text-dim); font-style: italic; }
 </style>
 </head>
 <body>
@@ -132,7 +145,7 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
     <a href="index.html" class="nav-link">Property Inbox</a>
     <a href="wealth.html" class="nav-link active">Wealth</a>
   </nav>
-  <div class="header-actions">
+  <div style="display:flex;gap:10px">
     <button class="btn-sm" onclick="loadAll()">Refresh</button>
   </div>
 </header>
@@ -143,16 +156,17 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
       <div>
         <div class="hero-label">Total Net Worth</div>
         <div class="hero-nw" id="hero-nw">Loading…</div>
-        <div id="hero-delta" class="hero-delta neutral">— vs yesterday</div>
+        <div id="hero-delta" class="hero-delta neutral">—</div>
       </div>
       <div class="hero-right">
         <div class="hero-updated" id="hero-updated">Updated: —</div>
         <button class="btn-update" onclick="openSnapshot()">Update Holdings</button>
       </div>
     </div>
-    <div class="hero-stats">
+
+    <div class="hero-stats" id="hero-stats">
       <div class="hero-stat">
-        <div class="hero-stat-label">Property Equity</div>
+        <div class="hero-stat-label">Property</div>
         <div class="hero-stat-value" id="hs-property">—</div>
       </div>
       <div class="hero-stat">
@@ -164,40 +178,57 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
         <div class="hero-stat-value" id="hs-business">—</div>
       </div>
       <div class="hero-stat">
+        <div class="hero-stat-label">Private Equity</div>
+        <div class="hero-stat-value" id="hs-pe">—</div>
+      </div>
+      <div class="hero-stat">
         <div class="hero-stat-label">SMSF & Cash</div>
         <div class="hero-stat-value" id="hs-cash">—</div>
       </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+      <span class="toggle-label">Show:</span>
+      <button class="toggle-pill active" data-cat="property" onclick="toggleCat('property',this)">Property</button>
+      <button class="toggle-pill active" data-cat="crypto" onclick="toggleCat('crypto',this)">Crypto</button>
+      <button class="toggle-pill active" data-cat="business" onclick="toggleCat('business',this)">Business</button>
+      <button class="toggle-pill active" data-cat="pe" onclick="toggleCat('pe',this)">Private Equity</button>
+      <button class="toggle-pill active" data-cat="cash" onclick="toggleCat('cash',this)">SMSF & Cash</button>
     </div>
   </div>
 </section>
 
 <main class="main">
 
-  <!-- Summary cards -->
   <div class="summary-grid">
-    <div class="summary-card">
+    <div class="summary-card" id="card-property">
       <div class="sc-label">Property Equity</div>
       <div class="sc-value" id="sc-property">—</div>
       <div class="sc-sub" id="sc-property-sub">—</div>
     </div>
-    <div class="summary-card">
+    <div class="summary-card" id="card-crypto">
       <div class="sc-label">Crypto & Gold</div>
       <div class="sc-value" id="sc-crypto">—</div>
       <div class="sc-sub" id="sc-crypto-sub">Live prices</div>
     </div>
-    <div class="summary-card">
+    <div class="summary-card" id="card-business">
       <div class="sc-label">Business</div>
       <div class="sc-value" id="sc-business">—</div>
       <div class="sc-sub">Tank + Tykhe</div>
     </div>
-    <div class="summary-card">
+    <div class="summary-card" id="card-pe">
+      <div class="sc-label">Private Equity</div>
+      <div class="sc-value" id="sc-pe">—</div>
+      <div class="sc-sub" id="sc-pe-sub">—</div>
+    </div>
+    <div class="summary-card" id="card-cash">
       <div class="sc-label">SMSF & Cash</div>
       <div class="sc-value" id="sc-cash">—</div>
       <div class="sc-sub" id="sc-cash-sub">Net of HECS</div>
     </div>
   </div>
 
-  <!-- Trend chart -->
+  <!-- Chart -->
   <div class="card">
     <div class="card-header" onclick="toggleCard('chart')">
       <span class="card-title">Net Worth Trend</span>
@@ -211,12 +242,7 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
           <div class="legend-item"><div class="legend-dot" style="background:#f0a020"></div>Crypto</div>
           <div class="legend-item"><div class="legend-dot" style="background:#2ec98e"></div>Business & Cash</div>
         </div>
-        <div id="chart-container">
-          <div class="chart-empty">
-            <div style="font-size:28px;opacity:0.2">—</div>
-            <div>No data yet — update your holdings to start tracking</div>
-          </div>
-        </div>
+        <div id="chart-container"><div class="chart-empty"><div style="opacity:0.2;font-size:24px">—</div><div>Loading chart…</div></div></div>
       </div>
     </div>
   </div>
@@ -249,7 +275,7 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
     </div>
   </div>
 
-  <!-- Crypto & Gold -->
+  <!-- Crypto -->
   <div class="card">
     <div class="card-header" onclick="toggleCard('crypto')">
       <span class="card-title">Crypto & Gold <span class="badge">Live</span></span>
@@ -258,12 +284,40 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
     <div class="card-body collapsed" id="body-crypto">
       <table class="data-table">
         <thead><tr><th>Asset</th><th>Holding</th><th>Price (AUD)</th><th>Value</th></tr></thead>
-        <tbody id="tbl-crypto"><tr><td colspan="4" class="loading">Loading…</td></tr></tbody>
+        <tbody id="tbl-crypto"></tbody>
       </table>
     </div>
   </div>
 
-  <!-- Other assets -->
+  <!-- Business -->
+  <div class="card">
+    <div class="card-header" onclick="toggleCard('business')">
+      <span class="card-title">Business Holdings</span>
+      <span class="card-toggle" id="toggle-business">▾</span>
+    </div>
+    <div class="card-body collapsed" id="body-business">
+      <table class="data-table">
+        <thead><tr><th>Item</th><th>Balance</th><th>Updated</th><th>Type</th></tr></thead>
+        <tbody id="tbl-business"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Private Equity -->
+  <div class="card">
+    <div class="card-header" onclick="toggleCard('pe')">
+      <span class="card-title">Private Equity</span>
+      <span class="card-toggle" id="toggle-pe">▾</span>
+    </div>
+    <div class="card-body collapsed" id="body-pe">
+      <table class="data-table">
+        <thead><tr><th>Company</th><th>Valuation</th><th>Updated</th><th>Commentary</th></tr></thead>
+        <tbody id="tbl-pe"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SMSF & Other -->
   <div class="card">
     <div class="card-header" onclick="toggleCard('other')">
       <span class="card-title">SMSF, Cash & Other</span>
@@ -277,10 +331,10 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
     </div>
   </div>
 
-  <!-- Snapshot history -->
+  <!-- History -->
   <div class="card">
     <div class="card-header" onclick="toggleCard('history')">
-      <span class="card-title">History <span class="badge" id="history-count"></span></span>
+      <span class="card-title">History</span>
       <span class="card-toggle" id="toggle-history">▾</span>
     </div>
     <div class="card-body collapsed" id="body-history">
@@ -295,93 +349,78 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 
 <!-- Update Holdings Modal -->
 <div class="modal-bg" id="modal-bg" onclick="if(event.target===this)closeSnapshot()">
-  <div class="modal">
-    <div class="modal-title">Update Holdings</div>
-    <div class="modal-subtitle">Update your holdings — calculations and snapshot will reflect these values</div>
+<div class="modal">
+  <div class="modal-title">Update Holdings</div>
+  <div class="modal-subtitle">All values saved locally and used in net worth calculations</div>
 
-    <div class="modal-section-head">Crypto</div>
-    <div class="field-grid">
-      <div class="field-group">
-        <div class="field-label">BTC — Personal (coins)</div>
-        <input class="field-input" id="f-btc" type="number" step="0.00001" placeholder="0" min="0">
-      </div>
-      <div class="field-group">
-        <div class="field-label">BTC — SMSF (coins)</div>
-        <input class="field-input" id="f-btc-smsf" type="number" step="0.00001" placeholder="0" min="0">
-      </div>
-      <div class="field-group">
-        <div class="field-label">ETH — Personal (coins)</div>
-        <input class="field-input" id="f-eth" type="number" step="0.00001" placeholder="0" min="0">
-      </div>
-      <div class="field-group">
-        <div class="field-label">ETH — SMSF (coins)</div>
-        <input class="field-input" id="f-eth-smsf" type="number" step="0.00001" placeholder="0" min="0">
-      </div>
-      <div class="field-group">
-        <div class="field-label">Gold (grams)</div>
-        <input class="field-input" id="f-gold" type="number" step="0.1" placeholder="0" min="0">
-      </div>
-    </div>
+  <div class="modal-section-head">Crypto</div>
+  <div class="field-grid">
+    <div class="field-group"><div class="field-label">BTC — Personal</div><input class="field-input" id="f-btc" type="number" step="0.00001" placeholder="0"></div>
+    <div class="field-group"><div class="field-label">BTC — SMSF</div><input class="field-input" id="f-btc-smsf" type="number" step="0.00001" placeholder="0"></div>
+    <div class="field-group"><div class="field-label">ETH — Personal</div><input class="field-input" id="f-eth" type="number" step="0.00001" placeholder="0"></div>
+    <div class="field-group"><div class="field-label">ETH — SMSF</div><input class="field-input" id="f-eth-smsf" type="number" step="0.00001" placeholder="0"></div>
+    <div class="field-group"><div class="field-label">Gold (grams)</div><input class="field-input" id="f-gold" type="number" step="0.1" placeholder="0"></div>
+  </div>
 
-    <div class="modal-section-head">SMSF & Cash</div>
-    <div class="field-grid">
-      <div class="field-group">
-        <div class="field-label">SMSF Macquarie ($)</div>
-        <input class="field-input" id="f-smsf" type="number" step="1" placeholder="0" min="0">
-      </div>
-      <div class="field-group">
-        <div class="field-label">Mezzanine Finance ($)</div>
-        <input class="field-input" id="f-mezz" type="number" step="1" placeholder="0" min="0">
-      </div>
-      <div class="field-group">
-        <div class="field-label">Cash & Offsets ($)</div>
-        <input class="field-input" id="f-cash" type="number" step="1" placeholder="0" min="0">
-      </div>
-      <div class="field-group">
-        <div class="field-label">HECS Debt ($)</div>
-        <input class="field-input" id="f-hecs" type="number" step="1" placeholder="0" min="0">
-      </div>
+  <div class="modal-section-head">Tykhe Digital</div>
+  <div class="field-grid">
+    <div class="field-group">
+      <div class="field-label">Tykhe Holding — CBA ($)</div>
+      <div class="field-note">Overdraft — enter negative if in debt</div>
+      <input class="field-input" id="f-tykhe-cba" type="number" step="1" placeholder="0">
     </div>
-
-    <div class="modal-section-head">Business</div>
-    <div class="field-grid">
-      <div class="field-group">
-        <div class="field-label">Tank — Bank Balance ($)</div>
-        <input class="field-input" id="f-tank" type="number" step="1" placeholder="0" min="0">
-      </div>
-      <div class="field-group">
-        <div class="field-label">Tykhe — Estimated Value ($)</div>
-        <input class="field-input" id="f-tykhe" type="number" step="1" placeholder="0" min="0">
-      </div>
-    </div>
-
-    <div class="modal-section-head">Snapshot</div>
-    <div class="field-grid">
-      <div class="field-group">
-        <div class="field-label">Date</div>
-        <input class="field-input" id="f-date" type="date">
-      </div>
-    </div>
-    <div class="modal-nw-display">
-      <div class="modal-nw-label">Calculated Net Worth</div>
-      <div class="modal-nw-value" id="modal-nw-preview">—</div>
-    </div>
-    <div class="field-group full" style="margin-top:0">
-      <div class="field-label">Notes (optional)</div>
-      <textarea class="field-input" id="f-notes" style="resize:vertical;min-height:64px;margin-top:4px" placeholder="Market commentary, property updates, key changes…"></textarea>
-    </div>
-
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeSnapshot()">Cancel</button>
-      <button class="btn-save" onclick="saveSnapshot()">Save Snapshot</button>
+    <div class="field-group">
+      <div class="field-label">Tykhe Loan ($)</div>
+      <div class="field-note">Enter negative — this is a liability</div>
+      <input class="field-input" id="f-tykhe-loan" type="number" step="1" placeholder="0">
     </div>
   </div>
+
+  <div class="modal-section-head">Tank Insurance</div>
+  <div class="field-grid">
+    <div class="field-group">
+      <div class="field-label">Tank Holding — NAB ($)</div>
+      <div class="field-note">Checking account balance</div>
+      <input class="field-input" id="f-tank-nab" type="number" step="1" placeholder="0">
+    </div>
+  </div>
+
+  <div class="modal-section-head">Private Equity</div>
+  <div class="pe-list" id="pe-list"></div>
+  <button class="btn-add-pe" onclick="addPEEntry()">+ Add company</button>
+
+  <div class="modal-section-head">SMSF & Cash</div>
+  <div class="field-grid">
+    <div class="field-group"><div class="field-label">SMSF Macquarie ($)</div><input class="field-input" id="f-smsf" type="number" step="1" placeholder="0"></div>
+    <div class="field-group"><div class="field-label">Mezzanine Finance ($)</div><input class="field-input" id="f-mezz" type="number" step="1" placeholder="0"></div>
+    <div class="field-group"><div class="field-label">Cash & Offsets ($)</div><input class="field-input" id="f-cash" type="number" step="1" placeholder="0"></div>
+    <div class="field-group"><div class="field-label">HECS Debt ($)</div><input class="field-input" id="f-hecs" type="number" step="1" placeholder="0"></div>
+  </div>
+
+  <div class="modal-section-head">Snapshot</div>
+  <div class="field-grid">
+    <div class="field-group"><div class="field-label">Date</div><input class="field-input" id="f-date" type="date"></div>
+  </div>
+  <div class="modal-nw-display">
+    <div class="modal-nw-label">Calculated Net Worth</div>
+    <div class="modal-nw-value" id="modal-nw-preview">—</div>
+  </div>
+  <div class="field-group full">
+    <div class="field-label">Notes (optional)</div>
+    <textarea class="field-input" id="f-notes" style="resize:vertical;min-height:64px;margin-top:4px" placeholder="Market commentary, key changes, valuation rationale…"></textarea>
+  </div>
+
+  <div class="modal-actions">
+    <button class="btn-cancel" onclick="closeSnapshot()">Cancel</button>
+    <button class="btn-save" onclick="saveSnapshot()">Save Snapshot</button>
+  </div>
+</div>
 </div>
 
 <script>
-const WORKER = 'https://property-inbox-api.marel-e1f.workers.dev';
-const CONFIG_KEY = 'wealth-config-v2';
-const SNAPS_KEY  = 'wealth-snapshots-v2';
+const WORKER   = 'https://property-inbox-api.marel-e1f.workers.dev';
+const CFG_KEY  = 'wealth-config-v3';
+const SNAP_KEY = 'wealth-snapshots-v2';
 
 let propDetails  = {};
 let baseConfig   = {};
@@ -390,491 +429,474 @@ let cryptoPrices = null;
 let goldPriceAUD = null;
 let calcState    = {};
 
-// ── Config (merged: file + localStorage overrides) ──────────────────────────
-function loadConfig() {
-  try {
-    const saved = localStorage.getItem(CONFIG_KEY);
-    return saved ? JSON.parse(saved) : {};
-  } catch { return {}; }
+// active toggles: all on by default
+const activeToggles = { property: true, crypto: true, business: true, pe: true, cash: true };
+
+// ── Toggle handler ────────────────────────────────────────────────────────────
+function toggleCat(cat, btn) {
+  activeToggles[cat] = !activeToggles[cat];
+  btn.className = 'toggle-pill ' + (activeToggles[cat] ? 'active' : 'inactive');
+  // Dim the matching summary card
+  const card = document.getElementById('card-' + cat);
+  if (card) card.classList.toggle('dimmed', !activeToggles[cat]);
+  renderHero();
 }
-function saveConfig(cfg) {
-  try { localStorage.setItem(CONFIG_KEY, JSON.stringify(cfg)); } catch {}
-}
+
+// ── Config ────────────────────────────────────────────────────────────────────
+function loadConfig() { try { return JSON.parse(localStorage.getItem(CFG_KEY) || '{}'); } catch { return {}; } }
+function saveConfig(c) { try { localStorage.setItem(CFG_KEY, JSON.stringify(c)); } catch {} }
 function mergedConfig() {
   const local = loadConfig();
-  // deep merge: local overrides baseConfig
-  const base = JSON.parse(JSON.stringify(baseConfig));
-  const merge = (target, src) => {
-    for (const k of Object.keys(src || {})) {
-      if (src[k] && typeof src[k] === 'object' && !Array.isArray(src[k])) {
-        target[k] = target[k] || {};
-        merge(target[k], src[k]);
-      } else {
-        target[k] = src[k];
-      }
-    }
-    return target;
-  };
-  return merge(base, local);
+  const base  = JSON.parse(JSON.stringify(baseConfig));
+  const merge = (t, s) => { for (const k of Object.keys(s||{})) { if (s[k] && typeof s[k]==='object' && !Array.isArray(s[k])) { t[k]=t[k]||{}; merge(t[k],s[k]); } else { t[k]=s[k]; } } return t; };
+  const merged = merge(base, local);
+  // Backward compat: if old tank_bank / tykhe_value keys exist, migrate them
+  if (local.tank_bank?.balance && !local.tank?.holding_nab) merged.tank = { holding_nab: local.tank_bank };
+  if (local.tykhe_value?.balance && !local.tykhe?.holding_cba) merged.tykhe = { holding_cba: local.tykhe_value, loan: { balance: 0 } };
+  return merged;
 }
 
-// ── Snapshots (localStorage + Worker sync) ───────────────────────────────────
-function loadLocalSnaps() {
-  try { return JSON.parse(localStorage.getItem(SNAPS_KEY) || '[]'); } catch { return []; }
-}
-function saveLocalSnaps(arr) {
-  try { localStorage.setItem(SNAPS_KEY, JSON.stringify(arr)); } catch {}
-}
+// ── Snapshots ─────────────────────────────────────────────────────────────────
+function loadLocalSnaps() { try { return JSON.parse(localStorage.getItem(SNAP_KEY) || '[]'); } catch { return []; } }
+function saveLocalSnaps(a) { try { localStorage.setItem(SNAP_KEY, JSON.stringify(a)); } catch {} }
 
-// ── Format ────────────────────────────────────────────────────────────────────
-function fmt(n) {
-  if (n == null || isNaN(n)) return '—';
-  return '$' + Math.round(n).toLocaleString('en-AU');
-}
-function fmtK(n) {
-  if (n == null || isNaN(n)) return '—';
-  const abs = Math.abs(n);
-  const sign = n < 0 ? '-' : '';
-  if (abs >= 1000000) return sign + '$' + (abs/1000000).toFixed(2) + 'M';
-  if (abs >= 1000) return sign + '$' + (abs/1000).toFixed(0) + 'k';
-  return sign + '$' + Math.round(abs).toLocaleString();
-}
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function fmt(n) { if (n==null||isNaN(n)) return '—'; const neg = n<0; return (neg?'-':'')+'$'+Math.abs(Math.round(n)).toLocaleString('en-AU'); }
+function fmtK(n) { if (n==null||isNaN(n)) return '—'; const abs=Math.abs(n),s=n<0?'-':''; if(abs>=1000000) return s+'$'+(abs/1000000).toFixed(2)+'M'; if(abs>=1000) return s+'$'+(abs/1000).toFixed(0)+'k'; return s+'$'+Math.round(abs).toLocaleString(); }
 function today() { return new Date().toISOString().slice(0,10); }
 function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-// ── Load all data ─────────────────────────────────────────────────────────────
+// ── Load ──────────────────────────────────────────────────────────────────────
 async function loadAll() {
   document.getElementById('hero-nw').textContent = 'Loading…';
   document.getElementById('hero-updated').textContent = 'Refreshing…';
 
-  const [pdRes, wcRes, snapRes, histRes, cryptoRes, goldRes] = await Promise.allSettled([
-    fetch('property-details.json').then(r => r.json()),
-    fetch('wealth-config.json').then(r => r.json()),
-    fetch(`${WORKER}/wealth/snapshots`).then(r => r.json()),
-    fetch('wealth-snapshots-historical.json').then(r => r.json()),
-    fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=aud').then(r => r.json()),
-    fetch('https://data-asg.goldprice.org/dbXRates/AUD').then(r => r.json()),
+  const [pdR,wcR,snapR,histR,cryptoR,goldR] = await Promise.allSettled([
+    fetch('property-details.json').then(r=>r.json()),
+    fetch('wealth-config.json').then(r=>r.json()),
+    fetch(`${WORKER}/wealth/snapshots`).then(r=>r.json()),
+    fetch('wealth-snapshots-historical.json').then(r=>r.json()),
+    fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=aud').then(r=>r.json()),
+    fetch('https://data-asg.goldprice.org/dbXRates/AUD').then(r=>r.json()),
   ]);
 
-  propDetails = pdRes.status === 'fulfilled' ? pdRes.value : {};
-  baseConfig  = wcRes.status === 'fulfilled' ? wcRes.value : {};
+  propDetails = pdR.status==='fulfilled' ? pdR.value : {};
+  baseConfig  = wcR.status==='fulfilled' ? wcR.value : {};
 
-  // Merge snapshots: historical (base) < worker < local (highest priority)
-  const historicalSnaps = (histRes.status === 'fulfilled' && Array.isArray(histRes.value)) ? histRes.value : [];
-  const workerSnaps = (snapRes.status === 'fulfilled' && Array.isArray(snapRes.value)) ? snapRes.value : [];
-  const localSnaps  = loadLocalSnaps();
-  const seen = new Set();
-  // Live/local snapshots take priority over historical, worker over historical
-  snapshots = [...historicalSnaps, ...workerSnaps, ...localSnaps]
-    .reverse() // Process in reverse so later entries (higher priority) are kept
-    .filter(s => { if (seen.has(s.date)) return false; seen.add(s.date); return true; })
-    .sort((a,b) => a.date.localeCompare(b.date));
+  const hist   = (histR.status==='fulfilled' && Array.isArray(histR.value)) ? histR.value : [];
+  const worker = (snapR.status==='fulfilled' && Array.isArray(snapR.value)) ? snapR.value : [];
+  const local  = loadLocalSnaps();
+  const seen   = new Set();
+  snapshots = [...hist,...worker,...local].reverse()
+    .filter(s=>{ if(seen.has(s.date))return false; seen.add(s.date); return true; })
+    .sort((a,b)=>a.date.localeCompare(b.date));
 
-  if (cryptoRes.status === 'fulfilled' && cryptoRes.value) cryptoPrices = cryptoRes.value;
-  if (goldRes.status === 'fulfilled' && goldRes.value?.items?.[0]) goldPriceAUD = goldRes.value.items[0].xauPrice / 31.1035;
+  if (cryptoR.status==='fulfilled') cryptoPrices = cryptoR.value;
+  if (goldR.status==='fulfilled' && goldR.value?.items?.[0]) goldPriceAUD = goldR.value.items[0].xauPrice / 31.1035;
 
   render();
-
-  // Auto-save daily snapshot if config has holdings and no snapshot today
   autoDaily();
-
-  document.getElementById('hero-updated').textContent = 'Updated: ' + new Date().toLocaleTimeString('en-AU', {hour:'2-digit',minute:'2-digit'});
+  document.getElementById('hero-updated').textContent = 'Updated: '+new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'});
 }
 
-// ── Auto-daily snapshot ───────────────────────────────────────────────────────
+// ── Auto-daily ────────────────────────────────────────────────────────────────
 function autoDaily() {
   const cfg = mergedConfig();
-  const hasHoldings = (cfg.crypto?.bitcoin?.quantity || 0) > 0 ||
-    (cfg.crypto?.bitcoin_smsf?.quantity || 0) > 0 ||
-    (cfg.smsf_macquarie?.balance || 0) > 0;
-  if (!hasHoldings) return; // nothing entered yet
-  const todayStr = today();
-  if (snapshots.find(s => s.date === todayStr)) return; // already have today
-
-  const c = calculateWith(cfg);
-  const snap = {
-    date: todayStr,
-    netWorth: Math.round(c.netWorth),
-    breakdown: { property: Math.round(c.propEquity), crypto: Math.round(c.cryptoVal), business: Math.round(c.businessVal), cash: Math.round(c.cashVal) },
-    notes: 'Auto',
-    auto: true,
-  };
-  snapshots.push(snap);
-  snapshots.sort((a,b) => a.date.localeCompare(b.date));
+  const hasData = (cfg.crypto?.bitcoin?.quantity||0)>0 || (cfg.smsf_macquarie?.balance||0)>0 || (cfg.tank?.holding_nab?.balance||0)>0;
+  if (!hasData) return;
+  const d = today();
+  if (snapshots.find(s=>s.date===d)) return;
+  const c = calculateWith(cfg, { property:true,crypto:true,business:true,pe:true,cash:true });
+  const snap = { date:d, netWorth:Math.round(c.netWorth), breakdown:{property:Math.round(c.propEquity),crypto:Math.round(c.cryptoVal),business:Math.round(c.businessVal),pe:Math.round(c.peVal),cash:Math.round(c.cashVal)}, notes:'Auto', auto:true };
+  snapshots = [...snapshots, snap].sort((a,b)=>a.date.localeCompare(b.date));
   saveLocalSnaps(snapshots);
-  renderSnapshots();
-  renderChart();
-  updateHeroDelta();
+  renderSnapshots(); renderChart(); renderHeroDelta();
 }
 
 // ── Calculate ─────────────────────────────────────────────────────────────────
-function calculateWith(cfg) {
-  const loans  = cfg.loans || {};
+function calculateWith(cfg, toggles) {
+  toggles = toggles || activeToggles;
+  const loans = cfg.loans || {};
   const crypto = cfg.crypto || {};
 
+  // Property
   const propKeys  = ['camillo-wa','lavington-nsw','west-wodonga-vic','wilsonton-qld','townsville-qld'];
-  const propNames = { 'camillo-wa':'Camillo WA','lavington-nsw':'Lavington NSW','west-wodonga-vic':'West Wodonga VIC','wilsonton-qld':'Wilsonton QLD','townsville-qld':'Kirwan QLD' };
-  const loanMap   = { 'camillo-wa':'camillo-wa','lavington-nsw':'lavington-nsw','west-wodonga-vic':'west-wodonga-vic','wilsonton-qld':'wilsonton-qld','townsville-qld':'kirwan-qld' };
-
-  let propGross = 0, propLoans = 0;
+  const propNames = {'camillo-wa':'Camillo WA','lavington-nsw':'Lavington NSW','west-wodonga-vic':'West Wodonga VIC','wilsonton-qld':'Wilsonton QLD','townsville-qld':'Kirwan QLD'};
+  const loanMap   = {'camillo-wa':'camillo-wa','lavington-nsw':'lavington-nsw','west-wodonga-vic':'west-wodonga-vic','wilsonton-qld':'wilsonton-qld','townsville-qld':'kirwan-qld'};
+  let propGross=0, propLoans=0;
   const propRows = [];
-  propKeys.forEach(k => {
-    const pd   = propDetails[k] || {};
-    const val  = pd.valuation || 0;
-    const loan = (loans[loanMap[k]] || {}).balance || 0;
-    propGross += val; propLoans += loan;
-    propRows.push({ name: propNames[k], val, loan, equity: val - loan, eqPct: val ? (((val-loan)/val)*100).toFixed(1) : null });
+  propKeys.forEach(k=>{
+    const pd=propDetails[k]||{}, val=pd.valuation||0, loan=(loans[loanMap[k]]||{}).balance||0;
+    propGross+=val; propLoans+=loan;
+    propRows.push({name:propNames[k],val,loan,equity:val-loan,eqPct:val?(((val-loan)/val)*100).toFixed(1):null});
   });
-  propLoans += (loans.other || {}).balance || 0;
+  propLoans += (loans.other||{}).balance||0;
   const propEquity = propGross - propLoans;
 
-  const btcPrice = cryptoPrices?.bitcoin?.aud || 0;
-  const ethPrice = cryptoPrices?.ethereum?.aud || 0;
-  const btcQty   = crypto.bitcoin?.quantity || 0;
-  const ethQty   = crypto.ethereum?.quantity || 0;
-  const btcSmsf  = crypto.bitcoin_smsf?.quantity || 0;
-  const ethSmsf  = crypto.ethereum_smsf?.quantity || 0;
-  const goldG    = (cfg.gold || {}).grams || 0;
-  const goldVal  = goldG * (goldPriceAUD || 0);
-  const cryptoVal = (btcQty + btcSmsf)*btcPrice + (ethQty + ethSmsf)*ethPrice + goldVal;
+  // Crypto & Gold
+  const btcP=cryptoPrices?.bitcoin?.aud||0, ethP=cryptoPrices?.ethereum?.aud||0;
+  const btcQty=crypto.bitcoin?.quantity||0, ethQty=crypto.ethereum?.quantity||0;
+  const btcSmsf=crypto.bitcoin_smsf?.quantity||0, ethSmsf=crypto.ethereum_smsf?.quantity||0;
+  const goldG=(cfg.gold||{}).grams||0, goldVal=goldG*(goldPriceAUD||0);
+  const cryptoVal=(btcQty+btcSmsf)*btcP+(ethQty+ethSmsf)*ethP+goldVal;
 
-  const tankBank  = (cfg.tank_bank || {}).balance || 0;
-  const tykheVal  = (cfg.tykhe_value || {}).balance || 0;
-  const businessVal = tankBank + tykheVal;
+  // Business (Tykhe + Tank)
+  const tykheCBA  = (cfg.tykhe?.holding_cba?.balance)||0;  // can be negative
+  const tykheLoan = (cfg.tykhe?.loan?.balance)||0;           // can be negative (liability)
+  const tankNAB   = (cfg.tank?.holding_nab?.balance)||0;
+  const businessVal = tykheCBA + tykheLoan + tankNAB;
 
-  const smsfMac   = (cfg.smsf_macquarie || {}).balance || 0;
-  const mezzanine = (cfg.mezzanine || {}).balance || 0;
-  const offsets   = (cfg.cash_offsets || {}).balance || 0;
-  const hecs      = (cfg.hecs || {}).balance || 0;
-  const cashVal   = smsfMac + mezzanine + offsets - hecs;
+  // Private Equity
+  const peEntries = Array.isArray(cfg.private_equity) ? cfg.private_equity : [];
+  const peVal = peEntries.reduce((sum, e) => sum + (e.valuation||0), 0);
 
-  const totalAssets = propGross + cryptoVal + businessVal + smsfMac + mezzanine + offsets + tankBank + tykheVal;
-  const netWorth = propGross + cryptoVal + businessVal + smsfMac + mezzanine + offsets - propLoans - hecs;
+  // SMSF & Cash
+  const smsfMac=(cfg.smsf_macquarie||{}).balance||0;
+  const mezzanine=(cfg.mezzanine||{}).balance||0;
+  const offsets=(cfg.cash_offsets||{}).balance||0;
+  const hecs=(cfg.hecs||{}).balance||0;
+  const cashVal=smsfMac+mezzanine+offsets-hecs;
 
-  return { netWorth, propGross, propLoans, propEquity, propRows, cryptoVal, btcPrice, ethPrice, btcQty, ethQty, btcSmsf, ethSmsf, goldVal, goldG, businessVal, tankBank, tykheVal, cashVal, smsfMac, mezzanine, offsets, hecs, loans, cfg };
+  // Net worth respects toggles
+  const netWorth =
+    (toggles.property ? propEquity : 0) +
+    (toggles.crypto   ? cryptoVal  : 0) +
+    (toggles.business ? businessVal: 0) +
+    (toggles.pe       ? peVal      : 0) +
+    (toggles.cash     ? cashVal    : 0);
+
+  return { netWorth, propGross, propLoans, propEquity, propRows, cryptoVal, btcP, ethP, btcQty, ethQty, btcSmsf, ethSmsf, goldVal, goldG, businessVal, tykheCBA, tykheLoan, tankNAB, peVal, peEntries, cashVal, smsfMac, mezzanine, offsets, hecs, loans, cfg };
 }
-
-function calculate() { return calculateWith(mergedConfig()); }
+function calculate() { return calculateWith(mergedConfig(), activeToggles); }
 
 // ── Render ────────────────────────────────────────────────────────────────────
 function render() {
-  const c = calculate();
+  const c = calculateWith(mergedConfig(), { property:true,crypto:true,business:true,pe:true,cash:true });
   calcState = c;
+  renderHero(c);
+  renderTables(c);
+  renderSnapshots();
+  renderChart();
+}
 
-  document.getElementById('hero-nw').textContent = fmtK(c.netWorth);
+function renderHero(c) {
+  c = c || calculateWith(mergedConfig(), activeToggles);
+  calcState = c;
+  const toggled = calculate(); // with active toggles
+  document.getElementById('hero-nw').textContent = fmtK(toggled.netWorth);
 
-  // Hero stat bar
   const zero = v => v === 0;
-  document.getElementById('hs-property').textContent = fmtK(c.propEquity);
-  document.getElementById('hs-property').className = 'hero-stat-value' + (zero(c.propEquity) ? ' zero' : '');
-  document.getElementById('hs-crypto').textContent = fmtK(c.cryptoVal);
-  document.getElementById('hs-crypto').className = 'hero-stat-value' + (zero(c.cryptoVal) ? ' zero' : '');
-  document.getElementById('hs-business').textContent = fmtK(c.businessVal);
-  document.getElementById('hs-business').className = 'hero-stat-value' + (zero(c.businessVal) ? ' zero' : '');
-  document.getElementById('hs-cash').textContent = fmtK(c.cashVal);
-  document.getElementById('hs-cash').className = 'hero-stat-value' + (zero(c.cashVal) ? ' zero' : '');
+  const dim  = cat => !activeToggles[cat];
+  const setHs = (id, val, cat) => {
+    const el = document.getElementById(id);
+    el.textContent = fmtK(val);
+    el.className = 'hero-stat-value' + (zero(val) ? ' zero' : '') + (dim(cat) ? ' dimmed' : '');
+  };
+  setHs('hs-property', c.propEquity, 'property');
+  setHs('hs-crypto',   c.cryptoVal,  'crypto');
+  setHs('hs-business', c.businessVal,'business');
+  setHs('hs-pe',       c.peVal,      'pe');
+  setHs('hs-cash',     c.cashVal,    'cash');
 
-  updateHeroDelta();
+  renderHeroDelta();
+}
 
+function renderHeroDelta() {
+  const el = document.getElementById('hero-delta');
+  const real = snapshots.filter(s => !s.auto);
+  if (real.length > 1) {
+    const prev=real[real.length-2], curr=real[real.length-1];
+    const d = curr.netWorth-prev.netWorth;
+    el.textContent = (d>=0?'+':'') + fmtK(d) + ' vs prev snapshot';
+    el.className = 'hero-delta '+(d>0?'positive':d<0?'negative':'neutral');
+  } else if (snapshots.length > 1) {
+    const prev=snapshots[snapshots.length-2];
+    const d = calcState.netWorth-prev.netWorth;
+    el.textContent = (d>=0?'+':'') + fmtK(d) + ' vs prev';
+    el.className = 'hero-delta '+(d>0?'positive':d<0?'negative':'neutral');
+  } else {
+    el.textContent = 'No history yet'; el.className = 'hero-delta neutral';
+  }
+}
+
+function renderTables(c) {
   // Summary cards
   document.getElementById('sc-property').textContent = fmtK(c.propEquity);
   document.getElementById('sc-property-sub').textContent = `${fmtK(c.propGross)} value — ${fmtK(c.propLoans)} loans`;
   document.getElementById('sc-crypto').textContent = fmtK(c.cryptoVal);
-  document.getElementById('sc-crypto-sub').textContent = c.btcPrice ? `BTC ${fmtK(c.btcPrice)}` : 'Live prices';
+  document.getElementById('sc-crypto-sub').textContent = c.btcP ? `BTC ${fmtK(c.btcP)}` : 'Live prices';
   document.getElementById('sc-business').textContent = fmtK(c.businessVal);
+  document.getElementById('sc-pe').textContent = fmtK(c.peVal);
+  document.getElementById('sc-pe-sub').textContent = c.peEntries.length ? c.peEntries.map(e=>e.name).join(', ') : '—';
   document.getElementById('sc-cash').textContent = fmtK(c.cashVal);
-  document.getElementById('sc-cash-sub').textContent = c.hecs > 0 ? `Net of ${fmt(c.hecs)} HECS` : 'SMSF + Cash';
+  document.getElementById('sc-cash-sub').textContent = c.hecs>0 ? `Net of ${fmt(c.hecs)} HECS` : 'SMSF + Cash';
 
-  // Properties table
-  const ptbody = document.getElementById('tbl-properties');
-  ptbody.innerHTML = c.propRows.map(r => `<tr>
-    <td><strong>${esc(r.name)}</strong></td>
-    <td>${fmt(r.val)}</td>
+  // Properties
+  document.getElementById('tbl-properties').innerHTML = c.propRows.map(r=>`<tr>
+    <td><strong>${esc(r.name)}</strong></td><td>${fmt(r.val)}</td>
     <td class="val-neg">${fmt(r.loan)}</td>
-    <td class="${r.equity >= 0 ? 'val-pos' : 'val-neg'}">${fmt(r.equity)}</td>
-    <td>${r.eqPct != null ? r.eqPct + '%' : '—'}</td>
-  </tr>`).join('') + `<tr class="total-row">
-    <td>Total</td><td>${fmt(c.propGross)}</td>
+    <td class="${r.equity>=0?'val-pos':'val-neg'}">${fmt(r.equity)}</td>
+    <td>${r.eqPct!=null?r.eqPct+'%':'—'}</td>
+  </tr>`).join('') + `<tr class="total-row"><td>Total</td><td>${fmt(c.propGross)}</td>
     <td class="val-neg">${fmt(c.propLoans)}</td>
-    <td class="${c.propEquity >= 0 ? 'val-pos' : 'val-neg'}">${fmt(c.propEquity)}</td>
-    <td>${c.propGross ? ((c.propEquity/c.propGross)*100).toFixed(1) + '%' : '—'}</td>
-  </tr>`;
+    <td class="${c.propEquity>=0?'val-pos':'val-neg'}">${fmt(c.propEquity)}</td>
+    <td>${c.propGross?((c.propEquity/c.propGross)*100).toFixed(1)+'%':'—'}</td></tr>`;
 
-  // Loans table
-  const loanDisplay = [
-    { name: 'Camillo WA', key: 'camillo-wa' },
-    { name: 'Lavington NSW', key: 'lavington-nsw' },
-    { name: 'West Wodonga VIC', key: 'west-wodonga-vic' },
-    { name: 'Wilsonton QLD', key: 'wilsonton-qld' },
-    { name: 'Kirwan QLD', key: 'kirwan-qld' },
-    { name: 'Other', key: 'other' },
-  ];
-  let totalIO = 0, totalBal = 0;
-  document.getElementById('tbl-loans').innerHTML = loanDisplay.map(l => {
-    const loan = (c.loans[l.key] || {});
-    const bal  = loan.balance || 0;
-    const rate = loan.rate || 0;
-    const io   = (bal * rate / 100) / 12;
-    totalIO += io; totalBal += bal;
-    return `<tr><td>${esc(l.name)}</td><td class="val-neg">${fmt(bal)}</td><td>${rate > 0 ? rate + '%' : '—'}</td><td>${io > 0 ? fmt(io) + '/mo' : '—'}</td></tr>`;
-  }).join('') + `<tr class="total-row"><td>Total</td><td class="val-neg">${fmt(totalBal)}</td><td>—</td><td>${fmt(totalIO)}/mo</td></tr>`;
+  // Loans
+  const loanList=[{n:'Camillo WA',k:'camillo-wa'},{n:'Lavington NSW',k:'lavington-nsw'},{n:'West Wodonga VIC',k:'west-wodonga-vic'},{n:'Wilsonton QLD',k:'wilsonton-qld'},{n:'Kirwan QLD',k:'kirwan-qld'},{n:'Other',k:'other'}];
+  let tIO=0,tBal=0;
+  document.getElementById('tbl-loans').innerHTML = loanList.map(l=>{
+    const b=(c.loans[l.k]||{}).balance||0,r=(c.loans[l.k]||{}).rate||0,io=(b*r/100)/12;
+    tIO+=io; tBal+=b;
+    return `<tr><td>${esc(l.n)}</td><td class="val-neg">${fmt(b)}</td><td>${r>0?r+'%':'—'}</td><td>${io>0?fmt(io)+'/mo':'—'}</td></tr>`;
+  }).join('')+`<tr class="total-row"><td>Total</td><td class="val-neg">${fmt(tBal)}</td><td>—</td><td>${fmt(tIO)}/mo</td></tr>`;
 
-  // Crypto table
-  const cryptoRows = [
-    { label: 'Bitcoin — Personal',  qty: c.btcQty,  price: c.btcPrice, unit: 'BTC' },
-    { label: 'Ethereum — Personal', qty: c.ethQty,  price: c.ethPrice, unit: 'ETH' },
-    { label: 'Bitcoin — SMSF',      qty: c.btcSmsf, price: c.btcPrice, unit: 'BTC' },
-    { label: 'Ethereum — SMSF',     qty: c.ethSmsf, price: c.ethPrice, unit: 'ETH' },
-    { label: 'Gold',                qty: c.goldG,   price: goldPriceAUD, unit: 'g' },
+  // Crypto
+  const cryptoRows=[
+    {l:'Bitcoin — Personal',q:c.btcQty,p:c.btcP,u:'BTC'},
+    {l:'Ethereum — Personal',q:c.ethQty,p:c.ethP,u:'ETH'},
+    {l:'Bitcoin — SMSF',q:c.btcSmsf,p:c.btcP,u:'BTC'},
+    {l:'Ethereum — SMSF',q:c.ethSmsf,p:c.ethP,u:'ETH'},
+    {l:'Gold',q:c.goldG,p:goldPriceAUD,u:'g'},
   ];
-  document.getElementById('tbl-crypto').innerHTML = cryptoRows.map(r => {
-    const val = r.qty > 0 && r.price > 0 ? r.qty * r.price : null;
-    return `<tr>
-      <td>${esc(r.label)}</td>
-      <td>${r.qty > 0 ? r.qty + ' ' + r.unit : '<span class="val-muted">—</span>'}</td>
-      <td>${r.price > 0 ? fmt(r.price) + '/' + r.unit : '<span class="loading">—</span>'}</td>
-      <td>${val != null ? '<span class="val-pos">' + fmt(val) + '</span>' : '<span class="val-muted">—</span>'}</td>
-    </tr>`;
+  document.getElementById('tbl-crypto').innerHTML = cryptoRows.map(r=>{
+    const val=r.q>0&&r.p>0?r.q*r.p:null;
+    return `<tr><td>${esc(r.l)}</td>
+      <td>${r.q>0?r.q+' '+r.u:'<span class="val-muted">—</span>'}</td>
+      <td>${r.p>0?fmt(r.p)+'/'+r.u:'<span class="loading">—</span>'}</td>
+      <td>${val!=null?'<span class="val-pos">'+fmt(val)+'</span>':'<span class="val-muted">—</span>'}</td></tr>`;
   }).join('');
 
-  // Other assets
-  const otherRows = [
-    { label: 'SMSF — Macquarie',  val: c.smsfMac,   upd: (c.cfg.smsf_macquarie||{}).updated, type: 'Asset' },
-    { label: 'Mezzanine Finance', val: c.mezzanine,  upd: (c.cfg.mezzanine||{}).updated, type: 'Asset' },
-    { label: 'Cash & Offsets',    val: c.offsets,    upd: (c.cfg.cash_offsets||{}).updated, type: 'Asset' },
-    { label: 'Tank Insurance',    val: c.tankBank,   upd: (c.cfg.tank_bank||{}).updated, type: 'Business' },
-    { label: 'Tykhe Digital',     val: c.tykheVal,   upd: (c.cfg.tykhe_value||{}).updated, type: 'Business' },
-    { label: 'HECS Debt',         val: c.hecs,       upd: (c.cfg.hecs||{}).updated, type: 'Liability', neg: true },
+  // Business (Tykhe + Tank)
+  const bizRows=[
+    {l:'Tykhe Holding — CBA',v:c.tykheCBA,upd:(c.cfg.tykhe?.holding_cba||{}).updated,t:'Tykhe'},
+    {l:'Tykhe Loan',v:c.tykheLoan,upd:(c.cfg.tykhe?.loan||{}).updated,t:'Tykhe'},
+    {l:'Tank Holding — NAB',v:c.tankNAB,upd:(c.cfg.tank?.holding_nab||{}).updated,t:'Tank'},
   ];
-  document.getElementById('tbl-other').innerHTML = otherRows.map(r => `<tr>
-    <td>${esc(r.label)}</td>
-    <td class="${r.neg ? 'val-neg' : r.val > 0 ? 'val-pos' : 'val-muted'}">${r.val > 0 ? fmt(r.val) : '—'}</td>
-    <td style="color:var(--text-muted)">${r.upd || '—'}</td>
-    <td><span style="font-size:10px;padding:2px 7px;border-radius:100px;background:var(--surface-2);color:var(--text-muted)">${r.type}</span></td>
-  </tr>`).join('');
+  document.getElementById('tbl-business').innerHTML = bizRows.map(r=>`<tr>
+    <td>${esc(r.l)}</td>
+    <td class="${r.v<0?'val-neg':r.v>0?'val-pos':'val-muted'}">${r.v!==0?fmt(r.v):'—'}</td>
+    <td style="color:var(--text-muted)">${r.upd||'—'}</td>
+    <td><span style="font-size:10px;padding:2px 7px;border-radius:100px;background:var(--surface-2);color:var(--text-muted)">${r.t}</span></td>
+  </tr>`).join('')+`<tr class="total-row"><td>Total</td><td class="${c.businessVal<0?'val-neg':c.businessVal>0?'val-pos':'val-muted'}">${fmt(c.businessVal)}</td><td>—</td><td>—</td></tr>`;
 
-  renderSnapshots();
-  renderChart();
-}
-
-function updateHeroDelta() {
-  const c = calcState;
-  const deltaEl = document.getElementById('hero-delta');
-  const real = snapshots.filter(s => !s.auto);
-  if (real.length > 1) {
-    const prev = real[real.length - 2];
-    const curr = real[real.length - 1];
-    const delta = curr.netWorth - prev.netWorth;
-    deltaEl.textContent = (delta >= 0 ? '+' : '') + fmtK(delta) + ' vs previous snapshot';
-    deltaEl.className = 'hero-delta ' + (delta > 0 ? 'positive' : delta < 0 ? 'negative' : 'neutral');
-  } else if (snapshots.length > 1) {
-    const prev = snapshots[snapshots.length - 2];
-    const delta = c.netWorth - prev.netWorth;
-    deltaEl.textContent = (delta >= 0 ? '+' : '') + fmtK(delta) + ' vs yesterday';
-    deltaEl.className = 'hero-delta ' + (delta > 0 ? 'positive' : delta < 0 ? 'negative' : 'neutral');
+  // PE
+  const peB = document.getElementById('tbl-pe');
+  if (!c.peEntries.length) {
+    peB.innerHTML = '<tr><td colspan="4" class="val-muted">No PE entries — add via Update Holdings</td></tr>';
   } else {
-    deltaEl.textContent = 'No previous data';
-    deltaEl.className = 'hero-delta neutral';
+    let peTotal=0;
+    peB.innerHTML = c.peEntries.map(e=>{
+      peTotal+=e.valuation||0;
+      return `<tr>
+        <td><strong>${esc(e.name)}</strong></td>
+        <td class="val-pos">${fmt(e.valuation)}</td>
+        <td style="color:var(--text-muted)">${e.updated||'—'}</td>
+        <td><div style="color:var(--text-muted);font-size:12px">${esc(e.commentary||'—')}</div></td>
+      </tr>`;
+    }).join('')+`<tr class="total-row"><td>Total</td><td class="val-pos">${fmt(peTotal)}</td><td>—</td><td>—</td></tr>`;
   }
+
+  // Other
+  const otherRows=[
+    {l:'SMSF — Macquarie',v:c.smsfMac,upd:(c.cfg.smsf_macquarie||{}).updated,t:'Asset'},
+    {l:'Mezzanine Finance',v:c.mezzanine,upd:(c.cfg.mezzanine||{}).updated,t:'Asset'},
+    {l:'Cash & Offsets',v:c.offsets,upd:(c.cfg.cash_offsets||{}).updated,t:'Asset'},
+    {l:'HECS Debt',v:c.hecs,upd:(c.cfg.hecs||{}).updated,t:'Liability',neg:true},
+  ];
+  document.getElementById('tbl-other').innerHTML = otherRows.map(r=>`<tr>
+    <td>${esc(r.l)}</td>
+    <td class="${r.neg?'val-neg':r.v>0?'val-pos':'val-muted'}">${r.v>0?fmt(r.v):'—'}</td>
+    <td style="color:var(--text-muted)">${r.upd||'—'}</td>
+    <td><span style="font-size:10px;padding:2px 7px;border-radius:100px;background:var(--surface-2);color:var(--text-muted)">${r.t}</span></td>
+  </tr>`).join('');
 }
 
 function renderSnapshots() {
   const tbody = document.getElementById('tbl-history');
-  const visible = snapshots.filter(s => !s.auto);
-  if (!visible.length) {
-    tbody.innerHTML = '<tr><td colspan="4" style="color:var(--text-dim);text-align:center;padding:24px">No snapshots yet — update your holdings above</td></tr>';
-    return;
-  }
-  document.getElementById('history-count').textContent = visible.length + ' snapshots';
-  tbody.innerHTML = [...visible].reverse().map((s, i, arr) => {
-    const prev = arr[i + 1];
-    const delta = prev ? s.netWorth - prev.netWorth : null;
-    const ds = delta != null ? `<span class="${delta >= 0 ? 'val-pos' : 'val-neg'}">${delta >= 0 ? '+' : ''}${fmtK(delta)}</span>` : '—';
-    const badge = s.source === 'historical' ? '<span class="badge" style="background:var(--navy);color:#fff;margin-left:6px">Historical</span>' : '';
-    return `<tr><td>${s.date}${badge}</td><td><strong>${fmtK(s.netWorth)}</strong></td><td>${ds}</td><td style="color:var(--text-muted);font-size:12px">${esc(s.notes || '—')}</td></tr>`;
+  const vis = snapshots.filter(s=>!s.auto);
+  if (!vis.length) { tbody.innerHTML='<tr><td colspan="4" style="color:var(--text-dim);text-align:center;padding:24px">No snapshots yet</td></tr>'; return; }
+  tbody.innerHTML = [...vis].reverse().map((s,i,a)=>{
+    const prev=a[i+1], d=prev?s.netWorth-prev.netWorth:null;
+    const ds=d!=null?`<span class="${d>=0?'val-pos':'val-neg'}">${d>=0?'+':''}${fmtK(d)}</span>`:'—';
+    const badge=s.source==='historical'?'<span class="badge" style="background:rgba(10,19,39,0.08);color:var(--text-muted)">Historical</span>':'';
+    return `<tr><td>${s.date}${badge}</td><td><strong>${fmtK(s.netWorth)}</strong></td><td>${ds}</td><td style="color:var(--text-muted);font-size:12px">${esc(s.notes||'—')}</td></tr>`;
   }).join('');
 }
 
 function renderChart() {
-  const container = document.getElementById('chart-container');
-  const legendEl  = document.getElementById('chart-legend');
-  const data = snapshots.filter(s => s.netWorth > 0);
-  if (data.length < 2) {
-    legendEl.style.display = 'none';
-    container.innerHTML = `<div class="chart-empty"><div style="opacity:0.2;font-size:24px">—</div><div>Save 2+ snapshots to see the trend chart</div></div>`;
-    return;
-  }
-  legendEl.style.display = 'flex';
-  const W = 900, H = 300, P = { top: 20, right: 20, bottom: 44, left: 76 };
-  const cW = W - P.left - P.right, cH = H - P.top - P.bottom;
-  const vals = data.flatMap(d => [d.netWorth, (d.breakdown?.property||0), (d.breakdown?.crypto||0), ((d.breakdown?.business||0)+(d.breakdown?.cash||0))]);
-  const maxV = Math.max(...vals, 1);
-  const xS = i => P.left + (i / (data.length - 1)) * cW;
-  const yS = v => P.top + cH - (v / maxV) * cH;
-
-  // Line without dots for large datasets, with dots for small
-  const showDots = data.length <= 24;
-  const line = (key, color, sub, width) => {
-    const pts = data.map((d,i) => { const v = sub ? (d.breakdown?.[key]||0) : d[key]; return `${xS(i)},${yS(v)}`; }).join(' ');
-    let dots = '';
-    if (showDots) {
-      dots = data.map((d,i) => { const v = sub ? (d.breakdown?.[key]||0) : d[key]; return `<circle cx="${xS(i)}" cy="${yS(v)}" r="3" fill="${color}" stroke="white" stroke-width="1.5"/>`; }).join('');
-    }
-    return `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="${width||2}" stroke-linejoin="round" stroke-linecap="round"/>${dots}`;
+  const container=document.getElementById('chart-container');
+  const legendEl=document.getElementById('chart-legend');
+  const data=snapshots.filter(s=>s.netWorth>0);
+  if (data.length<2) { legendEl.style.display='none'; container.innerHTML=`<div class="chart-empty"><div style="opacity:0.2;font-size:24px">—</div><div>Save 2+ snapshots to see trend</div></div>`; return; }
+  legendEl.style.display='flex';
+  const W=900,H=300,P={top:20,right:20,bottom:44,left:76};
+  const cW=W-P.left-P.right,cH=H-P.top-P.bottom;
+  const vals=data.flatMap(d=>[d.netWorth,(d.breakdown?.property||0),(d.breakdown?.crypto||0),((d.breakdown?.business||0)+(d.breakdown?.cash||0))]);
+  const maxV=Math.max(...vals,1);
+  const xS=i=>P.left+(i/(data.length-1))*cW;
+  const yS=v=>P.top+cH-(v/maxV)*cH;
+  const showDots=data.length<=24;
+  const line=(key,color,sub,w)=>{
+    const pts=data.map((d,i)=>{const v=sub?(d.breakdown?.[key]||0):d[key];return`${xS(i)},${yS(v)}`;}).join(' ');
+    const dots=showDots?data.map((d,i)=>{const v=sub?(d.breakdown?.[key]||0):d[key];return`<circle cx="${xS(i)}" cy="${yS(v)}" r="3" fill="${color}" stroke="white" stroke-width="1.5"/>`;}).join(''):'';
+    return `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="${w||2}" stroke-linejoin="round" stroke-linecap="round"/>${dots}`;
   };
-
-  // Area fill under net worth line
-  const areaPoints = data.map((d,i) => `${xS(i)},${yS(d.netWorth)}`).join(' ');
-  const areaFill = `<polygon points="${xS(0)},${yS(0)} ${areaPoints} ${xS(data.length-1)},${yS(0)}" fill="url(#nwGrad)" opacity="0.15"/>`;
-
-  const yTicks = Array.from({length:6},(_,i)=>i/5).map(t => {
-    const v = maxV * t; const y = yS(v);
-    return `<text x="${P.left-8}" y="${y+4}" text-anchor="end" fill="#8F9BB3" font-size="10">${fmtK(v)}</text><line x1="${P.left}" y1="${y}" x2="${P.left+cW}" y2="${y}" stroke="#E8ECF2" stroke-width="0.5"/>`;
-  });
-
-  // Smart x-axis labels: show Jan of each year + current month
-  const xLabels = [];
-  const seen = new Set();
-  data.forEach((d, i) => {
-    const ym = d.date.slice(0, 7);
-    const year = d.date.slice(0, 4);
-    const month = d.date.slice(5, 7);
-    // Show label for Jan of each year, or first/last point
-    if (month === '01' || i === 0 || i === data.length - 1) {
-      if (!seen.has(year) || i === data.length - 1) {
-        seen.add(year);
-        const label = month === '01' ? year : ym;
-        xLabels.push(`<text x="${xS(i)}" y="${H-8}" text-anchor="middle" fill="#8F9BB3" font-size="10" font-weight="600">${label}</text>`);
-      }
+  const areaPts=data.map((d,i)=>`${xS(i)},${yS(d.netWorth)}`).join(' ');
+  const areaFill=`<polygon points="${xS(0)},${yS(0)} ${areaPts} ${xS(data.length-1)},${yS(0)}" fill="url(#nwGrad)" opacity="0.12"/>`;
+  const yTicks=Array.from({length:6},(_,i)=>i/5).map(t=>{const v=maxV*t,y=yS(v);return`<text x="${P.left-8}" y="${y+4}" text-anchor="end" fill="#8F9BB3" font-size="10">${fmtK(v)}</text><line x1="${P.left}" y1="${y}" x2="${P.left+cW}" y2="${y}" stroke="#E8ECF2" stroke-width="0.5"/>`;});
+  const seen=new Set();
+  const xLabels=[];
+  data.forEach((d,i)=>{
+    const yr=d.date.slice(0,4),mo=d.date.slice(5,7);
+    if(mo==='01'||i===0||i===data.length-1){
+      if(!seen.has(yr)||i===data.length-1){seen.add(yr);xLabels.push(`<text x="${xS(i)}" y="${H-8}" text-anchor="middle" fill="#8F9BB3" font-size="10" font-weight="600">${mo==='01'?yr:d.date.slice(0,7)}</text>`);}
     }
   });
-
-  // Milestone markers
-  const milestones = [];
-  data.forEach((d, i) => {
-    const nw = d.netWorth;
-    const prev = i > 0 ? data[i-1].netWorth : 0;
-    // Mark when crossing $250k, $500k, $750k, $1M
-    [250000, 500000, 750000, 1000000].forEach(m => {
-      if (prev < m && nw >= m) {
+  const milestones=[];
+  data.forEach((d,i)=>{
+    if(i===0)return;
+    const prev=data[i-1].netWorth;
+    [250000,500000,750000,1000000].forEach(m=>{
+      if(prev<m&&d.netWorth>=m){
         milestones.push(`<line x1="${xS(i)}" y1="${P.top}" x2="${xS(i)}" y2="${P.top+cH}" stroke="#2ec98e" stroke-width="1" stroke-dasharray="4,3" opacity="0.4"/>
           <text x="${xS(i)}" y="${P.top-4}" text-anchor="middle" fill="#2ec98e" font-size="9" font-weight="700">${fmtK(m)}</text>`);
       }
     });
   });
-
-  const gradient = `<defs><linearGradient id="nwGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0A1327"/><stop offset="100%" stop-color="#0A1327" stop-opacity="0"/></linearGradient></defs>`;
-
-  container.innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block">
-    ${gradient}
-    ${yTicks.join('')}
-    ${milestones.join('')}
-    ${areaFill}
-    ${line('property','#3b82f6',true,1.5)}
-    ${line('crypto','#f0a020',true,1.5)}
-    ${line('netWorth','#0A1327',false,2.5)}
-    ${xLabels.join('')}
-  </svg>`;
+  const grad=`<defs><linearGradient id="nwGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0A1327"/><stop offset="100%" stop-color="#0A1327" stop-opacity="0"/></linearGradient></defs>`;
+  container.innerHTML=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block">${grad}${yTicks.join('')}${milestones.join('')}${areaFill}${line('property','#3b82f6',true,1.5)}${line('crypto','#f0a020',true,1.5)}${line('netWorth','#0A1327',false,2.5)}${xLabels.join('')}</svg>`;
 }
 
 // ── Card toggle ───────────────────────────────────────────────────────────────
 function toggleCard(id) {
-  const body = document.getElementById('body-' + id);
-  const tog  = document.getElementById('toggle-' + id);
-  body.classList.toggle('collapsed');
-  tog.classList.toggle('open', !body.classList.contains('collapsed'));
+  document.getElementById('body-'+id).classList.toggle('collapsed');
+  document.getElementById('toggle-'+id).classList.toggle('open',!document.getElementById('body-'+id).classList.contains('collapsed'));
 }
 
-// ── Snapshot modal ────────────────────────────────────────────────────────────
+// ── PE entries (modal) ────────────────────────────────────────────────────────
+let peEntries = [];
+
+function renderPEList() {
+  const list = document.getElementById('pe-list');
+  list.innerHTML = peEntries.map((e,i)=>`<div class="pe-entry" id="pe-${i}">
+    <button class="pe-remove" onclick="removePE(${i})" title="Remove">×</button>
+    <div class="pe-entry-grid">
+      <div class="field-group">
+        <div class="field-label">Company Name</div>
+        <input class="field-input" type="text" value="${esc(e.name)}" oninput="peEntries[${i}].name=this.value;updatePreview()" placeholder="e.g. Tank Insurance">
+      </div>
+      <div class="field-group">
+        <div class="field-label">Valuation ($)</div>
+        <input class="field-input" type="number" step="1" value="${e.valuation||''}" oninput="peEntries[${i}].valuation=parseFloat(this.value)||0;updatePreview()" placeholder="0">
+      </div>
+    </div>
+    <div class="field-group">
+      <div class="field-label">How you got to this valuation</div>
+      <textarea class="field-input" style="min-height:52px;resize:vertical" oninput="peEntries[${i}].commentary=this.value" placeholder="e.g. 3× revenue multiple at $600k ARR…">${esc(e.commentary||'')}</textarea>
+    </div>
+  </div>`).join('');
+}
+
+function addPEEntry() {
+  peEntries.push({ id: 'pe-'+Date.now(), name:'', valuation:0, commentary:'', updated: today() });
+  renderPEList();
+  updatePreview();
+}
+
+function removePE(i) {
+  peEntries.splice(i,1);
+  renderPEList();
+  updatePreview();
+}
+
+// ── Modal open/close ──────────────────────────────────────────────────────────
 function openSnapshot() {
   const cfg = mergedConfig();
-  const c   = cfg.crypto || {};
-  document.getElementById('f-btc').value      = c.bitcoin?.quantity || '';
-  document.getElementById('f-btc-smsf').value = c.bitcoin_smsf?.quantity || '';
-  document.getElementById('f-eth').value      = c.ethereum?.quantity || '';
-  document.getElementById('f-eth-smsf').value = c.ethereum_smsf?.quantity || '';
-  document.getElementById('f-gold').value     = (cfg.gold || {}).grams || '';
-  document.getElementById('f-smsf').value     = (cfg.smsf_macquarie || {}).balance || '';
-  document.getElementById('f-mezz').value     = (cfg.mezzanine || {}).balance || '';
-  document.getElementById('f-cash').value     = (cfg.cash_offsets || {}).balance || '';
-  document.getElementById('f-hecs').value     = (cfg.hecs || {}).balance || '';
-  document.getElementById('f-tank').value     = (cfg.tank_bank || {}).balance || '';
-  document.getElementById('f-tykhe').value    = (cfg.tykhe_value || {}).balance || '';
+  const cr  = cfg.crypto||{};
+  document.getElementById('f-btc').value      = cr.bitcoin?.quantity||'';
+  document.getElementById('f-btc-smsf').value = cr.bitcoin_smsf?.quantity||'';
+  document.getElementById('f-eth').value      = cr.ethereum?.quantity||'';
+  document.getElementById('f-eth-smsf').value = cr.ethereum_smsf?.quantity||'';
+  document.getElementById('f-gold').value     = (cfg.gold||{}).grams||'';
+  document.getElementById('f-tykhe-cba').value  = (cfg.tykhe?.holding_cba?.balance)||'';
+  document.getElementById('f-tykhe-loan').value = (cfg.tykhe?.loan?.balance)||'';
+  document.getElementById('f-tank-nab').value   = (cfg.tank?.holding_nab?.balance)||'';
+  document.getElementById('f-smsf').value     = (cfg.smsf_macquarie||{}).balance||'';
+  document.getElementById('f-mezz').value     = (cfg.mezzanine||{}).balance||'';
+  document.getElementById('f-cash').value     = (cfg.cash_offsets||{}).balance||'';
+  document.getElementById('f-hecs').value     = (cfg.hecs||{}).balance||'';
   document.getElementById('f-date').value     = today();
   document.getElementById('f-notes').value    = '';
+  // PE
+  peEntries = JSON.parse(JSON.stringify(Array.isArray(cfg.private_equity) ? cfg.private_equity : []));
+  renderPEList();
   updatePreview();
   document.getElementById('modal-bg').classList.add('open');
 }
 
-function readModalConfig() {
-  const n = id => parseFloat(document.getElementById(id).value) || 0;
-  const d = today();
+function closeSnapshot() { document.getElementById('modal-bg').classList.remove('open'); }
+
+function readModalCfg() {
+  const n=id=>parseFloat(document.getElementById(id).value)||0;
+  const d=today();
   return {
-    crypto: {
-      bitcoin:      { quantity: n('f-btc'),      wallet: 'personal' },
-      ethereum:     { quantity: n('f-eth'),      wallet: 'personal' },
-      bitcoin_smsf: { quantity: n('f-btc-smsf'), wallet: 'smsf' },
-      ethereum_smsf:{ quantity: n('f-eth-smsf'), wallet: 'smsf' },
-    },
-    gold:          { grams: n('f-gold') },
-    smsf_macquarie:{ balance: n('f-smsf'), updated: d },
-    mezzanine:     { balance: n('f-mezz'), updated: d },
-    cash_offsets:  { balance: n('f-cash'), updated: d },
-    hecs:          { balance: n('f-hecs'), updated: d },
-    tank_bank:     { balance: n('f-tank'), updated: d },
-    tykhe_value:   { balance: n('f-tykhe'), updated: d },
+    crypto:{ bitcoin:{quantity:n('f-btc'),wallet:'personal'}, ethereum:{quantity:n('f-eth'),wallet:'personal'}, bitcoin_smsf:{quantity:n('f-btc-smsf'),wallet:'smsf'}, ethereum_smsf:{quantity:n('f-eth-smsf'),wallet:'smsf'} },
+    gold:{ grams:n('f-gold') },
+    tykhe:{ holding_cba:{balance:n('f-tykhe-cba'),updated:d}, loan:{balance:n('f-tykhe-loan'),updated:d} },
+    tank:{ holding_nab:{balance:n('f-tank-nab'),updated:d} },
+    private_equity: peEntries.map(e=>({...e, updated:d})),
+    smsf_macquarie:{balance:n('f-smsf'),updated:d},
+    mezzanine:{balance:n('f-mezz'),updated:d},
+    cash_offsets:{balance:n('f-cash'),updated:d},
+    hecs:{balance:n('f-hecs'),updated:d},
   };
 }
 
 function updatePreview() {
-  const overrides = readModalConfig();
+  const overrides = readModalCfg();
   const base = JSON.parse(JSON.stringify(baseConfig));
-  const merge = (t, s) => { for (const k of Object.keys(s||{})) { if (s[k]&&typeof s[k]==='object'&&!Array.isArray(s[k])) { t[k]=t[k]||{}; merge(t[k],s[k]); } else t[k]=s[k]; } return t; };
+  const merge=(t,s)=>{for(const k of Object.keys(s||{})){if(s[k]&&typeof s[k]==='object'&&!Array.isArray(s[k])){t[k]=t[k]||{};merge(t[k],s[k]);}else{t[k]=s[k];}}return t;};
   const cfg = merge(base, overrides);
-  const c = calculateWith(cfg);
+  cfg.private_equity = overrides.private_equity; // always replace, don't merge arrays
+  const c = calculateWith(cfg, {property:true,crypto:true,business:true,pe:true,cash:true});
   document.getElementById('modal-nw-preview').textContent = fmtK(c.netWorth);
 }
 
-// Live preview as user types
-document.querySelectorAll('.field-input[type="number"]').forEach(el => el.addEventListener('input', updatePreview));
-
-function closeSnapshot() {
-  document.getElementById('modal-bg').classList.remove('open');
-}
+document.querySelectorAll('.field-input[type="number"]').forEach(el=>el.addEventListener('input',updatePreview));
 
 async function saveSnapshot() {
-  const overrides = readModalConfig();
-  saveConfig(overrides);
+  const overrides = readModalCfg();
+  const fullCfg = readModalCfg();
+  // Preserve loans from base config
+  fullCfg.loans = baseConfig.loans || mergedConfig().loans;
+  saveConfig(fullCfg);
 
   const base = JSON.parse(JSON.stringify(baseConfig));
-  const merge = (t, s) => { for (const k of Object.keys(s||{})) { if (s[k]&&typeof s[k]==='object'&&!Array.isArray(s[k])) { t[k]=t[k]||{}; merge(t[k],s[k]); } else t[k]=s[k]; } return t; };
-  const cfg = merge(base, overrides);
-  const c   = calculateWith(cfg);
+  const merge=(t,s)=>{for(const k of Object.keys(s||{})){if(s[k]&&typeof s[k]==='object'&&!Array.isArray(s[k])){t[k]=t[k]||{};merge(t[k],s[k]);}else{t[k]=s[k];}}return t;};
+  const cfg = merge(base, fullCfg);
+  cfg.private_equity = fullCfg.private_equity;
+  const c = calculateWith(cfg, {property:true,crypto:true,business:true,pe:true,cash:true});
 
   const snap = {
-    date:     document.getElementById('f-date').value || today(),
+    date: document.getElementById('f-date').value||today(),
     netWorth: Math.round(c.netWorth),
-    breakdown: { property: Math.round(c.propEquity), crypto: Math.round(c.cryptoVal), business: Math.round(c.businessVal), cash: Math.round(c.cashVal) },
+    breakdown: {property:Math.round(c.propEquity),crypto:Math.round(c.cryptoVal),business:Math.round(c.businessVal),pe:Math.round(c.peVal),cash:Math.round(c.cashVal)},
     notes: document.getElementById('f-notes').value.trim(),
   };
 
-  const btn = document.querySelector('.btn-save');
-  btn.textContent = 'Saving…'; btn.disabled = true;
-
+  const btn=document.querySelector('.btn-save'); btn.textContent='Saving…'; btn.disabled=true;
   try {
-    const res = await fetch(`${WORKER}/wealth/snapshot`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(snap) });
-    if (res.ok) { snapshots = await res.json(); saveLocalSnaps(snapshots); }
-    else throw new Error();
+    const res=await fetch(`${WORKER}/wealth/snapshot`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(snap)});
+    if(res.ok){snapshots=await res.json();saveLocalSnaps(snapshots);}else throw new Error();
   } catch {
-    // Fallback: localStorage
-    const existing = snapshots.filter(s => s.date !== snap.date);
-    snapshots = [...existing, snap].sort((a,b) => a.date.localeCompare(b.date));
+    const existing=snapshots.filter(s=>s.date!==snap.date);
+    snapshots=[...existing,snap].sort((a,b)=>a.date.localeCompare(b.date));
     saveLocalSnaps(snapshots);
   }
-
   closeSnapshot();
   render();
-  btn.textContent = 'Save Snapshot'; btn.disabled = false;
+  btn.textContent='Save Snapshot'; btn.disabled=false;
 }
 
 loadAll();

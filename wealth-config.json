@@ -9,9 +9,18 @@
   "smsf_macquarie": { "balance": 0, "updated": "2026-03-01" },
   "hecs": { "balance": 0, "updated": "2026-03-01" },
   "mezzanine": { "balance": 0, "updated": "2026-03-01" },
-  "tank_bank": { "balance": 0, "updated": "2026-03-01" },
-  "tykhe_value": { "balance": 0, "updated": "2026-03-01" },
   "cash_offsets": { "balance": 0, "updated": "2026-03-01" },
+  "tykhe": {
+    "holding_cba": { "balance": 0, "updated": "2026-03-01" },
+    "loan": { "balance": 0, "updated": "2026-03-01" }
+  },
+  "tank": {
+    "holding_nab": { "balance": 0, "updated": "2026-03-01" }
+  },
+  "private_equity": [
+    { "id": "tank-insurance", "name": "Tank Insurance", "valuation": 0, "commentary": "", "updated": "2026-03-01" },
+    { "id": "paylater-travel", "name": "Paylater Travel", "valuation": 0, "commentary": "", "updated": "2026-03-01" }
+  ],
   "loans": {
     "camillo-wa": { "balance": 375000, "rate": 6.12 },
     "lavington-nsw": { "balance": 398000, "rate": 6.17 },
