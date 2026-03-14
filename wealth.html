@@ -148,10 +148,10 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 .wf-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
 .wf-label { font-size: 12px; font-weight: 600; color: var(--text); min-width: 130px; }
 .wf-bar-wrap { flex: 1; position: relative; height: 28px; background: var(--surface-2); border-radius: 6px; overflow: hidden; }
-.wf-bar-loan { position: absolute; left: 0; top: 0; height: 100%; background: rgba(229,90,72,0.18); border-radius: 6px 0 0 6px; }
-.wf-bar-equity { position: absolute; top: 0; height: 100%; background: rgba(46,201,142,0.25); border-radius: 0 6px 6px 0; }
+.wf-bar-loan { position: absolute; left: 0; top: 0; height: 100%; background: rgba(10,19,39,0.14); border-radius: 6px 0 0 6px; }
+.wf-bar-equity { position: absolute; top: 0; height: 100%; background: rgba(10,19,39,0.55); border-radius: 0 6px 6px 0; }
 .wf-stat { font-size: 11px; font-weight: 700; color: var(--text-muted); min-width: 80px; text-align: right; }
-.wf-stat span { color: var(--green); }
+.wf-stat span { color: var(--navy); }
 </style>
 </head>
 <body>
@@ -1185,12 +1185,12 @@ function renderGrowthCards(c) {
 // ── Allocation donut ──────────────────────────────────────────────────────────
 function renderAlloc(c) {
   const cats = [
-    { label:'Property',  val: c.propEquity,   color:'#3b82f6' },
-    { label:'Crypto',    val: c.cryptoVal,     color:'#f0a020' },
-    { label:'PE',        val: c.peVal,         color:'#2ec98e' },
-    { label:'Business',  val: c.businessVal,   color:'#8F9BB3' },
-    { label:'SMSF',      val: c.cashVal,       color:'#9b6cf7' },
-    { label:'Personal',  val: c.otherPersonal, color:'#C4CDDF' },
+    { label:'Property',  val: c.propEquity,   color:'#0A1327' },
+    { label:'Private Equity', val: c.peVal,   color:'#1B3A6B' },
+    { label:'Crypto',    val: c.cryptoVal,     color:'#2E5FA3' },
+    { label:'SMSF',      val: c.cashVal,       color:'#5B82B8' },
+    { label:'Business',  val: c.businessVal,   color:'#8DAFD4' },
+    { label:'Personal',  val: c.otherPersonal, color:'#C2D5E8' },
   ].filter(c => c.val > 0);
 
   const total = cats.reduce((s,c)=>s+c.val,0);
@@ -1251,29 +1251,28 @@ function renderWaterfall(c) {
     const loanW  = (r.loan/r.val*100).toFixed(1);
     const eqW    = (r.equity/r.val*100).toFixed(1);
     const lvr    = (r.loan/r.val*100).toFixed(0);
-    const lvrColor = lvr < 60 ? 'var(--green)' : lvr < 75 ? 'var(--amber)' : 'var(--red)';
     return `<div class="wf-row">
       <div class="wf-label">${esc(r.name)}</div>
       <div class="wf-bar-wrap">
         <div class="wf-bar-loan" style="width:${loanW}%"></div>
         <div class="wf-bar-equity" style="left:${loanW}%;width:${eqW}%"></div>
         <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:8px">
-          <span style="font-size:10px;font-weight:700;color:rgba(229,90,72,0.8)">${fmt(r.loan)}</span>
+          <span style="font-size:10px;font-weight:600;color:rgba(10,19,39,0.45)">${fmt(r.loan)}</span>
           <span style="font-size:10px;color:var(--text-dim)">loan</span>
-          <span style="font-size:10px;font-weight:700;color:rgba(46,201,142,0.9);margin-left:auto">${fmt(r.equity)}</span>
-          <span style="font-size:10px;color:var(--text-dim)">equity</span>
+          <span style="font-size:10px;font-weight:700;color:#fff;margin-left:auto">${fmt(r.equity)}</span>
+          <span style="font-size:10px;color:rgba(255,255,255,0.6)">equity</span>
         </div>
       </div>
-      <div class="wf-stat">LVR <span style="color:${lvrColor}">${lvr}%</span></div>
+      <div class="wf-stat">LVR <span>${lvr}%</span></div>
     </div>`;
   }).join('') + `<div class="wf-row" style="margin-top:4px;padding-top:12px;border-top:1px solid var(--border)">
     <div class="wf-label" style="font-weight:700">Total</div>
     <div style="flex:1;display:flex;gap:16px;padding:0 2px">
-      <span style="font-size:12px;font-weight:700;color:var(--red)">${fmt(c.propLoans)} loans</span>
-      <span style="font-size:12px;font-weight:700;color:var(--green)">${fmt(c.propEquity)} equity</span>
-      <span style="font-size:12px;color:var(--text-muted);margin-left:auto">${fmt(c.propGross)} total value</span>
+      <span style="font-size:12px;font-weight:600;color:var(--text-muted)">${fmt(c.propLoans)} loans</span>
+      <span style="font-size:12px;font-weight:700;color:var(--navy)">${fmt(c.propEquity)} equity</span>
+      <span style="font-size:12px;color:var(--text-dim);margin-left:auto">${fmt(c.propGross)} total value</span>
     </div>
-    <div class="wf-stat">LVR <span style="color:${c.propGross?(c.propLoans/c.propGross*100)<60?'var(--green)':'var(--amber)':'var(--text-muted)'}">${c.propGross?(c.propLoans/c.propGross*100).toFixed(0):0}%</span></div>
+    <div class="wf-stat">LVR <span>${c.propGross?(c.propLoans/c.propGross*100).toFixed(0):0}%</span></div>
   </div>`;
 }
 
