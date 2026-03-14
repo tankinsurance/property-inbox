@@ -182,7 +182,7 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
         <div class="hero-stat-value" id="hs-pe">—</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-label">SMSF & Cash</div>
+        <div class="hero-stat-label">SMSF</div>
         <div class="hero-stat-value" id="hs-cash">—</div>
       </div>
     </div>
@@ -193,7 +193,7 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
       <button class="toggle-pill active" data-cat="crypto" onclick="toggleCat('crypto',this)">Crypto</button>
       <button class="toggle-pill active" data-cat="business" onclick="toggleCat('business',this)">Business</button>
       <button class="toggle-pill active" data-cat="pe" onclick="toggleCat('pe',this)">Private Equity</button>
-      <button class="toggle-pill active" data-cat="cash" onclick="toggleCat('cash',this)">SMSF & Cash</button>
+      <button class="toggle-pill active" data-cat="cash" onclick="toggleCat('cash',this)">SMSF</button>
     </div>
   </div>
 </section>
@@ -222,9 +222,9 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
       <div class="sc-sub" id="sc-pe-sub">—</div>
     </div>
     <div class="summary-card" id="card-cash">
-      <div class="sc-label">SMSF & Cash</div>
+      <div class="sc-label">SMSF</div>
       <div class="sc-value" id="sc-cash">—</div>
-      <div class="sc-sub" id="sc-cash-sub">Net of HECS</div>
+      <div class="sc-sub" id="sc-cash-sub">Macquarie + BTC/ETH</div>
     </div>
   </div>
 
@@ -320,7 +320,7 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
   <!-- SMSF & Other -->
   <div class="card">
     <div class="card-header" onclick="toggleCard('other')">
-      <span class="card-title">SMSF, Cash & Other</span>
+      <span class="card-title">SMSF, Personal Cash & Other</span>
       <span class="card-toggle" id="toggle-other">▾</span>
     </div>
     <div class="card-body collapsed" id="body-other">
@@ -555,12 +555,12 @@ function calculateWith(cfg, toggles) {
   propLoans += (loans.other||{}).balance||0;
   const propEquity = propGross - propLoans;
 
-  // Crypto & Gold
+  // Crypto & Gold (personal only)
   const btcP=cryptoPrices?.bitcoin?.aud||0, ethP=cryptoPrices?.ethereum?.aud||0;
   const btcQty=crypto.bitcoin?.quantity||0, ethQty=crypto.ethereum?.quantity||0;
   const btcSmsf=crypto.bitcoin_smsf?.quantity||0, ethSmsf=crypto.ethereum_smsf?.quantity||0;
   const goldG=(cfg.gold||{}).grams||0, goldVal=goldG*(goldPriceAUD||0);
-  const cryptoVal=(btcQty+btcSmsf)*btcP+(ethQty+ethSmsf)*ethP+goldVal;
+  const cryptoVal=btcQty*btcP+ethQty*ethP+goldVal; // personal only; SMSF crypto goes in SMSF bucket
 
   // Business (Tykhe + Tank)
   const tykheCBA  = (cfg.tykhe?.holding_cba?.balance)||0;  // can be negative
@@ -572,22 +572,27 @@ function calculateWith(cfg, toggles) {
   const peEntries = Array.isArray(cfg.private_equity) ? cfg.private_equity : [];
   const peVal = peEntries.reduce((sum, e) => sum + (e.valuation||0), 0);
 
-  // SMSF & Cash
+  // SMSF — Macquarie cash + SMSF crypto (BTC/ETH in SMSF); personal cash/HECS tracked separately but still in NW
   const smsfMac=(cfg.smsf_macquarie||{}).balance||0;
+  const smsfBtcVal=btcSmsf*btcP, smsfEthVal=ethSmsf*ethP;
+  const smsfCryptoVal=smsfBtcVal+smsfEthVal;
   const mezzanine=(cfg.mezzanine||{}).balance||0;
   const offsets=(cfg.cash_offsets||{}).balance||0;
   const hecs=(cfg.hecs||{}).balance||0;
-  const cashVal=smsfMac+mezzanine+offsets-hecs;
+  // cashVal = SMSF bucket (what shows on stat card); personal items still included in netWorth via otherPersonal
+  const cashVal=smsfMac+smsfCryptoVal;
+  const otherPersonal=mezzanine+offsets-hecs; // included in NW but not in SMSF stat
 
-  // Net worth respects toggles
+  // Net worth respects toggles; SMSF toggle covers smsfMac + smsfCrypto; otherPersonal always included
   const netWorth =
-    (toggles.property ? propEquity : 0) +
-    (toggles.crypto   ? cryptoVal  : 0) +
-    (toggles.business ? businessVal: 0) +
-    (toggles.pe       ? peVal      : 0) +
-    (toggles.cash     ? cashVal    : 0);
+    (toggles.property ? propEquity   : 0) +
+    (toggles.crypto   ? cryptoVal    : 0) +
+    (toggles.business ? businessVal  : 0) +
+    (toggles.pe       ? peVal        : 0) +
+    (toggles.cash     ? cashVal      : 0) +
+    otherPersonal; // mezzanine + cash offsets - HECS always in NW
 
-  return { netWorth, propGross, propLoans, propEquity, propRows, cryptoVal, btcP, ethP, btcQty, ethQty, btcSmsf, ethSmsf, goldVal, goldG, businessVal, tykheCBA, tykheLoan, tankNAB, peVal, peEntries, cashVal, smsfMac, mezzanine, offsets, hecs, loans, cfg };
+  return { netWorth, propGross, propLoans, propEquity, propRows, cryptoVal, btcP, ethP, btcQty, ethQty, btcSmsf, ethSmsf, smsfBtcVal, smsfEthVal, smsfCryptoVal, goldVal, goldG, businessVal, tykheCBA, tykheLoan, tankNAB, peVal, peEntries, cashVal, smsfMac, smsfCryptoVal, mezzanine, offsets, hecs, otherPersonal, loans, cfg };
 }
 function calculate() { return calculateWith(mergedConfig(), activeToggles); }
 
@@ -651,7 +656,7 @@ function renderTables(c) {
   document.getElementById('sc-pe').textContent = fmtK(c.peVal);
   document.getElementById('sc-pe-sub').textContent = c.peEntries.length ? c.peEntries.map(e=>e.name).join(', ') : '—';
   document.getElementById('sc-cash').textContent = fmtK(c.cashVal);
-  document.getElementById('sc-cash-sub').textContent = c.hecs>0 ? `Net of ${fmt(c.hecs)} HECS` : 'SMSF + Cash';
+  document.getElementById('sc-cash-sub').textContent = `Macquarie + ${fmtK(c.smsfCryptoVal)} crypto`;
 
   // Properties
   const erLoan = (c.loans.other||{}).balance||0;
@@ -676,20 +681,21 @@ function renderTables(c) {
     return `<tr><td>${esc(l.n)}</td><td class="val-neg">${fmt(b)}</td><td>${r>0?r+'%':'—'}</td><td>${io>0?fmt(io)+'/mo':'—'}</td></tr>`;
   }).join('')+`<tr class="total-row"><td>Total</td><td class="val-neg">${fmt(tBal)}</td><td>—</td><td>${fmt(tIO)}/mo</td></tr>`;
 
-  // Crypto
+  // Crypto (personal + gold only; SMSF crypto shown in SMSF card)
   const cryptoRows=[
     {l:'Bitcoin — Personal',q:c.btcQty,p:c.btcP,u:'BTC'},
     {l:'Ethereum — Personal',q:c.ethQty,p:c.ethP,u:'ETH'},
-    {l:'Bitcoin — SMSF',q:c.btcSmsf,p:c.btcP,u:'BTC'},
-    {l:'Ethereum — SMSF',q:c.ethSmsf,p:c.ethP,u:'ETH'},
     {l:'Gold',q:c.goldG,p:goldPriceAUD,u:'g'},
+    {l:'Bitcoin — SMSF',q:c.btcSmsf,p:c.btcP,u:'BTC',smsf:true},
+    {l:'Ethereum — SMSF',q:c.ethSmsf,p:c.ethP,u:'ETH',smsf:true},
   ];
   document.getElementById('tbl-crypto').innerHTML = cryptoRows.map(r=>{
     const val=r.q>0&&r.p>0?r.q*r.p:null;
-    return `<tr><td>${esc(r.l)}</td>
+    const smsfNote=r.smsf?'<span style="font-size:10px;padding:2px 6px;border-radius:4px;background:var(--surface-2);color:var(--text-dim);margin-left:6px">in SMSF</span>':'';
+    return `<tr style="${r.smsf?'opacity:0.55':''}"><td>${esc(r.l)}${smsfNote}</td>
       <td>${r.q>0?r.q+' '+r.u:'<span class="val-muted">—</span>'}</td>
       <td>${r.p>0?fmt(r.p)+'/'+r.u:'<span class="loading">—</span>'}</td>
-      <td>${val!=null?'<span class="val-pos">'+fmt(val)+'</span>':'<span class="val-muted">—</span>'}</td></tr>`;
+      <td>${val!=null?'<span class="'+(r.smsf?'val-muted':'val-pos')+'">'+fmt(val)+'</span>':'<span class="val-muted">—</span>'}</td></tr>`;
   }).join('');
 
   // Business (Tykhe + Tank)
@@ -724,15 +730,17 @@ function renderTables(c) {
 
   // Other
   const otherRows=[
-    {l:'SMSF — Macquarie',v:c.smsfMac,upd:(c.cfg.smsf_macquarie||{}).updated,t:'Asset'},
-    {l:'Mezzanine Finance',v:c.mezzanine,upd:(c.cfg.mezzanine||{}).updated,t:'Asset'},
-    {l:'Cash & Offsets',v:c.offsets,upd:(c.cfg.cash_offsets||{}).updated,t:'Asset'},
+    {l:'SMSF — Macquarie',v:c.smsfMac,upd:(c.cfg.smsf_macquarie||{}).updated,t:'SMSF'},
+    {l:'SMSF — Bitcoin',v:c.smsfBtcVal,upd:null,t:'SMSF'},
+    {l:'SMSF — Ethereum',v:c.smsfEthVal,upd:null,t:'SMSF'},
+    {l:'Mezzanine Finance',v:c.mezzanine,upd:(c.cfg.mezzanine||{}).updated,t:'Personal'},
+    {l:'Cash & Offsets',v:c.offsets,upd:(c.cfg.cash_offsets||{}).updated,t:'Personal'},
     {l:'HECS Debt',v:c.hecs,upd:(c.cfg.hecs||{}).updated,t:'Liability',neg:true},
   ];
   document.getElementById('tbl-other').innerHTML = otherRows.map(r=>`<tr>
     <td>${esc(r.l)}</td>
     <td class="${r.neg?'val-neg':r.v>0?'val-pos':'val-muted'}">${r.v>0?fmt(r.v):'—'}</td>
-    <td style="color:var(--text-muted)">${r.upd||'—'}</td>
+    <td style="color:var(--text-muted)">${r.upd||'Live'}</td>
     <td><span style="font-size:10px;padding:2px 7px;border-radius:100px;background:var(--surface-2);color:var(--text-muted)">${r.t}</span></td>
   </tr>`).join('');
 }
