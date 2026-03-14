@@ -135,6 +135,23 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 .btn-add-pe:hover { border-color: var(--navy); color: var(--navy); }
 .badge { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 100px; background: var(--surface-2); color: var(--text-muted); font-weight: 600; margin-left: 6px; vertical-align: middle; }
 .loading { color: var(--text-dim); font-style: italic; }
+
+/* Growth cards */
+.growth-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 14px; min-width: 100px; }
+.growth-card-label { font-size: 9px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 3px; }
+.growth-card-val { font-size: 14px; font-weight: 800; color: #fff; letter-spacing: -0.4px; }
+.growth-card-val.pos { color: var(--green); }
+.growth-card-val.neg { color: var(--red); }
+.growth-card-val.dim { color: rgba(255,255,255,0.2); }
+
+/* Waterfall */
+.wf-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.wf-label { font-size: 12px; font-weight: 600; color: var(--text); min-width: 130px; }
+.wf-bar-wrap { flex: 1; position: relative; height: 28px; background: var(--surface-2); border-radius: 6px; overflow: hidden; }
+.wf-bar-loan { position: absolute; left: 0; top: 0; height: 100%; background: rgba(229,90,72,0.18); border-radius: 6px 0 0 6px; }
+.wf-bar-equity { position: absolute; top: 0; height: 100%; background: rgba(46,201,142,0.25); border-radius: 0 6px 6px 0; }
+.wf-stat { font-size: 11px; font-weight: 700; color: var(--text-muted); min-width: 80px; text-align: right; }
+.wf-stat span { color: var(--green); }
 </style>
 </head>
 <body>
@@ -157,6 +174,7 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
         <div class="hero-label">Total Net Worth</div>
         <div class="hero-nw" id="hero-nw">Loading…</div>
         <div id="hero-delta" class="hero-delta neutral">—</div>
+        <div style="display:flex;gap:14px;margin-top:12px" id="hero-growth-cards"></div>
       </div>
       <div class="hero-right">
         <div class="hero-updated" id="hero-updated">Updated: —</div>
@@ -225,6 +243,31 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
       <div class="sc-label">SMSF</div>
       <div class="sc-value" id="sc-cash">—</div>
       <div class="sc-sub" id="sc-cash-sub">Macquarie + BTC/ETH</div>
+    </div>
+  </div>
+
+  <!-- Allocation -->
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header" onclick="toggleCard('alloc')">
+      <span class="card-title">Asset Allocation</span>
+      <span class="card-toggle open" id="toggle-alloc">▾</span>
+    </div>
+    <div class="card-body" id="body-alloc">
+      <div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap;padding-top:4px">
+        <svg id="alloc-donut" width="140" height="140" viewBox="0 0 140 140" style="flex-shrink:0"></svg>
+        <div id="alloc-legend" style="flex:1;display:flex;flex-direction:column;gap:10px;min-width:200px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Property Waterfall -->
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header" onclick="toggleCard('waterfall')">
+      <span class="card-title">Property Equity Waterfall</span>
+      <span class="card-toggle open" id="toggle-waterfall">▾</span>
+    </div>
+    <div class="card-body" id="body-waterfall">
+      <div id="waterfall-chart" style="padding-top:4px"></div>
     </div>
   </div>
 
@@ -612,6 +655,8 @@ function render() {
   calcState = c;
   renderHero(c);
   renderTables(c);
+  renderAlloc(c);
+  renderWaterfall(c);
   renderSnapshots();
   renderChart();
 }
@@ -621,6 +666,7 @@ function renderHero(c) {
   calcState = c;
   const toggled = calculate(); // with active toggles
   document.getElementById('hero-nw').textContent = fmtK(toggled.netWorth);
+  renderGrowthCards(c);
 
   const zero = v => v === 0;
   const dim  = cat => !activeToggles[cat];
@@ -1115,6 +1161,129 @@ async function saveSnapshot() {
   closeSnapshot();
   render();
   btn.textContent='Save Snapshot'; btn.disabled=false;
+}
+
+// ── Growth rate cards ─────────────────────────────────────────────────────────
+function renderGrowthCards(c) {
+  const el = document.getElementById('hero-growth-cards');
+  if (!el) return;
+  const real = snapshots.filter(s => !s.auto).sort((a,b)=>a.date.localeCompare(b.date));
+  const nw = c.netWorth;
+
+  const diff = (months) => {
+    const cutDate = new Date(); cutDate.setMonth(cutDate.getMonth()-months);
+    const cut = cutDate.toISOString().slice(0,10);
+    const prev = [...real].reverse().find(s => s.date <= cut);
+    if (!prev || !prev.netWorth) return null;
+    return nw - prev.netWorth;
+  };
+  const card = (label, d) => {
+    if (d === null) return `<div class="growth-card"><div class="growth-card-label">${label}</div><div class="growth-card-val dim">—</div></div>`;
+    const cls = d > 0 ? 'pos' : d < 0 ? 'neg' : '';
+    return `<div class="growth-card"><div class="growth-card-label">${label}</div><div class="growth-card-val ${cls}">${d>=0?'+':''}${fmtK(d)}</div></div>`;
+  };
+
+  // YTD
+  const jan1 = new Date().getFullYear() + '-01-01';
+  const ytdSnap = [...real].reverse().find(s => s.date <= jan1);
+  const ytd = ytdSnap ? nw - ytdSnap.netWorth : null;
+
+  el.innerHTML = card('1 Month', diff(1)) + card('3 Months', diff(3)) + card('YTD', ytd) + card('1 Year', diff(12));
+}
+
+// ── Allocation donut ──────────────────────────────────────────────────────────
+function renderAlloc(c) {
+  const cats = [
+    { label:'Property',  val: c.propEquity,   color:'#3b82f6' },
+    { label:'Crypto',    val: c.cryptoVal,     color:'#f0a020' },
+    { label:'PE',        val: c.peVal,         color:'#2ec98e' },
+    { label:'Business',  val: c.businessVal,   color:'#8F9BB3' },
+    { label:'SMSF',      val: c.cashVal,       color:'#9b6cf7' },
+    { label:'Personal',  val: c.otherPersonal, color:'#C4CDDF' },
+  ].filter(c => c.val > 0);
+
+  const total = cats.reduce((s,c)=>s+c.val,0);
+  if (total <= 0) return;
+
+  // Donut SVG
+  const cx=70, cy=70, r=52, inner=34;
+  let angle = -Math.PI/2;
+  const paths = cats.map(cat => {
+    const pct = cat.val/total;
+    const sweep = pct * 2 * Math.PI;
+    const x1=cx+r*Math.cos(angle), y1=cy+r*Math.sin(angle);
+    const x2=cx+r*Math.cos(angle+sweep), y2=cy+r*Math.sin(angle+sweep);
+    const xi1=cx+inner*Math.cos(angle), yi1=cy+inner*Math.sin(angle);
+    const xi2=cx+inner*Math.cos(angle+sweep), yi2=cy+inner*Math.sin(angle+sweep);
+    const large = sweep > Math.PI ? 1 : 0;
+    const d = `M${x1},${y1} A${r},${r} 0 ${large},1 ${x2},${y2} L${xi2},${yi2} A${inner},${inner} 0 ${large},0 ${xi1},${yi1} Z`;
+    angle += sweep;
+    return `<path d="${d}" fill="${cat.color}" opacity="0.85"/>`;
+  });
+  // Centre label
+  const centre = `<text x="${cx}" y="${cy-6}" text-anchor="middle" font-size="11" font-weight="700" fill="#0A1327" font-family="Inter,sans-serif">Total</text>
+    <text x="${cx}" y="${cy+10}" text-anchor="middle" font-size="13" font-weight="800" fill="#0A1327" font-family="Inter,sans-serif">${fmtK(total)}</text>`;
+  document.getElementById('alloc-donut').innerHTML = paths.join('') + centre;
+
+  // Legend
+  document.getElementById('alloc-legend').innerHTML = cats.map(cat => {
+    const pct = (cat.val/total*100).toFixed(1);
+    const barW = Math.round(cat.val/total*100);
+    return `<div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:10px;height:10px;border-radius:50%;background:${cat.color};flex-shrink:0"></div>
+          <span style="font-size:12px;font-weight:600;color:var(--text)">${cat.label}</span>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <span style="font-size:12px;font-weight:700;color:var(--navy)">${fmtK(cat.val)}</span>
+          <span style="font-size:11px;color:var(--text-muted);min-width:36px;text-align:right">${pct}%</span>
+        </div>
+      </div>
+      <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden">
+        <div style="height:100%;width:${barW}%;background:${cat.color};border-radius:2px;opacity:0.7"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Property waterfall ────────────────────────────────────────────────────────
+function renderWaterfall(c) {
+  const el = document.getElementById('waterfall-chart');
+  if (!el) return;
+  if (!c.propRows.length) { el.innerHTML='<div style="color:var(--text-dim);padding:12px">No property data</div>'; return; }
+
+  const maxVal = Math.max(...c.propRows.map(r=>r.val||0), 1);
+
+  el.innerHTML = c.propRows.map(r => {
+    if (!r.val) return '';
+    const loanW  = (r.loan/r.val*100).toFixed(1);
+    const eqW    = (r.equity/r.val*100).toFixed(1);
+    const lvr    = (r.loan/r.val*100).toFixed(0);
+    const lvrColor = lvr < 60 ? 'var(--green)' : lvr < 75 ? 'var(--amber)' : 'var(--red)';
+    return `<div class="wf-row">
+      <div class="wf-label">${esc(r.name)}</div>
+      <div class="wf-bar-wrap">
+        <div class="wf-bar-loan" style="width:${loanW}%"></div>
+        <div class="wf-bar-equity" style="left:${loanW}%;width:${eqW}%"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:8px">
+          <span style="font-size:10px;font-weight:700;color:rgba(229,90,72,0.8)">${fmt(r.loan)}</span>
+          <span style="font-size:10px;color:var(--text-dim)">loan</span>
+          <span style="font-size:10px;font-weight:700;color:rgba(46,201,142,0.9);margin-left:auto">${fmt(r.equity)}</span>
+          <span style="font-size:10px;color:var(--text-dim)">equity</span>
+        </div>
+      </div>
+      <div class="wf-stat">LVR <span style="color:${lvrColor}">${lvr}%</span></div>
+    </div>`;
+  }).join('') + `<div class="wf-row" style="margin-top:4px;padding-top:12px;border-top:1px solid var(--border)">
+    <div class="wf-label" style="font-weight:700">Total</div>
+    <div style="flex:1;display:flex;gap:16px;padding:0 2px">
+      <span style="font-size:12px;font-weight:700;color:var(--red)">${fmt(c.propLoans)} loans</span>
+      <span style="font-size:12px;font-weight:700;color:var(--green)">${fmt(c.propEquity)} equity</span>
+      <span style="font-size:12px;color:var(--text-muted);margin-left:auto">${fmt(c.propGross)} total value</span>
+    </div>
+    <div class="wf-stat">LVR <span style="color:${c.propGross?(c.propLoans/c.propGross*100)<60?'var(--green)':'var(--amber)':'var(--text-muted)'}">${c.propGross?(c.propLoans/c.propGross*100).toFixed(0):0}%</span></div>
+  </div>`;
 }
 
 loadAll();
