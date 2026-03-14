@@ -256,9 +256,9 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
         <span class="card-toggle open" id="toggle-alloc">▾</span>
       </div>
       <div class="card-body" id="body-alloc">
-        <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap;padding-top:4px">
-          <svg id="alloc-donut" width="120" height="120" viewBox="0 0 140 140" style="flex-shrink:0"></svg>
-          <div id="alloc-legend" style="flex:1;display:flex;flex-direction:column;gap:8px;min-width:140px"></div>
+        <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding-top:4px">
+          <svg id="alloc-donut" width="160" height="160" viewBox="0 0 140 140" style="flex-shrink:0"></svg>
+          <div id="alloc-legend" style="flex:1;display:flex;flex-direction:column;gap:6px;min-width:120px"></div>
         </div>
       </div>
     </div>
@@ -829,7 +829,7 @@ function renderChart() {
   const data = cutDate ? all.filter(s => s.date >= cutDate) : all;
   if (data.length < 2) { container.innerHTML = `<div class="chart-empty"><div>Not enough data for this range</div></div>`; return; }
 
-  const W=900, H=320, P={top:36,right:24,bottom:44,left:80};
+  const W=900, H=380, P={top:36,right:24,bottom:44,left:80};
   const cW = W-P.left-P.right, cH = H-P.top-P.bottom;
 
   const maxV = Math.max(...data.map(d => d.netWorth), 1);
@@ -889,11 +889,11 @@ function renderChart() {
   });
 
   // Lines
-  const polyline = (vals, color, w, dash) => {
+  const polyline = (vals, color, w, dash, opacity) => {
     const nonZero = vals.some(v=>v>0);
     if (!nonZero) return '';
     const pts = vals.map((v,i) => `${xS(i)},${yS(v)}`).join(' ');
-    return `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"${dash?' stroke-dasharray="5,3"':''}/>`;
+    return `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="${w}" stroke-opacity="${opacity||1}" stroke-linejoin="round" stroke-linecap="round"${dash?' stroke-dasharray="5,3"':''}/>`;
   };
   const nwVals   = data.map(d => d.netWorth);
   const propVals = data.map(d => d.breakdown?.property||0);
@@ -931,12 +931,12 @@ function renderChart() {
       ${yTicks.join('')}
       ${milestones.join('')}
       ${areaFill}
-      ${polyline(cashV,'#9b6cf7',1.5,true)}
-      ${polyline(bizV,'#8F9BB3',1.5,true)}
-      ${polyline(peV,'#2ec98e',1.5,true)}
-      ${polyline(propVals,'#3b82f6',1.5)}
-      ${polyline(cryptoV,'#f0a020',1.5)}
-      ${polyline(nwVals,'#0A1327',2.5)}
+      ${polyline(cashV,'#9b6cf7',1,true,0.4)}
+      ${polyline(bizV,'#8F9BB3',1,true,0.4)}
+      ${polyline(peV,'#2ec98e',1,true,0.4)}
+      ${polyline(propVals,'#3b82f6',1.5,false,0.55)}
+      ${polyline(cryptoV,'#f0a020',1.5,false,0.55)}
+      ${polyline(nwVals,'#0A1327',3,false,1)}
       ${xLabels.join('')}
       ${hitRects.join('')}
       <line id="chart-xhair" x1="0" y1="${P.top}" x2="0" y2="${P.top+cH}" stroke="#0A1327" stroke-width="1" stroke-dasharray="4,3" opacity="0.3" style="display:none"/>
@@ -1223,17 +1223,17 @@ function renderAlloc(c) {
     const pct = (cat.val/total*100).toFixed(1);
     const barW = Math.round(cat.val/total*100);
     return `<div>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-        <div style="display:flex;align-items:center;gap:8px">
-          <div style="width:10px;height:10px;border-radius:50%;background:${cat.color};flex-shrink:0"></div>
-          <span style="font-size:12px;font-weight:600;color:var(--text)">${cat.label}</span>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="width:8px;height:8px;border-radius:50%;background:${cat.color};flex-shrink:0"></div>
+          <span style="font-size:11px;font-weight:600;color:var(--text)">${cat.label}</span>
         </div>
-        <div style="display:flex;gap:12px;align-items:center">
-          <span style="font-size:12px;font-weight:700;color:var(--navy)">${fmtK(cat.val)}</span>
-          <span style="font-size:11px;color:var(--text-muted);min-width:36px;text-align:right">${pct}%</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span style="font-size:11px;font-weight:700;color:var(--navy)">${fmtK(cat.val)}</span>
+          <span style="font-size:10px;color:var(--text-muted);min-width:32px;text-align:right">${pct}%</span>
         </div>
       </div>
-      <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden">
+      <div style="height:3px;background:var(--border);border-radius:2px;overflow:hidden">
         <div style="height:100%;width:${barW}%;background:${cat.color};border-radius:2px;opacity:0.7"></div>
       </div>
     </div>`;
