@@ -538,8 +538,8 @@ async function loadAll() {
     fetch('wealth-config.json').then(r=>r.json()),
     fetch(`${WORKER}/wealth/snapshots`).then(r=>r.json()),
     fetch('wealth-snapshots-historical.json').then(r=>r.json()),
-    fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=aud').then(r=>r.json()),
-    fetch('https://api.metals.live/v1/spot/gold').then(r=>r.json()),
+    fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,pax-gold&vs_currencies=aud').then(r=>r.json()),
+    Promise.resolve(null), // gold now via pax-gold in crypto call above
   ]);
 
   propDetails = pdR.status==='fulfilled' ? pdR.value : {};
@@ -553,20 +553,11 @@ async function loadAll() {
     .filter(s=>{ if(seen.has(s.date))return false; seen.add(s.date); return true; })
     .sort((a,b)=>a.date.localeCompare(b.date));
 
-  if (cryptoR.status==='fulfilled') cryptoPrices = cryptoR.value;
-  if (goldR.status==='fulfilled') {
-    const gd = goldR.value;
-    // metals.live returns [{price: USD/oz}]; convert USD/oz to AUD/gram
-    // We also try CoinGecko gold price as fallback via XAU
-    const usdPerOz = Array.isArray(gd) ? gd[0]?.price : gd?.price;
-    if (usdPerOz) {
-      // Approximate AUD/USD rate ~1.55 (USD to AUD)
-      goldPriceAUD = (usdPerOz * 1.55) / 31.1035;
-    }
-  }
-  // Fallback: if metals.live failed, try CoinGecko for gold (pax-gold as proxy)
-  if (!goldPriceAUD && cryptoPrices) {
-    // Will attempt gold separately below if still null
+  if (cryptoR.status==='fulfilled') {
+    cryptoPrices = cryptoR.value;
+    // PAXG = 1 troy oz gold; AUD per gram = paxg_aud / 31.1035
+    const paxgAUD = cryptoPrices?.['pax-gold']?.aud;
+    if (paxgAUD) goldPriceAUD = paxgAUD / 31.1035;
   }
 
   render();
