@@ -111,6 +111,9 @@ td.total-col { border-left: 2px solid var(--border); }
 .del-row-btn { display: none; position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 10px; color: var(--red); background: rgba(229,90,72,0.1); border: none; border-radius: 4px; padding: 2px 5px; cursor: pointer; line-height: 1; font-weight: 700; }
 .row-data:hover .del-row-btn { display: inline-flex; }
 .del-row-btn:hover { background: rgba(229,90,72,0.2); }
+.del-section-btn { display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 10px; color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 2px 8px; cursor: pointer; font-weight: 600; letter-spacing: 0.3px; }
+tr.row-section:hover .del-section-btn { display: inline-flex; }
+.del-section-btn:hover { background: rgba(229,90,72,0.4); color: #fff; border-color: rgba(229,90,72,0.6); }
 
 /* Footer */
 .footer { text-align: center; font-size: 12px; color: var(--text-dim); padding-top: 24px; border-top: 1px solid var(--border); margin-top: 40px; }
@@ -332,11 +335,14 @@ function renderTable() {
   const tbody = document.getElementById('pnl-tbody');
   tbody.innerHTML = '';
 
-  function addSectionRow(label) {
+  function addSectionRow(label, sectionKey) {
     const tr = document.createElement('tr');
     tr.className = 'row-section';
     const cols = 2 + N;
-    tr.innerHTML = `<td colspan="${cols}">${label}</td>`;
+    const delBtn = sectionKey
+      ? `<button class="del-section-btn" title="Delete section" onclick="deleteSection('${sectionKey}')">✕ Remove section</button>`
+      : '';
+    tr.innerHTML = `<td colspan="${cols}" style="position:relative">${label}${delBtn}</td>`;
     tbody.appendChild(tr);
   }
 
@@ -424,45 +430,55 @@ function renderTable() {
   }
 
   // ── PERSONAL INCOME ──────────────────────────
-  addSectionRow('PERSONAL INCOME');
-  addDataRows('personalIncome');
-  addTotalRow('Total Personal Income', c.piTotals);
-  addSpacer();
+  if (DATA.personalIncome !== null) {
+    addSectionRow('PERSONAL INCOME', 'personalIncome');
+    addDataRows('personalIncome');
+    addTotalRow('Total Personal Income', c.piTotals);
+    addSpacer();
+  }
 
   // ── LIVING EXPENSES ──────────────────────────
-  addSectionRow('LIVING EXPENSES');
-  addDataRows('livingExpenses');
-  addTotalRow('Total Living Expenses', c.leTotals);
-  addSpacer();
+  if (DATA.livingExpenses !== null) {
+    addSectionRow('LIVING EXPENSES', 'livingExpenses');
+    addDataRows('livingExpenses');
+    addTotalRow('Total Living Expenses', c.leTotals);
+    addSpacer();
+  }
 
   // ── PERSONAL NET ─────────────────────────────
   addNetRow('Personal Surplus / (Deficit)', c.persNet);
   addSpacer();
 
   // ── PROPERTY INCOME ──────────────────────────
-  addSectionRow('PROPERTY INCOME');
-  addDataRows('propertyIncome');
-  addTotalRow('Total Property Income', c.prTotals);
-  addSpacer();
+  if (DATA.propertyIncome !== null) {
+    addSectionRow('PROPERTY INCOME', 'propertyIncome');
+    addDataRows('propertyIncome');
+    addTotalRow('Total Property Income', c.prTotals);
+    addSpacer();
+  }
 
   // ── LOAN REPAYMENTS ──────────────────────────
-  addSectionRow('LOAN REPAYMENTS (Interest)');
-  addDataRows('loanRepayments');
-  addTotalRow('Total Loan Repayments', c.lnTotals);
-  addSpacer();
+  if (DATA.loanRepayments !== null) {
+    addSectionRow('LOAN REPAYMENTS (Interest)', 'loanRepayments');
+    addDataRows('loanRepayments');
+    addTotalRow('Total Loan Repayments', c.lnTotals);
+    addSpacer();
+  }
 
   // ── MAINTENANCE ──────────────────────────────
-  addSectionRow('PROPERTY MAINTENANCE & FEES');
-  addDataRows('maintenance');
-  addTotalRow('Total Maintenance', c.mnTotals);
-  addSpacer();
+  if (DATA.maintenance !== null) {
+    addSectionRow('PROPERTY MAINTENANCE & FEES', 'maintenance');
+    addDataRows('maintenance');
+    addTotalRow('Total Maintenance', c.mnTotals);
+    addSpacer();
+  }
 
   // ── PROPERTY NET ─────────────────────────────
   addNetRow('Property Surplus / (Deficit)', c.propNet);
   addSpacer();
 
   // ── SUMMARY ──────────────────────────────────
-  addSectionRow('SUMMARY');
+  addSectionRow('SUMMARY', null);
   addTotalRow('Combined Income', c.combined);
   addTotalRow('Combined Expenses', c.allExp);
   addSpacer();
@@ -539,6 +555,14 @@ function updateKPIs(c) {
   const endRolling = rolling[rolling.length - 1];
   document.getElementById('kpi-net-sub').textContent =
     `Rolling end position: ${fmtKPI(endRolling)}`;
+}
+
+function deleteSection(sectionKey) {
+  const names = { personalIncome: 'Personal Income', livingExpenses: 'Living Expenses', propertyIncome: 'Property Income', loanRepayments: 'Loan Repayments', maintenance: 'Property Maintenance' };
+  if (!confirm(`Remove the "${names[sectionKey] || sectionKey}" section? All rows will be deleted. This cannot be undone.`)) return;
+  DATA[sectionKey] = [];
+  saveData();
+  renderTable();
 }
 
 function addRow(sectionKey) {
