@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -279,11 +279,11 @@ const DEFAULTS = {
     { label: 'Helen (Nanny)',             v: Array(N).fill(1740) },
   ],
   propertyIncome: [
-    { label: 'Lavington NSW',  v: Array(N).fill(Math.round(550 * 52 / 12 * 100) / 100) },
-    { label: 'Wilsonton QLD',  v: (() => { const a = Array(N).fill(Math.round(530 * 52 / 12 * 100) / 100); a[0] = Math.round(500 * 52 / 12 * 100) / 100; return a; })() },
-    { label: 'Wodonga VIC',    v: Array(N).fill(Math.round(490 * 52 / 12 * 100) / 100) },
-    { label: 'Camillo WA',     v: Array(N).fill(Math.round(670 * 52 / 12 * 100) / 100) },
-    { label: 'Kirwan QLD',     v: Array(N).fill(Math.round(500 * 52 / 12 * 100) / 100) },
+    { label: 'Lavington NSW',  v: Array(N).fill(2383.33) },
+    { label: 'Wilsonton QLD',  v: (() => { const a = Array(N).fill(2296.67); a[0] = 2166.67; return a; })() },
+    { label: 'Wodonga VIC',    v: Array(N).fill(2123.33) },
+    { label: 'Camillo WA',     v: Array(N).fill(2903.33) },
+    { label: 'Kirwan QLD',     v: Array(N).fill(2166.67) },
   ],
   // loanRepayments uses a different structure — see LOAN_DEFAULTS below
   loanRepayments: [],
