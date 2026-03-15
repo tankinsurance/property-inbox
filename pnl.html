@@ -206,6 +206,7 @@ td.rate-changed { background: rgba(240,160,32,0.08) !important; }
     </div>
     <div style="display:flex;gap:8px">
       <button class="btn" id="save-default-btn" onclick="saveAsDefault()">Save as default</button>
+      <button class="btn" id="sync-btn" onclick="syncToCloud()" style="color:#3b82f6;border-color:#bfdbfe">☁ Sync to cloud</button>
       <button class="btn btn-danger" onclick="resetToDefaults()">Reset to defaults</button>
     </div>
   </div>
@@ -353,6 +354,27 @@ function cloneDefaults() {
 }
 
 let DATA = loadData();
+
+// Try to hydrate from cloud on load (non-blocking)
+async function hydrateFromCloud() {
+  try {
+    const resp = await fetch('/api/pnl-sync');
+    if (!resp.ok) return;
+    const cloud = await resp.json();
+    if (!cloud || !cloud.data) return;
+    const cloudTime = new Date(cloud.syncedAt || 0).getTime();
+    const localSynced = parseInt(localStorage.getItem('pencev-pnl-last-sync') || '0');
+    if (cloudTime > localSynced) {
+      DATA = cloud.data;
+      if (cloud.loans) LOANS = cloud.loans;
+      saveData(); saveLoans();
+      localStorage.setItem('pencev-pnl-last-sync', cloudTime);
+      renderTable();
+      document.getElementById('save-status').textContent = 'Loaded from cloud ✓';
+    }
+  } catch(e) { /* silent fail — works offline */ }
+}
+setTimeout(hydrateFromCloud, 500);
 
 function loadData() {
   try {
@@ -769,6 +791,41 @@ function saveRateModal() {
 document.getElementById('rate-modal').addEventListener('click', function(e) {
   if (e.target === this) closeRateModal();
 });
+
+async function syncToCloud() {
+  const btn = document.getElementById('sync-btn');
+  btn.textContent = '⏳ Syncing...';
+  btn.disabled = true;
+
+  const payload = {
+    data: DATA,
+    loans: LOANS,
+    syncedAt: new Date().toISOString()
+  };
+
+  try {
+    // POST to Pages Function — token is server-side only
+    const putResp = await fetch('/api/pnl-sync', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (putResp.ok) {
+      btn.textContent = '☁ Synced ✓';
+      btn.style.color = 'var(--green)';
+      btn.style.borderColor = '#a7f3d0';
+      setTimeout(() => { btn.textContent = '☁ Sync to cloud'; btn.style.color = '#3b82f6'; btn.style.borderColor = '#bfdbfe'; btn.disabled = false; }, 2500);
+    } else {
+      throw new Error('GitHub API error ' + putResp.status);
+    }
+  } catch(e) {
+    btn.textContent = '☁ Sync failed';
+    btn.style.color = 'var(--red)';
+    console.error('Sync error:', e);
+    setTimeout(() => { btn.textContent = '☁ Sync to cloud'; btn.style.color = '#3b82f6'; btn.style.borderColor = '#bfdbfe'; btn.disabled = false; }, 3000);
+  }
+}
 
 function deleteSection(sectionKey) {
   const names = { personalIncome: 'Personal Income', livingExpenses: 'Living Expenses', propertyIncome: 'Property Income', loanRepayments: 'Loan Repayments', maintenance: 'Property Maintenance' };
