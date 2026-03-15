@@ -190,7 +190,7 @@ td.rate-changed { background: rgba(240,160,32,0.08) !important; }
     <div class="kpi-card">
       <div class="kpi-label">Property Cash Flow</div>
       <div class="kpi-value" id="kpi-property-net">—</div>
-      <div class="kpi-sub">After loans, PM fees, insurance &amp; maintenance</div>
+      <div class="kpi-sub">After loans, PM fees, insurance, maintenance &amp; pool</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Annual Net Position</div>
@@ -307,6 +307,9 @@ const DEFAULTS = {
     { label: 'Wodonga VIC',    v: Array(N).fill(150) },
     { label: 'Camillo WA',     v: Array(N).fill(150) },
     { label: 'Kirwan QLD',     v: Array(N).fill(150) },
+  ],
+  poolMaintenance: [
+    { label: 'Wodonga VIC (Pool Boy + Chemicals)', v: Array(N).fill(100) },
   ]
 };
 
@@ -465,7 +468,8 @@ function compute() {
   const pmTotals  = sectionTotals('pmFees');
   const insTotals = sectionTotals('insurance');
   const mnTotals  = sectionTotals('maintenance');
-  const propExpTotals = pmTotals.map((v, i) => v + insTotals[i] + mnTotals[i]);
+  const poolTotals = sectionTotals('poolMaintenance');
+  const propExpTotals = pmTotals.map((v, i) => v + insTotals[i] + mnTotals[i] + poolTotals[i]);
   const persNet   = piTotals.map((v, i) => v - leTotals[i]);
   const propNet   = prTotals.map((v, i) => v - lnTotals[i] - propExpTotals[i]);
   const combined  = piTotals.map((v, i) => v + prTotals[i]);
@@ -474,7 +478,7 @@ function compute() {
   const rolling   = netPos.reduce((acc, v, i) => {
     acc.push((acc[i-1] || 0) + v); return acc;
   }, []);
-  return { piTotals, leTotals, prTotals, lnTotals, pmTotals, insTotals, mnTotals, propExpTotals, persNet, propNet, combined, allExp, netPos, rolling };
+  return { piTotals, leTotals, prTotals, lnTotals, pmTotals, insTotals, mnTotals, poolTotals, propExpTotals, persNet, propNet, combined, allExp, netPos, rolling };
 }
 
 // Render everything
@@ -662,6 +666,14 @@ function renderTable() {
     addSectionRow('MAINTENANCE (Est.)', 'maintenance');
     addDataRows('maintenance');
     addTotalRow('Total Maintenance', c.mnTotals);
+    addSpacer();
+  }
+
+  // ── POOL MAINTENANCE (Wodonga only) ──────────
+  if (DATA.poolMaintenance !== null && DATA.poolMaintenance.length > 0) {
+    addSectionRow('POOL MAINTENANCE (Wodonga)', 'poolMaintenance');
+    addDataRows('poolMaintenance');
+    addTotalRow('Total Pool Maintenance', c.poolTotals);
     addSpacer();
   }
 
@@ -865,7 +877,7 @@ async function syncToCloud() {
 }
 
 function deleteSection(sectionKey) {
-  const names = { personalIncome: 'Personal Income', livingExpenses: 'Living Expenses', propertyIncome: 'Property Income', loanRepayments: 'Loan Repayments', pmFees: 'PM Fees', insurance: 'Insurance Premiums', maintenance: 'Property Maintenance' };
+  const names = { personalIncome: 'Personal Income', livingExpenses: 'Living Expenses', propertyIncome: 'Property Income', loanRepayments: 'Loan Repayments', pmFees: 'PM Fees', insurance: 'Insurance Premiums', maintenance: 'Property Maintenance', poolMaintenance: 'Pool Maintenance (Wodonga)' };
   if (!confirm(`Remove the "${names[sectionKey] || sectionKey}" section? All rows will be deleted. This cannot be undone.`)) return;
   DATA[sectionKey] = [];
   saveData();
