@@ -57,13 +57,15 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 .hint { font-size: 11px; color: var(--text-dim); }
 
 /* Table */
-.table-wrapper { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; overflow-x: auto; }
+.table-wrapper { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: auto; max-height: calc(100vh - 280px); }
 table { border-collapse: collapse; min-width: 1300px; font-size: 12.5px; width: 100%; }
 
 /* Head */
-thead tr th { background: var(--navy); color: #fff; font-size: 11px; font-weight: 600; text-align: right; padding: 10px 12px; white-space: nowrap; letter-spacing: 0.3px; position: sticky; top: var(--header-h); z-index: 50; }
+thead tr th { background: var(--navy); color: #fff; font-size: 11px; font-weight: 600; text-align: right; padding: 10px 12px; white-space: nowrap; letter-spacing: 0.3px; position: sticky; top: 0; z-index: 50; }
 thead tr th:first-child { text-align: left; min-width: 240px; max-width: 240px; position: sticky; left: 0; z-index: 80; background: var(--navy); }
 thead tr th.th-total { border-left: 2px solid rgba(255,255,255,0.25); }
+
+
 
 /* Body */
 tbody td { padding: 6px 12px; text-align: right; border-bottom: 1px solid var(--border); white-space: nowrap; font-variant-numeric: tabular-nums; font-family: 'JetBrains Mono', 'Menlo', monospace; font-size: 12px; }
