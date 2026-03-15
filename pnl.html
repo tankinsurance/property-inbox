@@ -62,12 +62,12 @@ table { border-collapse: collapse; min-width: 1300px; font-size: 12.5px; width: 
 
 /* Head */
 thead tr th { background: var(--navy); color: #fff; font-size: 11px; font-weight: 600; text-align: right; padding: 10px 12px; white-space: nowrap; letter-spacing: 0.3px; position: sticky; top: var(--header-h); z-index: 50; }
-thead tr th:first-child { text-align: left; min-width: 210px; max-width: 210px; position: sticky; left: 0; z-index: 80; background: var(--navy); }
+thead tr th:first-child { text-align: left; min-width: 240px; max-width: 240px; position: sticky; left: 0; z-index: 80; background: var(--navy); }
 thead tr th.th-total { border-left: 2px solid rgba(255,255,255,0.25); }
 
 /* Body */
 tbody td { padding: 6px 12px; text-align: right; border-bottom: 1px solid var(--border); white-space: nowrap; font-variant-numeric: tabular-nums; font-family: 'JetBrains Mono', 'Menlo', monospace; font-size: 12px; }
-tbody td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface); z-index: 10; border-right: 1px solid var(--border); font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; min-width: 210px; max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
+tbody td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface); z-index: 10; border-right: 1px solid var(--border); font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; min-width: 240px; max-width: 240px; overflow: hidden; text-overflow: ellipsis; }
 
 /* Row types */
 tr.row-section td { background: var(--navy); color: rgba(255,255,255,0.9); font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 8px 12px; border-bottom: none; }
@@ -149,7 +149,7 @@ tr.row-section:hover .del-section-btn { display: inline-flex; }
     <div class="kpi-card">
       <div class="kpi-label">Annual Personal Income</div>
       <div class="kpi-value" id="kpi-personal-income">—</div>
-      <div class="kpi-sub" id="kpi-personal-income-sub">13 months</div>
+      <div class="kpi-sub" id="kpi-personal-income-sub">12 months</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Annual Property Income</div>
@@ -173,7 +173,10 @@ tr.row-section:hover .del-section-btn { display: inline-flex; }
       <div class="save-indicator"><div class="save-dot"></div><span id="save-status">All changes saved</span></div>
       <span class="hint">Click any highlighted cell to edit</span>
     </div>
-    <button class="btn btn-danger" onclick="resetToDefaults()">Reset to defaults</button>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="save-default-btn" onclick="saveAsDefault()">Save as default</button>
+      <button class="btn btn-danger" onclick="resetToDefaults()">Reset to defaults</button>
+    </div>
   </div>
 
   <div class="table-wrapper">
@@ -197,6 +200,7 @@ tr.row-section:hover .del-section-btn { display: inline-flex; }
 const MONTHS = ['Mar-26','Apr-26','May-26','Jun-26','Jul-26','Aug-26','Sep-26','Oct-26','Nov-26','Dec-26','Jan-27','Feb-27'];
 const N = MONTHS.length;
 const STORAGE_KEY = 'pencev-pnl-v2';
+const DEFAULTS_KEY = 'pencev-pnl-v2-defaults';
 
 const DEFAULTS = {
   personalIncome: [
@@ -271,9 +275,26 @@ function saveData() {
   document.getElementById('save-status').textContent = 'Saved ' + new Date().toLocaleTimeString('en-AU', {hour:'2-digit',minute:'2-digit'});
 }
 
+function getEffectiveDefaults() {
+  try {
+    const saved = localStorage.getItem(DEFAULTS_KEY);
+    if (saved) return JSON.parse(saved);
+  } catch(e) {}
+  return cloneDefaults();
+}
+
+function saveAsDefault() {
+  if (!confirm('Save current numbers as the new default?\n\nThis will override the existing default. Next time you click "Reset to defaults" it will restore to these numbers.')) return;
+  localStorage.setItem(DEFAULTS_KEY, JSON.stringify(DATA));
+  const btn = document.getElementById('save-default-btn');
+  btn.textContent = 'Default saved ✓';
+  btn.style.color = 'var(--green)';
+  setTimeout(() => { btn.textContent = 'Save as default'; btn.style.color = ''; }, 2500);
+}
+
 function resetToDefaults() {
-  if (!confirm('Reset all values to the original forecast? This cannot be undone.')) return;
-  DATA = cloneDefaults();
+  if (!confirm('Reset all values back to your saved default? This cannot be undone.')) return;
+  DATA = getEffectiveDefaults();
   saveData();
   renderTable();
 }
