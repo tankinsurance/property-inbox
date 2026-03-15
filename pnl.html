@@ -117,6 +117,35 @@ td.total-col { border-left: 2px solid var(--border); }
 tr.row-section:hover .del-section-btn { display: inline-flex; }
 .del-section-btn:hover { background: rgba(229,90,72,0.4); color: #fff; border-color: rgba(229,90,72,0.6); }
 
+/* Loan rate editing */
+.edit-rate-btn { display: none; position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 10px; color: #3b82f6; background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3); border-radius: 4px; padding: 2px 7px; cursor: pointer; font-weight: 600; white-space: nowrap; }
+.row-data:hover .edit-rate-btn { display: inline-flex; }
+.edit-rate-btn:hover { background: rgba(59,130,246,0.2); }
+td.rate-changed { background: rgba(240,160,32,0.08) !important; }
+
+/* Modal */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(10,19,39,0.5); z-index: 500; align-items: center; justify-content: center; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--surface); border-radius: 18px; padding: 28px; width: 500px; max-width: 95vw; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+.modal-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.modal-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+.modal-field { margin-bottom: 14px; }
+.modal-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+.modal-input { width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 14px; outline: none; transition: border-color 150ms; }
+.modal-input:focus { border-color: var(--navy); }
+.rate-schedule { margin-bottom: 18px; }
+.rate-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.rate-row select, .rate-row input { padding: 7px 10px; border: 1px solid var(--border); border-radius: 7px; font-size: 13px; font-family: 'Inter', sans-serif; outline: none; }
+.rate-row select { flex: 1; }
+.rate-row input { width: 100px; }
+.rate-row .del-rate { background: none; border: none; color: var(--red); cursor: pointer; font-size: 16px; padding: 0 4px; }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+.modal-btn { padding: 9px 18px; border-radius: 9px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 150ms; }
+.modal-btn-primary { background: var(--navy); color: #fff; border: none; }
+.modal-btn-primary:hover { background: #1a2d4a; }
+.modal-btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.modal-btn-secondary:hover { border-color: var(--border-hover); }
+
 /* Footer */
 .footer { text-align: center; font-size: 12px; color: var(--text-dim); padding-top: 24px; border-top: 1px solid var(--border); margin-top: 40px; }
 </style>
@@ -198,6 +227,25 @@ tr.row-section:hover .del-section-btn { display: inline-flex; }
   </footer>
 </main>
 
+<!-- Loan Rate Modal -->
+<div class="modal-overlay" id="rate-modal">
+  <div class="modal">
+    <div class="modal-title" id="modal-loan-name">Loan</div>
+    <div class="modal-sub">Interest only. Monthly repayment = Balance × Rate ÷ 12.</div>
+    <div class="modal-field">
+      <div class="modal-label">Balance ($)</div>
+      <input class="modal-input" type="number" id="modal-balance" step="1000">
+    </div>
+    <div class="modal-label" style="margin-bottom:10px">Interest Rate Schedule</div>
+    <div class="rate-schedule" id="rate-schedule"></div>
+    <button class="add-row-btn" style="padding:0;margin-bottom:4px" onclick="addRateEntry()">+ Add rate change</button>
+    <div class="modal-actions">
+      <button class="modal-btn modal-btn-secondary" onclick="closeRateModal()">Cancel</button>
+      <button class="modal-btn modal-btn-primary" onclick="saveRateModal()">Save</button>
+    </div>
+  </div>
+</div>
+
 <script>
 const MONTHS = ['Mar-26','Apr-26','May-26','Jun-26','Jul-26','Aug-26','Sep-26','Oct-26','Nov-26','Dec-26','Jan-27','Feb-27'];
 const N = MONTHS.length;
@@ -236,14 +284,8 @@ const DEFAULTS = {
     { label: 'Camillo WA',     v: Array(N).fill(2903.33) },
     { label: 'Kirwan QLD',     v: Array(N).fill(2166.67) },
   ],
-  loanRepayments: [
-    { label: 'Loan 736083347', v: Array(N).fill(2054.50) },
-    { label: 'Loan 736083355', v: Array(N).fill(2030.04) },
-    { label: 'Loan 736083363', v: Array(N).fill(2127.88) },
-    { label: 'Loan 736083371', v: Array(N).fill(1963.47) },
-    { label: 'Loan 736083398', v: Array(N).fill(1834.38) },
-    { label: 'Loan 736712406', v: Array(N).fill(2350.94) },
-  ],
+  // loanRepayments uses a different structure — see LOAN_DEFAULTS below
+  loanRepayments: [],
   maintenance: [
     { label: 'Lavington NSW',  v: Array(N).fill(467.83) },
     { label: 'Wilsonton QLD',  v: Array(N).fill(463.50) },
@@ -252,6 +294,54 @@ const DEFAULTS = {
     { label: 'Kirwan QLD',     v: Array(N).fill(515.50) },
   ]
 };
+
+// Loan structure: balance (fixed) + rate schedule (array of {fromMonthIdx, rate})
+// Monthly repayment = balance * (rate / 100) / 12
+const LOAN_DEFAULTS = [
+  { label: 'Camillo WA (736083347)',       balance: 420000,  rates: [{from:0, rate:6.12}] },
+  { label: 'Wodonga VIC (736083355)',      balance: 415000,  rates: [{from:0, rate:6.12}] },
+  { label: 'Wilsonton QLD (736083363)',    balance: 435000,  rates: [{from:0, rate:6.12}] },
+  { label: 'Lavington NSW (736083371)',    balance: 398000,  rates: [{from:0, rate:6.17}] },
+  { label: 'Equity Released (736083398)', balance: 375000,  rates: [{from:0, rate:6.12}] },
+  { label: 'Kirwan QLD (736712406)',       balance: 480600,  rates: [{from:0, rate:6.12}] },
+];
+const LOANS_KEY = 'pencev-pnl-v2-loans';
+
+function loadLoans() {
+  try {
+    const raw = localStorage.getItem(LOANS_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return LOAN_DEFAULTS.map(l => ({ label: l.label, balance: l.balance, rates: JSON.parse(JSON.stringify(l.rates)) }));
+}
+
+function saveLoans() {
+  localStorage.setItem(LOANS_KEY, JSON.stringify(LOANS));
+}
+
+function getRateForMonth(loan, mi) {
+  // Find the most recent rate entry at or before mi
+  let rate = loan.rates[0].rate;
+  for (const r of loan.rates) {
+    if (r.from <= mi) rate = r.rate;
+  }
+  return rate;
+}
+
+function computeLoanRepayment(loan, mi) {
+  const rate = getRateForMonth(loan, mi);
+  return loan.balance * (rate / 100) / 12;
+}
+
+function loansToSection() {
+  // Convert LOANS into the standard v[] format for sectionTotals
+  return LOANS.map(loan => ({
+    label: loan.label,
+    v: Array.from({length: N}, (_, mi) => computeLoanRepayment(loan, mi))
+  }));
+}
+
+let LOANS = loadLoans();
 
 // Deep clone defaults
 function cloneDefaults() {
@@ -297,6 +387,8 @@ function saveAsDefault() {
 function resetToDefaults() {
   if (!confirm('Reset all values back to your saved default? This cannot be undone.')) return;
   DATA = getEffectiveDefaults();
+  LOANS = LOAN_DEFAULTS.map(l => ({ label: l.label, balance: l.balance, rates: JSON.parse(JSON.stringify(l.rates)) }));
+  saveLoans();
   saveData();
   renderTable();
 }
@@ -319,7 +411,8 @@ function fmtKPI(n) {
 
 // Sum a section for each month
 function sectionTotals(sectionKey) {
-  return DATA[sectionKey].reduce((acc, row) => {
+  const rows = sectionKey === 'loanRepayments' ? loansToSection() : DATA[sectionKey];
+  return rows.reduce((acc, row) => {
     row.v.forEach((val, i) => { acc[i] = (acc[i] || 0) + val; });
     return acc;
   }, Array(N).fill(0));
@@ -395,6 +488,29 @@ function renderTable() {
       <button class="add-row-btn" onclick="addRow('${sectionKey}')">+ Add row</button>
     </td>`;
     tbody.appendChild(addTr);
+  }
+
+  function addLoanRows() {
+    LOANS.forEach((loan, loanIdx) => {
+      const tr = document.createElement('tr');
+      tr.className = 'row-data';
+      const rate0 = getRateForMonth(loan, 0);
+      let html = `<td class="label-cell">
+        <span class="row-label-text">${loan.label}</span>
+        <button class="edit-rate-btn" onclick="openRateModal(${loanIdx})" title="Edit rate / balance">Edit rate</button>
+      </td>`;
+      for (let mi = 0; mi < N; mi++) {
+        const val = computeLoanRepayment(loan, mi);
+        const rate = getRateForMonth(loan, mi);
+        const changed = mi > 0 && rate !== getRateForMonth(loan, mi - 1);
+        const cls = changed ? 'rate-changed' : '';
+        html += `<td class="${cls}" title="${rate}% p.a.">${fmt(val)}</td>`;
+      }
+      const totals = Array.from({length:N}, (_, mi) => computeLoanRepayment(loan, mi));
+      html += `<td class="total-col">${fmt(rowTotal(totals))}</td>`;
+      tr.innerHTML = html;
+      tbody.appendChild(tr);
+    });
   }
 
   function addTotalRow(label, values, extraClass = '') {
@@ -481,12 +597,10 @@ function renderTable() {
   }
 
   // ── LOAN REPAYMENTS ──────────────────────────
-  if (DATA.loanRepayments !== null) {
-    addSectionRow('LOAN REPAYMENTS (Interest)', 'loanRepayments');
-    addDataRows('loanRepayments');
-    addTotalRow('Total Loan Repayments', c.lnTotals);
-    addSpacer();
-  }
+  addSectionRow('LOAN REPAYMENTS (Interest Only)', null);
+  addLoanRows();
+  addTotalRow('Total Loan Repayments', c.lnTotals);
+  addSpacer();
 
   // ── MAINTENANCE ──────────────────────────────
   if (DATA.maintenance !== null) {
@@ -579,6 +693,82 @@ function updateKPIs(c) {
   document.getElementById('kpi-net-sub').textContent =
     `Rolling end position: ${fmtKPI(endRolling)}`;
 }
+
+// ── LOAN RATE MODAL ──────────────────────────────────
+let editingLoanIdx = null;
+
+function openRateModal(loanIdx) {
+  editingLoanIdx = loanIdx;
+  const loan = LOANS[loanIdx];
+  document.getElementById('modal-loan-name').textContent = loan.label;
+  document.getElementById('modal-balance').value = loan.balance;
+  renderRateSchedule(loan.rates);
+  document.getElementById('rate-modal').classList.add('open');
+}
+
+function closeRateModal() {
+  document.getElementById('rate-modal').classList.remove('open');
+  editingLoanIdx = null;
+}
+
+function renderRateSchedule(rates) {
+  const el = document.getElementById('rate-schedule');
+  el.innerHTML = '';
+  rates.forEach((r, i) => {
+    const row = document.createElement('div');
+    row.className = 'rate-row';
+    const monthOpts = MONTHS.map((m, mi) => `<option value="${mi}" ${r.from === mi ? 'selected' : ''}>${m}</option>`).join('');
+    const delBtn = i === 0 ? '' : `<button class="del-rate" onclick="removeRateEntry(${i})" title="Remove">×</button>`;
+    row.innerHTML = `
+      <span style="font-size:12px;color:var(--text-muted);white-space:nowrap">${i === 0 ? 'From start' : 'From'}</span>
+      ${i === 0 ? '<span style="font-size:13px;font-weight:600;width:120px;text-align:center">Mar-26</span>' : `<select onchange="updateRateEntry(${i},'from',this.value)">${monthOpts}</select>`}
+      <input type="number" step="0.01" value="${r.rate}" placeholder="6.12" onchange="updateRateEntry(${i},'rate',this.value)" style="width:90px">
+      <span style="font-size:12px;color:var(--text-muted)">% p.a.</span>
+      ${delBtn}
+    `;
+    el.appendChild(row);
+  });
+}
+
+function updateRateEntry(idx, field, value) {
+  const loan = LOANS[editingLoanIdx];
+  if (field === 'from') loan.rates[idx].from = parseInt(value);
+  if (field === 'rate') loan.rates[idx].rate = parseFloat(value);
+  // Re-sort by from
+  loan.rates.sort((a, b) => a.from - b.from);
+  renderRateSchedule(loan.rates);
+}
+
+function addRateEntry() {
+  const loan = LOANS[editingLoanIdx];
+  const lastFrom = loan.rates[loan.rates.length - 1].from;
+  const nextFrom = Math.min(lastFrom + 1, N - 1);
+  const lastRate = loan.rates[loan.rates.length - 1].rate;
+  loan.rates.push({ from: nextFrom, rate: lastRate });
+  renderRateSchedule(loan.rates);
+}
+
+function removeRateEntry(idx) {
+  const loan = LOANS[editingLoanIdx];
+  loan.rates.splice(idx, 1);
+  renderRateSchedule(loan.rates);
+}
+
+function saveRateModal() {
+  const loan = LOANS[editingLoanIdx];
+  loan.balance = parseFloat(document.getElementById('modal-balance').value) || loan.balance;
+  // Rates already updated live via updateRateEntry
+  loan.rates.sort((a, b) => a.from - b.from);
+  loan.rates[0].from = 0; // ensure first entry always starts at 0
+  saveLoans();
+  closeRateModal();
+  renderTable();
+}
+
+// Close modal on overlay click
+document.getElementById('rate-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeRateModal();
+});
 
 function deleteSection(sectionKey) {
   const names = { personalIncome: 'Personal Income', livingExpenses: 'Living Expenses', propertyIncome: 'Property Income', loanRepayments: 'Loan Repayments', maintenance: 'Property Maintenance' };
