@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Personal P&L — Pencev Capital</title>
+<title>Personal P&L FY26/27 — Pencev Capital</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -114,7 +114,7 @@ td.total-col { border-left: 2px solid var(--border); }
     <div class="monogram">MP</div>
     <div>
       <div class="header-title">Pencev Capital</div>
-      <div class="header-subtitle">Personal P&amp;L — FY26 Forecast</div>
+      <div class="header-subtitle">Personal P&amp;L — Mar 2026 to Feb 2027</div>
     </div>
   </div>
   <nav class="header-nav">
@@ -130,7 +130,7 @@ td.total-col { border-left: 2px solid var(--border); }
 
   <div class="page-header">
     <div class="page-title">Personal P&amp;L</div>
-    <div class="page-sub">FY26 Forecast — Nov 2025 to Nov 2026 &nbsp;·&nbsp; Click any value to edit &nbsp;·&nbsp; Changes save automatically</div>
+    <div class="page-sub">FY26/27 — Mar 2026 to Feb 2027 &nbsp;·&nbsp; Click any value to edit &nbsp;·&nbsp; Changes save automatically</div>
   </div>
 
   <div class="kpi-strip">
@@ -182,14 +182,14 @@ td.total-col { border-left: 2px solid var(--border); }
 </main>
 
 <script>
-const MONTHS = ['Nov-25','Dec-25','Jan-26','Feb-26','Mar-26','Apr-26','May-26','Jun-26','Jul-26','Aug-26','Sep-26','Oct-26','Nov-26'];
+const MONTHS = ['Mar-26','Apr-26','May-26','Jun-26','Jul-26','Aug-26','Sep-26','Oct-26','Nov-26','Dec-26','Jan-27','Feb-27'];
 const N = MONTHS.length;
-const STORAGE_KEY = 'pencev-pnl-v1';
+const STORAGE_KEY = 'pencev-pnl-v2';
 
 const DEFAULTS = {
   personalIncome: [
     { label: 'Simonna Work',              v: Array(N).fill(3812.08) },
-    { label: 'Marel Consulting',          v: [0,0,0,12133.33,0,0,0,0,0,0,0,0,0] },
+    { label: 'Marel Consulting',          v: Array(N).fill(0) },
     { label: 'Marel Tank Salary',         v: Array(N).fill(0) },
     { label: 'Simonna Parental Leave',    v: Array(N).fill(0) },
     { label: 'Marel Parental Leave',      v: Array(N).fill(0) },
@@ -206,7 +206,7 @@ const DEFAULTS = {
     { label: 'Health Care',               v: Array(N).fill(418) },
     { label: 'Car Insurance',             v: Array(N).fill(180) },
     { label: 'Coaching',                  v: Array(N).fill(150) },
-    { label: 'Rent',                      v: [6066,6066,6066,3033,6066,6066,6066,6066,6066,6066,6066,6066,6066] },
+    { label: 'Rent',                      v: Array(N).fill(6066) },
     { label: 'Gym',                       v: Array(N).fill(0) },
     { label: 'Miscellaneous',             v: Array(N).fill(0) },
     { label: 'Helen (Nanny)',             v: Array(N).fill(1740) },
