@@ -103,6 +103,15 @@ td.editable input::-webkit-outer-spin-button, td.editable input::-webkit-inner-s
 .num-zero { color: var(--text-dim); }
 td.total-col { border-left: 2px solid var(--border); }
 
+/* Add / Delete row */
+.row-add td { padding: 0; border-bottom: none; background: transparent; text-align: left; }
+.add-row-btn { font-size: 11px; font-weight: 600; color: var(--text-muted); background: none; border: none; cursor: pointer; padding: 6px 12px; border-radius: 6px; transition: all 150ms; letter-spacing: 0.3px; }
+.add-row-btn:hover { color: var(--navy); background: var(--surface-2); }
+.label-cell { position: relative; }
+.del-row-btn { display: none; position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 10px; color: var(--red); background: rgba(229,90,72,0.1); border: none; border-radius: 4px; padding: 2px 5px; cursor: pointer; line-height: 1; font-weight: 700; }
+.row-data:hover .del-row-btn { display: inline-flex; }
+.del-row-btn:hover { background: rgba(229,90,72,0.2); }
+
 /* Footer */
 .footer { text-align: center; font-size: 12px; color: var(--text-dim); padding-top: 24px; border-top: 1px solid var(--border); margin-top: 40px; }
 </style>
@@ -335,7 +344,11 @@ function renderTable() {
     DATA[sectionKey].forEach((row, rowIdx) => {
       const tr = document.createElement('tr');
       tr.className = 'row-data';
-      let html = `<td>${row.label}</td>`;
+      // Label cell with delete button on hover
+      let html = `<td class="label-cell" data-sec="${sectionKey}" data-row="${rowIdx}">
+        <span class="row-label-text">${row.label}</span>
+        <button class="del-row-btn" title="Delete row" onclick="deleteRow('${sectionKey}',${rowIdx})">✕</button>
+      </td>`;
       row.v.forEach((val, mi) => {
         const cls = val < 0 ? 'num-neg' : val === 0 ? 'num-zero' : 'num-pos';
         html += `<td class="editable ${cls}" data-sec="${sectionKey}" data-row="${rowIdx}" data-mi="${mi}">${fmt(val)}</td>`;
@@ -346,6 +359,13 @@ function renderTable() {
       tr.innerHTML = html;
       tbody.appendChild(tr);
     });
+    // Add Row button
+    const addTr = document.createElement('tr');
+    addTr.className = 'row-add';
+    addTr.innerHTML = `<td colspan="${2 + N}">
+      <button class="add-row-btn" onclick="addRow('${sectionKey}')">+ Add row</button>
+    </td>`;
+    tbody.appendChild(addTr);
   }
 
   function addTotalRow(label, values, extraClass = '') {
@@ -519,6 +539,22 @@ function updateKPIs(c) {
   const endRolling = rolling[rolling.length - 1];
   document.getElementById('kpi-net-sub').textContent =
     `Rolling end position: ${fmtKPI(endRolling)}`;
+}
+
+function addRow(sectionKey) {
+  const label = prompt('Row name:');
+  if (!label || !label.trim()) return;
+  DATA[sectionKey].push({ label: label.trim(), v: Array(N).fill(0) });
+  saveData();
+  renderTable();
+}
+
+function deleteRow(sectionKey, rowIdx) {
+  const label = DATA[sectionKey][rowIdx].label;
+  if (!confirm(`Delete "${label}"?`)) return;
+  DATA[sectionKey].splice(rowIdx, 1);
+  saveData();
+  renderTable();
 }
 
 // Init
