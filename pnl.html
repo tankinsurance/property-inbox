@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal P&L — Pencev Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #F4F5F7; --surface: #FFFFFF; --surface-2: #F4F6F9; --surface-3: #EDF1F7;
+  --border: #E8ECF2; --border-hover: #C8D2E2;
+  --text: #0A1327; --text-muted: #8F9BB3; --text-dim: #C4CDDF;
+  --navy: #0A1327; --green: #2ec98e; --amber: #f0a020; --red: #e55a48;
+  --header-h: 64px;
+}
+html, body { min-height: 100%; background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, sans-serif; font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+
+/* Header */
+.header { position: fixed; top: 0; left: 0; right: 0; height: var(--header-h); display: flex; align-items: center; justify-content: space-between; padding: 0 28px; background: var(--bg); border-bottom: 1px solid var(--border); z-index: 200; }
+.header-left { display: flex; align-items: center; gap: 12px; }
+.monogram { width: 38px; height: 38px; border-radius: 50%; background: var(--navy); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; color: #fff; letter-spacing: -0.5px; flex-shrink: 0; }
+.header-title { font-size: 15px; font-weight: 700; color: var(--navy); letter-spacing: -0.3px; line-height: 1.2; }
+.header-subtitle { font-size: 11px; color: var(--text-muted); font-weight: 500; }
+.header-nav { display: flex; align-items: center; gap: 4px; }
+.nav-link { font-size: 13px; font-weight: 500; color: var(--text-muted); text-decoration: none; padding: 6px 12px; border-radius: 8px; transition: all 150ms; white-space: nowrap; }
+.nav-link:hover { color: var(--text); background: var(--surface); }
+.nav-link.active { color: var(--text); background: var(--surface); font-weight: 600; }
+
+/* Main */
+.main { padding-top: calc(var(--header-h) + 28px); padding-bottom: 60px; max-width: 100%; padding-left: 24px; padding-right: 24px; }
+.page-header { margin-bottom: 24px; }
+.page-title { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+.page-sub { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+
+/* KPI Strip */
+.kpi-strip { display: flex; gap: 14px; margin-bottom: 20px; flex-wrap: wrap; }
+.kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px 20px; flex: 1; min-width: 160px; }
+.kpi-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px; }
+.kpi-value { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
+.kpi-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.green { color: var(--green); }
+.red { color: var(--red); }
+.amber { color: var(--amber); }
+
+/* Controls */
+.controls { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; }
+.controls-left { display: flex; align-items: center; gap: 10px; }
+.save-indicator { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
+.save-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+.btn { font-size: 12px; font-weight: 600; padding: 7px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer; transition: all 150ms; }
+.btn:hover { border-color: var(--border-hover); background: var(--surface-2); }
+.btn-danger { color: var(--red); }
+.btn-danger:hover { border-color: var(--red); background: rgba(229,90,72,0.05); }
+.hint { font-size: 11px; color: var(--text-dim); }
+
+/* Table */
+.table-wrapper { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; overflow-x: auto; }
+table { border-collapse: collapse; min-width: 1300px; font-size: 12.5px; width: 100%; }
+
+/* Head */
+thead tr th { background: var(--navy); color: #fff; font-size: 11px; font-weight: 600; text-align: right; padding: 10px 12px; white-space: nowrap; letter-spacing: 0.3px; position: sticky; top: var(--header-h); z-index: 50; }
+thead tr th:first-child { text-align: left; min-width: 210px; max-width: 210px; position: sticky; left: 0; z-index: 80; background: var(--navy); }
+thead tr th.th-total { border-left: 2px solid rgba(255,255,255,0.25); }
+
+/* Body */
+tbody td { padding: 6px 12px; text-align: right; border-bottom: 1px solid var(--border); white-space: nowrap; font-variant-numeric: tabular-nums; font-family: 'JetBrains Mono', 'Menlo', monospace; font-size: 12px; }
+tbody td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface); z-index: 10; border-right: 1px solid var(--border); font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; min-width: 210px; max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
+
+/* Row types */
+tr.row-section td { background: var(--navy); color: rgba(255,255,255,0.9); font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 8px 12px; border-bottom: none; }
+tr.row-section td:first-child { background: var(--navy); color: #fff; border-right-color: rgba(255,255,255,0.1); z-index: 11; }
+
+tr.row-total td { background: var(--surface-2); font-weight: 700; font-family: 'Inter', sans-serif; font-size: 12.5px; border-top: 2px solid var(--border); border-bottom: 2px solid var(--border); }
+tr.row-total td:first-child { background: var(--surface-2); }
+
+tr.row-net td { font-weight: 800; font-family: 'Inter', sans-serif; font-size: 13px; background: #f0f7f4; border-top: 2px solid #c5e8d8; border-bottom: 2px solid #c5e8d8; }
+tr.row-net td:first-child { background: #f0f7f4; }
+tr.row-net.row-negative td { background: #fdf2f0; border-top-color: #f5c4bd; border-bottom-color: #f5c4bd; }
+tr.row-net.row-negative td:first-child { background: #fdf2f0; }
+
+tr.row-rolling td { background: var(--surface-3); font-weight: 700; font-family: 'Inter', sans-serif; font-size: 12.5px; border-bottom: 1px solid var(--border); }
+tr.row-rolling td:first-child { background: var(--surface-3); }
+
+tr.row-spacer td { height: 6px; background: var(--bg); border: none; padding: 0; }
+tr.row-spacer td:first-child { background: var(--bg); border-right: none; }
+
+tr.row-data:hover td { background: #f7f9ff !important; }
+tr.row-data:hover td:first-child { background: #f7f9ff !important; }
+
+/* Editable */
+td.editable { cursor: pointer; transition: background 120ms; }
+td.editable:hover { background: #edf4ff !important; }
+td.editing { background: #dbeafe !important; }
+td.editable input { width: 90px; border: none; background: transparent; text-align: right; font-family: inherit; font-size: inherit; font-weight: inherit; color: inherit; outline: none; padding: 0; -moz-appearance: textfield; }
+td.editable input::-webkit-outer-spin-button, td.editable input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+/* Number colors */
+.num-pos { color: var(--text); }
+.num-neg { color: var(--red); font-weight: 600; }
+.num-zero { color: var(--text-dim); }
+td.total-col { border-left: 2px solid var(--border); }
+
+/* Footer */
+.footer { text-align: center; font-size: 12px; color: var(--text-dim); padding-top: 24px; border-top: 1px solid var(--border); margin-top: 40px; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <div class="monogram">MP</div>
+    <div>
+      <div class="header-title">Pencev Capital</div>
+      <div class="header-subtitle">Personal P&amp;L — FY26 Forecast</div>
+    </div>
+  </div>
+  <nav class="header-nav">
+    <a href="hub.html" class="nav-link">Hub</a>
+    <a href="index.html" class="nav-link">Properties</a>
+    <a href="wealth.html" class="nav-link">Wealth</a>
+    <a href="pnl.html" class="nav-link active">P&amp;L</a>
+    <a href="https://master.tank-command-center.pages.dev" class="nav-link" target="_blank">Tank</a>
+  </nav>
+</header>
+
+<main class="main">
+
+  <div class="page-header">
+    <div class="page-title">Personal P&amp;L</div>
+    <div class="page-sub">FY26 Forecast — Nov 2025 to Nov 2026 &nbsp;·&nbsp; Click any value to edit &nbsp;·&nbsp; Changes save automatically</div>
+  </div>
+
+  <div class="kpi-strip">
+    <div class="kpi-card">
+      <div class="kpi-label">Annual Personal Income</div>
+      <div class="kpi-value" id="kpi-personal-income">—</div>
+      <div class="kpi-sub" id="kpi-personal-income-sub">13 months</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Annual Property Income</div>
+      <div class="kpi-value" id="kpi-property-income">—</div>
+      <div class="kpi-sub">Gross rent (5 properties)</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Property Cash Flow</div>
+      <div class="kpi-value" id="kpi-property-net">—</div>
+      <div class="kpi-sub">After loans &amp; maintenance</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Annual Net Position</div>
+      <div class="kpi-value" id="kpi-net">—</div>
+      <div class="kpi-sub" id="kpi-net-sub">All income minus all expenses</div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="controls-left">
+      <div class="save-indicator"><div class="save-dot"></div><span id="save-status">All changes saved</span></div>
+      <span class="hint">Click any highlighted cell to edit</span>
+    </div>
+    <button class="btn btn-danger" onclick="resetToDefaults()">Reset to defaults</button>
+  </div>
+
+  <div class="table-wrapper">
+    <table id="pnl-table">
+      <thead>
+        <tr id="thead-row">
+          <th>Category</th>
+          <!-- months injected by JS -->
+        </tr>
+      </thead>
+      <tbody id="pnl-tbody"></tbody>
+    </table>
+  </div>
+
+  <footer class="footer">
+    <strong>Pencev Capital Pty Ltd</strong> &nbsp;·&nbsp; Built with ⚡ Spectre
+  </footer>
+</main>
+
+<script>
+const MONTHS = ['Nov-25','Dec-25','Jan-26','Feb-26','Mar-26','Apr-26','May-26','Jun-26','Jul-26','Aug-26','Sep-26','Oct-26','Nov-26'];
+const N = MONTHS.length;
+const STORAGE_KEY = 'pencev-pnl-v1';
+
+const DEFAULTS = {
+  personalIncome: [
+    { label: 'Simonna Work',              v: Array(N).fill(3812.08) },
+    { label: 'Marel Consulting',          v: [0,0,0,12133.33,0,0,0,0,0,0,0,0,0] },
+    { label: 'Marel Tank Salary',         v: Array(N).fill(0) },
+    { label: 'Simonna Parental Leave',    v: Array(N).fill(0) },
+    { label: 'Marel Parental Leave',      v: Array(N).fill(0) },
+    { label: 'Mezzanine Finance',         v: Array(N).fill(0) },
+  ],
+  livingExpenses: [
+    { label: 'Allowance',                 v: Array(N).fill(600) },
+    { label: 'Netflix / Subscriptions',   v: Array(N).fill(37) },
+    { label: 'Petrol / Transport',        v: Array(N).fill(140) },
+    { label: 'Groceries',                 v: Array(N).fill(800) },
+    { label: 'Eating Out',                v: Array(N).fill(200) },
+    { label: 'Energy',                    v: Array(N).fill(70) },
+    { label: 'Optus (3x Phone + NBN)',    v: Array(N).fill(332.70) },
+    { label: 'Health Care',               v: Array(N).fill(418) },
+    { label: 'Car Insurance',             v: Array(N).fill(180) },
+    { label: 'Coaching',                  v: Array(N).fill(150) },
+    { label: 'Rent',                      v: [6066,6066,6066,3033,6066,6066,6066,6066,6066,6066,6066,6066,6066] },
+    { label: 'Gym',                       v: Array(N).fill(0) },
+    { label: 'Miscellaneous',             v: Array(N).fill(0) },
+    { label: 'Helen (Nanny)',             v: Array(N).fill(1740) },
+  ],
+  propertyIncome: [
+    { label: 'Lavington NSW',  v: Array(N).fill(2383.33) },
+    { label: 'Wilsonton QLD',  v: Array(N).fill(2166.67) },
+    { label: 'Wodonga VIC',    v: Array(N).fill(2080.00) },
+    { label: 'Camillo WA',     v: Array(N).fill(2903.33) },
+    { label: 'Kirwan QLD',     v: Array(N).fill(2166.67) },
+  ],
+  loanRepayments: [
+    { label: 'Loan 736083347', v: Array(N).fill(2054.50) },
+    { label: 'Loan 736083355', v: Array(N).fill(2030.04) },
+    { label: 'Loan 736083363', v: Array(N).fill(2127.88) },
+    { label: 'Loan 736083371', v: Array(N).fill(1963.47) },
+    { label: 'Loan 736083398', v: Array(N).fill(1834.38) },
+    { label: 'Loan 736712406', v: Array(N).fill(2350.94) },
+  ],
+  maintenance: [
+    { label: 'Lavington NSW',  v: Array(N).fill(467.83) },
+    { label: 'Wilsonton QLD',  v: Array(N).fill(463.50) },
+    { label: 'Wodonga VIC',    v: Array(N).fill(446.60) },
+    { label: 'Camillo WA',     v: Array(N).fill(572.46) },
+    { label: 'Kirwan QLD',     v: Array(N).fill(515.50) },
+  ]
+};
+
+// Deep clone defaults
+function cloneDefaults() {
+  const out = {};
+  for (const sec of Object.keys(DEFAULTS)) {
+    out[sec] = DEFAULTS[sec].map(r => ({ label: r.label, v: [...r.v] }));
+  }
+  return out;
+}
+
+let DATA = loadData();
+
+function loadData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return cloneDefaults();
+}
+
+function saveData() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(DATA));
+  document.getElementById('save-status').textContent = 'Saved ' + new Date().toLocaleTimeString('en-AU', {hour:'2-digit',minute:'2-digit'});
+}
+
+function resetToDefaults() {
+  if (!confirm('Reset all values to the original forecast? This cannot be undone.')) return;
+  DATA = cloneDefaults();
+  saveData();
+  renderTable();
+}
+
+// Formatting
+function fmt(n) {
+  if (n === null || n === undefined || isNaN(n)) return '—';
+  const abs = Math.abs(n);
+  const s = abs.toLocaleString('en-AU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return n < 0 ? `(${s})` : s;
+}
+function fmtKPI(n) {
+  const abs = Math.abs(n);
+  let s;
+  if (abs >= 1000000) s = '$' + (abs/1000000).toFixed(2) + 'M';
+  else if (abs >= 1000) s = '$' + Math.round(abs/1000) + 'K';
+  else s = '$' + abs.toFixed(0);
+  return n < 0 ? '-' + s : s;
+}
+
+// Sum a section for each month
+function sectionTotals(sectionKey) {
+  return DATA[sectionKey].reduce((acc, row) => {
+    row.v.forEach((val, i) => { acc[i] = (acc[i] || 0) + val; });
+    return acc;
+  }, Array(N).fill(0));
+}
+
+function rowTotal(arr) { return arr.reduce((a, b) => a + b, 0); }
+
+// Build all computed totals
+function compute() {
+  const piTotals  = sectionTotals('personalIncome');
+  const leTotals  = sectionTotals('livingExpenses');
+  const prTotals  = sectionTotals('propertyIncome');
+  const lnTotals  = sectionTotals('loanRepayments');
+  const mnTotals  = sectionTotals('maintenance');
+  const persNet   = piTotals.map((v, i) => v - leTotals[i]);
+  const propNet   = prTotals.map((v, i) => v - lnTotals[i] - mnTotals[i]);
+  const combined  = piTotals.map((v, i) => v + prTotals[i]);
+  const allExp    = leTotals.map((v, i) => v + lnTotals[i] + mnTotals[i]);
+  const netPos    = combined.map((v, i) => v - allExp[i]);
+  const rolling   = netPos.reduce((acc, v, i) => {
+    acc.push((acc[i-1] || 0) + v); return acc;
+  }, []);
+  return { piTotals, leTotals, prTotals, lnTotals, mnTotals, persNet, propNet, combined, allExp, netPos, rolling };
+}
+
+// Render everything
+function renderTable() {
+  const c = compute();
+
+  // Build thead
+  const thead = document.getElementById('thead-row');
+  thead.innerHTML = '<th>Category</th>';
+  MONTHS.forEach(m => thead.innerHTML += `<th>${m}</th>`);
+  thead.innerHTML += '<th class="th-total">Total</th>';
+
+  const tbody = document.getElementById('pnl-tbody');
+  tbody.innerHTML = '';
+
+  function addSectionRow(label) {
+    const tr = document.createElement('tr');
+    tr.className = 'row-section';
+    const cols = 2 + N;
+    tr.innerHTML = `<td colspan="${cols}">${label}</td>`;
+    tbody.appendChild(tr);
+  }
+
+  function addDataRows(sectionKey) {
+    DATA[sectionKey].forEach((row, rowIdx) => {
+      const tr = document.createElement('tr');
+      tr.className = 'row-data';
+      let html = `<td>${row.label}</td>`;
+      row.v.forEach((val, mi) => {
+        const cls = val < 0 ? 'num-neg' : val === 0 ? 'num-zero' : 'num-pos';
+        html += `<td class="editable ${cls}" data-sec="${sectionKey}" data-row="${rowIdx}" data-mi="${mi}">${fmt(val)}</td>`;
+      });
+      const tot = rowTotal(row.v);
+      const tcls = tot < 0 ? 'num-neg' : tot === 0 ? 'num-zero' : 'num-pos';
+      html += `<td class="total-col ${tcls}">${fmt(tot)}</td>`;
+      tr.innerHTML = html;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function addTotalRow(label, values, extraClass = '') {
+    const tr = document.createElement('tr');
+    tr.className = 'row-total ' + extraClass;
+    let html = `<td>${label}</td>`;
+    values.forEach(v => {
+      const cls = v < 0 ? 'num-neg' : v === 0 ? 'num-zero' : 'num-pos';
+      html += `<td class="${cls}">${fmt(v)}</td>`;
+    });
+    const tot = rowTotal(values);
+    const tcls = tot < 0 ? 'num-neg' : tot === 0 ? 'num-zero' : 'num-pos';
+    html += `<td class="total-col ${tcls}">${fmt(tot)}</td>`;
+    tr.innerHTML = html;
+    tbody.appendChild(tr);
+    return tr;
+  }
+
+  function addNetRow(label, values) {
+    const hasNeg = values.some(v => v < 0);
+    const tr = document.createElement('tr');
+    tr.className = 'row-net' + (hasNeg ? ' row-negative' : '');
+    let html = `<td>${label}</td>`;
+    values.forEach(v => {
+      const cls = v < 0 ? 'red' : v === 0 ? 'num-zero' : 'green';
+      html += `<td class="${cls}" style="font-weight:700">${fmt(v)}</td>`;
+    });
+    const tot = rowTotal(values);
+    const tcls = tot < 0 ? 'red' : 'green';
+    html += `<td class="total-col ${tcls}" style="font-weight:700">${fmt(tot)}</td>`;
+    tr.innerHTML = html;
+    tbody.appendChild(tr);
+  }
+
+  function addRollingRow(label, values) {
+    const tr = document.createElement('tr');
+    tr.className = 'row-rolling';
+    let html = `<td>${label}</td>`;
+    values.forEach(v => {
+      const cls = v < 0 ? 'red' : 'green';
+      html += `<td class="${cls}">${fmt(v)}</td>`;
+    });
+    // last value is the final rolling position
+    const last = values[values.length - 1];
+    const tcls = last < 0 ? 'red' : 'green';
+    html += `<td class="total-col ${tcls}" style="font-style:italic;font-size:11px;color:var(--text-muted)">End of period</td>`;
+    tr.innerHTML = html;
+    tbody.appendChild(tr);
+  }
+
+  function addSpacer() {
+    const tr = document.createElement('tr');
+    tr.className = 'row-spacer';
+    tr.innerHTML = `<td colspan="${2 + N}"></td>`;
+    tbody.appendChild(tr);
+  }
+
+  // ── PERSONAL INCOME ──────────────────────────
+  addSectionRow('PERSONAL INCOME');
+  addDataRows('personalIncome');
+  addTotalRow('Total Personal Income', c.piTotals);
+  addSpacer();
+
+  // ── LIVING EXPENSES ──────────────────────────
+  addSectionRow('LIVING EXPENSES');
+  addDataRows('livingExpenses');
+  addTotalRow('Total Living Expenses', c.leTotals);
+  addSpacer();
+
+  // ── PERSONAL NET ─────────────────────────────
+  addNetRow('Personal Surplus / (Deficit)', c.persNet);
+  addSpacer();
+
+  // ── PROPERTY INCOME ──────────────────────────
+  addSectionRow('PROPERTY INCOME');
+  addDataRows('propertyIncome');
+  addTotalRow('Total Property Income', c.prTotals);
+  addSpacer();
+
+  // ── LOAN REPAYMENTS ──────────────────────────
+  addSectionRow('LOAN REPAYMENTS (Interest)');
+  addDataRows('loanRepayments');
+  addTotalRow('Total Loan Repayments', c.lnTotals);
+  addSpacer();
+
+  // ── MAINTENANCE ──────────────────────────────
+  addSectionRow('PROPERTY MAINTENANCE & FEES');
+  addDataRows('maintenance');
+  addTotalRow('Total Maintenance', c.mnTotals);
+  addSpacer();
+
+  // ── PROPERTY NET ─────────────────────────────
+  addNetRow('Property Surplus / (Deficit)', c.propNet);
+  addSpacer();
+
+  // ── SUMMARY ──────────────────────────────────
+  addSectionRow('SUMMARY');
+  addTotalRow('Combined Income', c.combined);
+  addTotalRow('Combined Expenses', c.allExp);
+  addSpacer();
+  addNetRow('Net Position (Monthly)', c.netPos);
+  addRollingRow('Rolling Position (Cumulative)', c.rolling);
+
+  // Attach edit listeners
+  tbody.querySelectorAll('td.editable').forEach(cell => {
+    cell.addEventListener('click', () => startEdit(cell));
+  });
+
+  // Update KPIs
+  updateKPIs(c);
+}
+
+function startEdit(cell) {
+  if (cell.querySelector('input')) return;
+  const sec = cell.dataset.sec;
+  const rowIdx = parseInt(cell.dataset.row);
+  const mi = parseInt(cell.dataset.mi);
+  const currentVal = DATA[sec][rowIdx].v[mi];
+
+  cell.classList.add('editing');
+  cell.classList.remove('num-pos', 'num-neg', 'num-zero');
+
+  const input = document.createElement('input');
+  input.type = 'number';
+  input.step = '0.01';
+  input.value = currentVal;
+  cell.innerHTML = '';
+  cell.appendChild(input);
+  input.focus();
+  input.select();
+
+  function commitEdit() {
+    const newVal = parseFloat(input.value);
+    const val = isNaN(newVal) ? 0 : newVal;
+    DATA[sec][rowIdx].v[mi] = val;
+    saveData();
+    renderTable();
+  }
+
+  input.addEventListener('blur', commitEdit);
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); commitEdit(); }
+    if (e.key === 'Escape') { renderTable(); }
+    if (e.key === 'Tab') { e.preventDefault(); commitEdit(); }
+  });
+}
+
+function updateKPIs(c) {
+  const piTotal = rowTotal(c.piTotals);
+  const prTotal = rowTotal(c.prTotals);
+  const propNet = rowTotal(c.propNet);
+  const netPos  = rowTotal(c.netPos);
+
+  document.getElementById('kpi-personal-income').textContent = fmtKPI(piTotal);
+  document.getElementById('kpi-personal-income').className = 'kpi-value';
+
+  document.getElementById('kpi-property-income').textContent = fmtKPI(prTotal);
+  document.getElementById('kpi-property-income').className = 'kpi-value';
+
+  const pnEl = document.getElementById('kpi-property-net');
+  pnEl.textContent = fmtKPI(propNet);
+  pnEl.className = 'kpi-value ' + (propNet < 0 ? 'red' : 'green');
+  document.getElementById('kpi-property-net').parentElement.querySelector('.kpi-sub').textContent =
+    propNet < 0 ? 'Negative cash flow (tax deductible)' : 'Positive cash flow';
+
+  const npEl = document.getElementById('kpi-net');
+  npEl.textContent = fmtKPI(netPos);
+  npEl.className = 'kpi-value ' + (netPos < 0 ? 'red' : 'green');
+
+  const rolling = c.rolling;
+  const endRolling = rolling[rolling.length - 1];
+  document.getElementById('kpi-net-sub').textContent =
+    `Rolling end position: ${fmtKPI(endRolling)}`;
+}
+
+// Init
+renderTable();
+</script>
+
+</body>
+</html>
