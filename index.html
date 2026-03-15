@@ -1275,7 +1275,101 @@ html, body {
         <div class="pds-stat-sub">$${(valuation - purchasePrice).toLocaleString()} gain</div>
       </div>`;
     }
+    // Net cash flow stat card
+    if (weeklyRent && pd.insurance && pd.pmFeeRate) {
+      const monthlyRent = weeklyRent * 52 / 12;
+      const monthlyPMFee = monthlyRent * (pd.pmFeeRate / 100);
+      const monthlyIns = pd.insurance.monthlyPremium || 0;
+      const monthlyMaint = 150; // estimate
+      const monthlyExpenses = monthlyPMFee + monthlyIns + monthlyMaint;
+      const netCashFlow = monthlyRent - monthlyExpenses;
+      const ncfColor = netCashFlow >= 0 ? '#2ec98e' : '#e55a48';
+      html += `<div class="pds-stat-card" style="border-color:${netCashFlow >= 0 ? 'rgba(46,201,142,0.3)' : 'rgba(229,90,72,0.3)'}">
+        <div class="pds-stat-label">Net Cash Flow</div>
+        <div class="pds-stat-value" style="color:${ncfColor}">${netCashFlow >= 0 ? '' : '-'}$${Math.abs(Math.round(netCashFlow)).toLocaleString()}/mo</div>
+        <div class="pds-stat-sub">After PM, insurance, maint (excl. loan)</div>
+      </div>`;
+    }
     html += `</div>`;
+
+    // ── Insurance & PM Fees ──
+    const ins = pd.insurance;
+    const pmRate = pd.pmFeeRate;
+    const pmAgency = pd.pmAgency;
+    if (ins || pmRate) {
+      html += `<div class="pds-card">
+        <div class="pds-section-title">Insurance & Management</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">`;
+      if (ins) {
+        const insExpDays = ins.expiry ? daysUntilExpiry(ins.expiry) : null;
+        let insExpiryColor = '#2ec98e';
+        let insExpiryBg = 'rgba(46,201,142,0.12)';
+        let insExpiryLabel = '';
+        if (insExpDays !== null) {
+          if (insExpDays < 0) { insExpiryColor = '#e55a48'; insExpiryBg = 'rgba(229,90,72,0.12)'; insExpiryLabel = 'EXPIRED'; }
+          else if (insExpDays < 60) { insExpiryColor = '#e55a48'; insExpiryBg = 'rgba(229,90,72,0.12)'; insExpiryLabel = insExpDays + 'd left'; }
+          else if (insExpDays < 90) { insExpiryColor = '#f0a020'; insExpiryBg = 'rgba(240,160,32,0.12)'; insExpiryLabel = insExpDays + 'd left'; }
+          else { insExpiryLabel = insExpDays + 'd left'; }
+        }
+        html += `<div style="background:#F8F9FB;border-radius:12px;padding:14px 16px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+            <span style="font-size:10px;font-weight:700;color:#8F9BB3;text-transform:uppercase;letter-spacing:0.5px">🛡️ Insurance</span>
+            <span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px;background:${insExpiryBg};color:${insExpiryColor}">${insExpiryLabel}</span>
+          </div>
+          <div style="font-size:20px;font-weight:800;color:#0A1327;letter-spacing:-0.5px">$${ins.annualPremium.toLocaleString()}<span style="font-size:12px;font-weight:500;color:#8F9BB3">/yr</span></div>
+          <div style="font-size:12px;color:#8F9BB3;margin-top:4px">$${ins.monthlyPremium.toFixed(2)}/mo · ${esc(ins.insurer)}</div>
+          <div style="font-size:11px;color:#C4CDDF;margin-top:4px">Expires ${formatLeaseDate(ins.expiry)}</div>
+        </div>`;
+      }
+      if (pmRate) {
+        const monthlyPM = weeklyRent ? Math.round(weeklyRent * 52 / 12 * (pmRate / 100) * 100) / 100 : 0;
+        html += `<div style="background:#F8F9FB;border-radius:12px;padding:14px 16px">
+          <div style="font-size:10px;font-weight:700;color:#8F9BB3;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px">📋 PM Fee</div>
+          <div style="font-size:20px;font-weight:800;color:#0A1327;letter-spacing:-0.5px">${pmRate}%<span style="font-size:12px;font-weight:500;color:#8F9BB3"> of rent</span></div>
+          <div style="font-size:12px;color:#8F9BB3;margin-top:4px">$${monthlyPM.toFixed(2)}/mo · $${(monthlyPM * 12).toFixed(0)}/yr</div>
+          ${pmAgency ? `<div style="font-size:11px;color:#C4CDDF;margin-top:4px">${esc(pmAgency)}</div>` : ''}
+        </div>`;
+      }
+      html += `</div></div>`;
+    }
+
+    // ── Key Documents ──
+    const hasPmAgreement = pd.pmAgreementUrl;
+    const hasLease = lease && lease.driveUrl;
+    const hasPmCert = pd.pmAgreementCertUrl;
+    if (hasPmAgreement || hasLease || hasPmCert) {
+      html += `<div class="pds-card">
+        <div class="pds-section-title">Key Documents</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px">`;
+      if (hasLease) {
+        html += `<a href="${esc(lease.driveUrl)}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#F8F9FB;border:1px solid #EDF1F7;border-radius:12px;text-decoration:none;transition:all 0.15s" onmouseover="this.style.borderColor='#D1D9E6';this.style.background='#fff'" onmouseout="this.style.borderColor='#EDF1F7';this.style.background='#F8F9FB'">
+          <div style="width:32px;height:32px;background:rgba(155,108,247,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px">📄</div>
+          <div>
+            <div style="font-size:12px;font-weight:600;color:#0A1327">Lease Agreement</div>
+            <div style="font-size:10px;color:#C4CDDF">Current lease</div>
+          </div>
+        </a>`;
+      }
+      if (hasPmAgreement) {
+        html += `<a href="${esc(pd.pmAgreementUrl)}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#F8F9FB;border:1px solid #EDF1F7;border-radius:12px;text-decoration:none;transition:all 0.15s" onmouseover="this.style.borderColor='#D1D9E6';this.style.background='#fff'" onmouseout="this.style.borderColor='#EDF1F7';this.style.background='#F8F9FB'">
+          <div style="width:32px;height:32px;background:rgba(240,160,32,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px">📋</div>
+          <div>
+            <div style="font-size:12px;font-weight:600;color:#0A1327">PM Agreement</div>
+            <div style="font-size:10px;color:#C4CDDF">${pmAgency ? esc(pmAgency) : 'Form 6'}</div>
+          </div>
+        </a>`;
+      }
+      if (hasPmCert) {
+        html += `<a href="${esc(pd.pmAgreementCertUrl)}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#F8F9FB;border:1px solid #EDF1F7;border-radius:12px;text-decoration:none;transition:all 0.15s" onmouseover="this.style.borderColor='#D1D9E6';this.style.background='#fff'" onmouseout="this.style.borderColor='#EDF1F7';this.style.background='#F8F9FB'">
+          <div style="width:32px;height:32px;background:rgba(143,155,179,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px">✅</div>
+          <div>
+            <div style="font-size:12px;font-weight:600;color:#0A1327">PM Completion Cert</div>
+            <div style="font-size:10px;color:#C4CDDF">Signed confirmation</div>
+          </div>
+        </a>`;
+      }
+      html += `</div></div>`;
+    }
 
     // ── Income Chart ──
     html += `<div class="pds-card">

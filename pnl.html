@@ -190,7 +190,7 @@ td.rate-changed { background: rgba(240,160,32,0.08) !important; }
     <div class="kpi-card">
       <div class="kpi-label">Property Cash Flow</div>
       <div class="kpi-value" id="kpi-property-net">—</div>
-      <div class="kpi-sub">After loans &amp; maintenance</div>
+      <div class="kpi-sub">After loans, PM fees, insurance &amp; maintenance</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Annual Net Position</div>
@@ -287,12 +287,26 @@ const DEFAULTS = {
   ],
   // loanRepayments uses a different structure — see LOAN_DEFAULTS below
   loanRepayments: [],
+  pmFees: [
+    { label: 'Lavington NSW (7.00%)',    v: Array(N).fill(Math.round(550 * 52 / 12 * 0.07 * 100) / 100), rate: 7.00 },
+    { label: 'Wilsonton QLD (7.50%)',    v: (() => { const a = Array(N).fill(Math.round(500 * 52 / 12 * 0.075 * 100) / 100); a[1]=Math.round(530*52/12*0.075*100)/100; for(let i=2;i<N;i++) a[i]=a[1]; return a; })(), rate: 7.50 },
+    { label: 'Wodonga VIC (7.00%)',      v: Array(N).fill(Math.round(490 * 52 / 12 * 0.07 * 100) / 100), rate: 7.00 },
+    { label: 'Camillo WA (9.35%)',       v: Array(N).fill(Math.round(670 * 52 / 12 * 0.0935 * 100) / 100), rate: 9.35 },
+    { label: 'Kirwan QLD (9.90%)',       v: Array(N).fill(Math.round(500 * 52 / 12 * 0.099 * 100) / 100), rate: 9.90 },
+  ],
+  insurance: [
+    { label: 'Lavington NSW (SGUA)',     v: Array(N).fill(160.31) },
+    { label: 'Wilsonton QLD (SGUA)',     v: Array(N).fill(125.94) },
+    { label: 'Wodonga VIC (SGUA)',       v: Array(N).fill(130.68) },
+    { label: 'Camillo WA (SGUA)',        v: Array(N).fill(200.86) },
+    { label: 'Kirwan QLD (AAMI)',        v: Array(N).fill(208.14) },
+  ],
   maintenance: [
-    { label: 'Lavington NSW',  v: Array(N).fill(467.83) },
-    { label: 'Wilsonton QLD',  v: Array(N).fill(463.50) },
-    { label: 'Wodonga VIC',    v: Array(N).fill(446.60) },
-    { label: 'Camillo WA',     v: Array(N).fill(572.46) },
-    { label: 'Kirwan QLD',     v: Array(N).fill(515.50) },
+    { label: 'Lavington NSW',  v: Array(N).fill(150) },
+    { label: 'Wilsonton QLD',  v: Array(N).fill(150) },
+    { label: 'Wodonga VIC',    v: Array(N).fill(150) },
+    { label: 'Camillo WA',     v: Array(N).fill(150) },
+    { label: 'Kirwan QLD',     v: Array(N).fill(150) },
   ]
 };
 
@@ -448,16 +462,19 @@ function compute() {
   const leTotals  = sectionTotals('livingExpenses');
   const prTotals  = sectionTotals('propertyIncome');
   const lnTotals  = sectionTotals('loanRepayments');
+  const pmTotals  = sectionTotals('pmFees');
+  const insTotals = sectionTotals('insurance');
   const mnTotals  = sectionTotals('maintenance');
+  const propExpTotals = pmTotals.map((v, i) => v + insTotals[i] + mnTotals[i]);
   const persNet   = piTotals.map((v, i) => v - leTotals[i]);
-  const propNet   = prTotals.map((v, i) => v - lnTotals[i] - mnTotals[i]);
+  const propNet   = prTotals.map((v, i) => v - lnTotals[i] - propExpTotals[i]);
   const combined  = piTotals.map((v, i) => v + prTotals[i]);
-  const allExp    = leTotals.map((v, i) => v + lnTotals[i] + mnTotals[i]);
+  const allExp    = leTotals.map((v, i) => v + lnTotals[i] + propExpTotals[i]);
   const netPos    = combined.map((v, i) => v - allExp[i]);
   const rolling   = netPos.reduce((acc, v, i) => {
     acc.push((acc[i-1] || 0) + v); return acc;
   }, []);
-  return { piTotals, leTotals, prTotals, lnTotals, mnTotals, persNet, propNet, combined, allExp, netPos, rolling };
+  return { piTotals, leTotals, prTotals, lnTotals, pmTotals, insTotals, mnTotals, propExpTotals, persNet, propNet, combined, allExp, netPos, rolling };
 }
 
 // Render everything
@@ -624,13 +641,33 @@ function renderTable() {
   addTotalRow('Total Loan Repayments', c.lnTotals);
   addSpacer();
 
+  // ── PM FEES ──────────────────────────────────
+  if (DATA.pmFees !== null) {
+    addSectionRow('PROPERTY MANAGEMENT FEES', 'pmFees');
+    addDataRows('pmFees');
+    addTotalRow('Total PM Fees', c.pmTotals);
+    addSpacer();
+  }
+
+  // ── INSURANCE ──────────────────────────────
+  if (DATA.insurance !== null) {
+    addSectionRow('INSURANCE PREMIUMS', 'insurance');
+    addDataRows('insurance');
+    addTotalRow('Total Insurance', c.insTotals);
+    addSpacer();
+  }
+
   // ── MAINTENANCE ──────────────────────────────
   if (DATA.maintenance !== null) {
-    addSectionRow('PROPERTY MAINTENANCE & FEES', 'maintenance');
+    addSectionRow('MAINTENANCE (Est.)', 'maintenance');
     addDataRows('maintenance');
     addTotalRow('Total Maintenance', c.mnTotals);
     addSpacer();
   }
+
+  // ── TOTAL PROPERTY EXPENSES ──────────────────
+  addTotalRow('Total Property Expenses', c.propExpTotals);
+  addSpacer();
 
   // ── PROPERTY NET ─────────────────────────────
   addNetRow('Property Surplus / (Deficit)', c.propNet);
@@ -828,7 +865,7 @@ async function syncToCloud() {
 }
 
 function deleteSection(sectionKey) {
-  const names = { personalIncome: 'Personal Income', livingExpenses: 'Living Expenses', propertyIncome: 'Property Income', loanRepayments: 'Loan Repayments', maintenance: 'Property Maintenance' };
+  const names = { personalIncome: 'Personal Income', livingExpenses: 'Living Expenses', propertyIncome: 'Property Income', loanRepayments: 'Loan Repayments', pmFees: 'PM Fees', insurance: 'Insurance Premiums', maintenance: 'Property Maintenance' };
   if (!confirm(`Remove the "${names[sectionKey] || sectionKey}" section? All rows will be deleted. This cannot be undone.`)) return;
   DATA[sectionKey] = [];
   saveData();

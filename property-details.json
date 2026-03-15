@@ -25,7 +25,15 @@
         "note": "Current"
       }
     ],
-    "marketRentUpdated": "2026-03-13"
+    "marketRentUpdated": "2026-03-13",
+    "pmFeeRate": 9.35,
+    "pmAgency": "O'Neil Real Estate",
+    "insurance": {
+      "annualPremium": 2410.34,
+      "monthlyPremium": 200.86,
+      "expiry": "2026-06-18",
+      "insurer": "SGUA"
+    }
   },
   "lavington-nsw": {
     "purchasePrice": 437000,
@@ -53,7 +61,15 @@
         "note": "Current"
       }
     ],
-    "marketRentUpdated": "2026-03-13"
+    "marketRentUpdated": "2026-03-13",
+    "pmFeeRate": 7.00,
+    "pmAgency": "Elite PM Agency NSW",
+    "insurance": {
+      "annualPremium": 1923.71,
+      "monthlyPremium": 160.31,
+      "expiry": "2027-02-07",
+      "insurer": "SGUA"
+    }
   },
   "west-wodonga-vic": {
     "purchasePrice": 430000,
@@ -81,7 +97,15 @@
         "note": "Current"
       }
     ],
-    "marketRentUpdated": "2026-03-13"
+    "marketRentUpdated": "2026-03-13",
+    "pmFeeRate": 7.00,
+    "pmAgency": "Elite PM Agency VIC",
+    "insurance": {
+      "annualPremium": 1568.11,
+      "monthlyPremium": 130.68,
+      "expiry": "2026-07-26",
+      "insurer": "SGUA"
+    }
   },
   "wilsonton-qld": {
     "purchasePrice": 435000,
@@ -119,7 +143,15 @@
         "note": "Pending renewal"
       }
     ],
-    "marketRentUpdated": "2026-03-13"
+    "marketRentUpdated": "2026-03-13",
+    "pmFeeRate": 7.50,
+    "pmAgency": "myhouse Realty",
+    "insurance": {
+      "annualPremium": 1511.25,
+      "monthlyPremium": 125.94,
+      "expiry": "2027-03-01",
+      "insurer": "SGUA"
+    }
   },
   "townsville-qld": {
     "purchasePrice": 534000,
@@ -137,6 +169,16 @@
         "note": "Current"
       }
     ],
-    "marketRentUpdated": "2026-03-13"
+    "marketRentUpdated": "2026-03-13",
+    "pmFeeRate": 9.90,
+    "pmAgency": "McGrath Townsville",
+    "insurance": {
+      "annualPremium": 2497.62,
+      "monthlyPremium": 208.14,
+      "expiry": "2026-06-05",
+      "insurer": "AAMI"
+    },
+    "pmAgreementUrl": "https://drive.google.com/file/d/15XNqKDKHaXTli1ElBgCy3TUFsEut4kmj/view?usp=drivesdk",
+    "pmAgreementCertUrl": "https://drive.google.com/file/d/1LyI6iJrBXwXT5qJi6K8L3q3XXLh2do0j/view?usp=drivesdk"
   }
 }
