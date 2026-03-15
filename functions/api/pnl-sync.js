@@ -29,3 +29,14 @@ export async function onRequestPut({ request, env }) {
     return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
 }
+
+export async function onRequestDelete({ env }) {
+  try {
+    await env.PENCEV_KV.delete(KV_KEY);
+    return new Response(JSON.stringify({ ok: true, message: 'KV data cleared' }), {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+  }
+}

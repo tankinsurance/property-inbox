@@ -279,11 +279,11 @@ const DEFAULTS = {
     { label: 'Helen (Nanny)',             v: Array(N).fill(1740) },
   ],
   propertyIncome: [
-    { label: 'Lavington NSW',  v: Array(N).fill(2383.33) },
-    { label: 'Wilsonton QLD',  v: Array(N).fill(2166.67) },
-    { label: 'Wodonga VIC',    v: Array(N).fill(2080.00) },
-    { label: 'Camillo WA',     v: Array(N).fill(2903.33) },
-    { label: 'Kirwan QLD',     v: Array(N).fill(2166.67) },
+    { label: 'Lavington NSW',  v: Array(N).fill(Math.round(550 * 52 / 12 * 100) / 100) },
+    { label: 'Wilsonton QLD',  v: (() => { const a = Array(N).fill(Math.round(530 * 52 / 12 * 100) / 100); a[0] = Math.round(500 * 52 / 12 * 100) / 100; return a; })() },
+    { label: 'Wodonga VIC',    v: Array(N).fill(Math.round(490 * 52 / 12 * 100) / 100) },
+    { label: 'Camillo WA',     v: Array(N).fill(Math.round(670 * 52 / 12 * 100) / 100) },
+    { label: 'Kirwan QLD',     v: Array(N).fill(Math.round(500 * 52 / 12 * 100) / 100) },
   ],
   // loanRepayments uses a different structure — see LOAN_DEFAULTS below
   loanRepayments: [],
@@ -365,9 +365,92 @@ let LOANS = loadLoans();
 function cloneDefaults() {
   const out = {};
   for (const sec of Object.keys(DEFAULTS)) {
-    out[sec] = DEFAULTS[sec].map(r => ({ label: r.label, v: [...r.v] }));
+    out[sec] = DEFAULTS[sec].map(r => ({ label: r.label, v: [...r.v], ...(r.rate !== undefined ? {rate: r.rate} : {}) }));
   }
   return out;
+}
+
+// Merge saved data with defaults: if a saved field has a real (non-zero, non-empty) value, keep it.
+// If a field is missing from saved data or has all zeros, use the default.
+// This ensures new fields added after a user's last sync show their defaults.
+function mergeWithDefaults(saved) {
+  if (!saved || typeof saved !== 'object') return cloneDefaults();
+  const defaults = cloneDefaults();
+  const merged = {};
+
+  for (const sec of Object.keys(DEFAULTS)) {
+    if (!saved[sec] || !Array.isArray(saved[sec])) {
+      // Section missing from saved data entirely — use defaults
+      merged[sec] = defaults[sec];
+      continue;
+    }
+
+    // Build a lookup of saved rows by label
+    const savedByLabel = {};
+    saved[sec].forEach(row => { savedByLabel[row.label] = row; });
+
+    // Start with default rows to preserve ordering and any new rows
+    merged[sec] = defaults[sec].map(defRow => {
+      const savedRow = savedByLabel[defRow.label];
+      if (!savedRow || !Array.isArray(savedRow.v)) {
+        // Row missing from saved data — use default
+        return { label: defRow.label, v: [...defRow.v], ...(defRow.rate !== undefined ? {rate: defRow.rate} : {}) };
+      }
+
+      // Row exists in saved data — merge per-month values
+      const mergedV = defRow.v.map((defVal, i) => {
+        const savedVal = (i < savedRow.v.length) ? savedRow.v[i] : null;
+        // Use saved value if it's a real number (including 0 for intentional zeros in income rows)
+        // But for expense sections where defaults are non-zero, treat 0 as "not set"
+        if (savedVal !== null && savedVal !== undefined && !isNaN(savedVal)) {
+          // If the default is non-zero and saved is 0, this might be blank/overwritten data
+          // However, user might have intentionally set it to 0.
+          // Heuristic: if ALL months in this row are 0 and the default has non-zero values, use defaults
+          return savedVal;
+        }
+        return defVal;
+      });
+
+      return { label: defRow.label, v: mergedV, ...(defRow.rate !== undefined ? {rate: defRow.rate} : {}) };
+    });
+
+    // Also include any extra rows the user added that aren't in defaults
+    const defaultLabels = new Set(defaults[sec].map(r => r.label));
+    saved[sec].forEach(row => {
+      if (!defaultLabels.has(row.label)) {
+        merged[sec].push({ label: row.label, v: [...(row.v || Array(N).fill(0))] });
+      }
+    });
+  }
+
+  return merged;
+}
+
+// Check if saved data looks like it was saved from a blank/broken page
+// (all expense sections have all-zero values where defaults are non-zero)
+function isBlankData(saved) {
+  if (!saved || typeof saved !== 'object') return true;
+
+  // Check key expense sections that should have non-zero defaults
+  const expenseSections = ['pmFees', 'insurance', 'maintenance', 'poolMaintenance', 'propertyIncome'];
+  let allZeroCount = 0;
+  let checkedCount = 0;
+
+  for (const sec of expenseSections) {
+    if (!saved[sec] || !Array.isArray(saved[sec]) || saved[sec].length === 0) {
+      allZeroCount++;
+      checkedCount++;
+      continue;
+    }
+    const allZero = saved[sec].every(row =>
+      !row.v || row.v.every(v => v === 0 || v === null || v === undefined || v === '')
+    );
+    if (allZero) allZeroCount++;
+    checkedCount++;
+  }
+
+  // If most expense sections are all-zero, this is likely bad data
+  return checkedCount > 0 && allZeroCount >= checkedCount - 1;
 }
 
 let DATA = loadData();
@@ -382,8 +465,17 @@ async function hydrateFromCloud() {
     const cloudTime = new Date(cloud.syncedAt || 0).getTime();
     const localSynced = parseInt(localStorage.getItem('pencev-pnl-last-sync') || '0');
     if (cloudTime > localSynced) {
-      DATA = cloud.data;
-      if (cloud.loans) LOANS = cloud.loans;
+      // Smart merge: if cloud data is blank/broken, use defaults instead
+      if (isBlankData(cloud.data)) {
+        console.warn('[P&L] Cloud data appears blank/broken — using defaults instead of overwriting');
+        DATA = cloneDefaults();
+      } else {
+        // Merge cloud data with defaults so new fields show their defaults
+        DATA = mergeWithDefaults(cloud.data);
+      }
+      if (cloud.loans && Array.isArray(cloud.loans) && cloud.loans.length > 0) {
+        LOANS = cloud.loans;
+      }
       saveData(); saveLoans();
       localStorage.setItem('pencev-pnl-last-sync', cloudTime);
       renderTable();
@@ -396,7 +488,16 @@ setTimeout(hydrateFromCloud, 500);
 function loadData() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      // If local data is blank/broken, use defaults
+      if (isBlankData(parsed)) {
+        console.warn('[P&L] Local data appears blank — using defaults');
+        return cloneDefaults();
+      }
+      // Merge with defaults to pick up any new fields
+      return mergeWithDefaults(parsed);
+    }
   } catch(e) {}
   return cloneDefaults();
 }
@@ -843,6 +944,14 @@ document.getElementById('rate-modal').addEventListener('click', function(e) {
 
 async function syncToCloud() {
   const btn = document.getElementById('sync-btn');
+
+  // Safety check: don't sync blank data to cloud
+  if (isBlankData(DATA)) {
+    if (!confirm('Warning: Your current data appears mostly blank/zero. Syncing will overwrite cloud data with these blank values.\n\nAre you sure you want to continue?')) {
+      return;
+    }
+  }
+
   btn.textContent = '⏳ Syncing...';
   btn.disabled = true;
 
@@ -861,6 +970,7 @@ async function syncToCloud() {
     });
 
     if (putResp.ok) {
+      localStorage.setItem('pencev-pnl-last-sync', Date.now().toString());
       btn.textContent = '☁ Synced ✓';
       btn.style.color = 'var(--green)';
       btn.style.borderColor = '#a7f3d0';
