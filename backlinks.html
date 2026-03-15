@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Backlink Tracker — Tank Insurance</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#0f1118;color:#f0f0f2;min-height:100vh;padding:24px 32px 64px}
+a{color:#6ea8fe;text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* TOP BAR */
+.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px}
+.top-bar h1{font-size:22px;font-weight:700;letter-spacing:-0.3px}
+.top-bar .actions{display:flex;gap:10px}
+.btn{padding:8px 18px;border-radius:6px;border:1px solid rgba(255,255,255,0.07);background:#1d2333;color:#f0f0f2;font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;transition:background .15s}
+.btn:hover{background:#252d42}
+.btn-primary{background:#3b82f6;border-color:#3b82f6}
+.btn-primary:hover{background:#2563eb}
+.btn-sm{padding:5px 12px;font-size:12px}
+.back-link{font-size:13px;color:rgba(240,240,242,0.4);margin-bottom:6px;display:inline-block}
+
+/* SECTION */
+.section{margin-bottom:40px}
+.section-label{font-size:11px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:rgba(240,240,242,0.4);margin-bottom:14px}
+
+/* SCOREBOARD */
+.scoreboard{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.stat-card{background:#161b27;border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:18px 16px;text-align:center}
+.stat-card .label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.8px;color:rgba(240,240,242,0.4);margin-bottom:6px}
+.stat-card .value{font-size:28px;font-weight:700;letter-spacing:-0.5px}
+.stat-card .value[contenteditable]{outline:none;border-bottom:1px dashed rgba(255,255,255,0.15)}
+.stat-card .sub{font-size:11px;color:rgba(240,240,242,0.3);margin-top:4px}
+
+/* KANBAN */
+.kanban-wrap{overflow-x:auto;padding-bottom:8px}
+.kanban{display:flex;gap:10px;min-width:max-content}
+.kanban-col{width:240px;min-width:240px;background:#161b27;border:1px solid rgba(255,255,255,0.07);border-radius:8px;display:flex;flex-direction:column;max-height:520px}
+.kanban-col-header{padding:12px 14px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.6px;color:rgba(240,240,242,0.5);border-bottom:1px solid rgba(255,255,255,0.07);display:flex;justify-content:space-between;align-items:center}
+.kanban-col-header .count{background:rgba(255,255,255,0.06);padding:2px 8px;border-radius:10px;font-size:11px}
+.kanban-cards{padding:8px;flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px}
+.kanban-card{background:#1d2333;border:1px solid rgba(255,255,255,0.07);border-radius:6px;padding:10px 12px;font-size:12px;cursor:default}
+.kanban-card .card-site{font-weight:600;margin-bottom:4px;font-size:13px}
+.kanban-card .card-meta{color:rgba(240,240,242,0.4);font-size:11px;line-height:1.5}
+.kanban-card .card-actions{margin-top:8px;display:flex;gap:6px}
+.kanban-card .card-actions button{font-size:11px;padding:3px 8px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:rgba(240,240,242,0.5);cursor:pointer}
+.kanban-card .card-actions button:hover{background:rgba(255,255,255,0.06)}
+.add-card-btn{margin:8px;padding:8px;border:1px dashed rgba(255,255,255,0.1);border-radius:6px;background:transparent;color:rgba(240,240,242,0.3);font-size:12px;cursor:pointer;text-align:center;font-family:inherit}
+.add-card-btn:hover{border-color:rgba(255,255,255,0.2);color:rgba(240,240,242,0.5)}
+
+/* TABLES */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{background:#161b27;padding:10px 12px;text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.6px;color:rgba(240,240,242,0.4);border-bottom:1px solid rgba(255,255,255,0.07);white-space:nowrap}
+tbody td{padding:9px 12px;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:top}
+tbody tr:hover{background:rgba(255,255,255,0.02)}
+td[contenteditable]{outline:none}
+td[contenteditable]:focus{background:rgba(59,130,246,0.08);border-radius:2px}
+.add-row-btn{margin-top:8px;display:inline-block}
+.del-btn{color:rgba(240,240,242,0.25);cursor:pointer;font-size:11px}
+.del-btn:hover{color:#ef4444}
+
+/* DISTRIBUTION */
+.dist-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.dist-card{background:#161b27;border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:16px}
+.dist-card .page-name{font-size:13px;font-weight:600;margin-bottom:8px}
+.dist-card .bar-wrap{height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;margin-bottom:6px}
+.dist-card .bar-fill{height:100%;background:#3b82f6;border-radius:3px;transition:width .3s}
+.dist-card .dist-meta{font-size:11px;color:rgba(240,240,242,0.4)}
+
+/* TABS */
+.tabs{display:flex;gap:2px;margin-bottom:16px;flex-wrap:wrap}
+.tab-btn{padding:7px 16px;border-radius:6px;border:1px solid rgba(255,255,255,0.07);background:transparent;color:rgba(240,240,242,0.4);font-family:inherit;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s}
+.tab-btn:hover{color:#f0f0f2}
+.tab-btn.active{background:#1d2333;color:#f0f0f2;border-color:rgba(255,255,255,0.12)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:100;justify-content:center;align-items:center}
+.modal-overlay.show{display:flex}
+.modal{background:#1d2333;border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:24px;width:420px;max-width:90vw;max-height:85vh;overflow-y:auto}
+.modal h3{font-size:16px;font-weight:600;margin-bottom:16px}
+.modal label{display:block;font-size:12px;color:rgba(240,240,242,0.5);margin-bottom:4px;margin-top:12px}
+.modal input,.modal select{width:100%;padding:8px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);background:#161b27;color:#f0f0f2;font-family:inherit;font-size:13px}
+.modal input:focus,.modal select:focus{outline:none;border-color:#3b82f6}
+.modal .modal-actions{margin-top:20px;display:flex;gap:8px;justify-content:flex-end}
+
+/* STATUS */
+.status-live{color:#34d399}
+.status-pending{color:#fbbf24}
+.status-dead{color:#f87171}
+
+/* SAVE TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:#1d2333;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 20px;font-size:13px;font-weight:500;z-index:200;opacity:0;transform:translateY(10px);transition:all .3s}
+.toast.show{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<a href="/hub.html" class="back-link">Back to Hub</a>
+<div class="top-bar">
+  <h1>Backlink Tracker</h1>
+  <div class="actions">
+    <button class="btn" onclick="exportData()">Export JSON</button>
+    <button class="btn btn-primary" onclick="saveAll()">Save</button>
+  </div>
+</div>
+
+<!-- SECTION 1: SCOREBOARD -->
+<div class="section">
+  <div class="section-label">Scoreboard</div>
+  <div class="scoreboard">
+    <div class="stat-card">
+      <div class="label">Current DR</div>
+      <div class="value" contenteditable="true" id="sc-dr">10</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Referring Domains</div>
+      <div class="value" contenteditable="true" id="sc-rd">79</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">DR Target</div>
+      <div class="value">30</div>
+      <div class="sub">by Mar 2027</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Links This Month</div>
+      <div class="value" id="sc-month">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Links Total</div>
+      <div class="value" id="sc-total">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Monthly Budget</div>
+      <div class="value" contenteditable="true" id="sc-budget">$500</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2: KANBAN -->
+<div class="section">
+  <div class="section-label">Pipeline</div>
+  <div class="kanban-wrap">
+    <div class="kanban" id="kanban"></div>
+  </div>
+</div>
+
+<!-- SECTION 3: LIVE LINK REGISTER -->
+<div class="section">
+  <div class="section-label">Live Link Register</div>
+  <div class="table-wrap">
+    <table id="register-table">
+      <thead>
+        <tr>
+          <th>Date</th><th>Site</th><th>URL</th><th>DR</th><th>Type</th><th>Target Page</th><th>Anchor</th><th>Dofollow</th><th>Cost</th><th>Status</th><th></th>
+        </tr>
+      </thead>
+      <tbody id="register-body"></tbody>
+    </table>
+  </div>
+  <button class="btn btn-sm add-row-btn" onclick="addRegisterRow()">+ Add Link</button>
+</div>
+
+<!-- SECTION 4: MONEY PAGE DISTRIBUTION -->
+<div class="section">
+  <div class="section-label">Money Page Distribution</div>
+  <div class="dist-grid" id="dist-grid"></div>
+</div>
+
+<!-- SECTION 5: PROSPECT LISTS -->
+<div class="section">
+  <div class="section-label">Prospect Lists</div>
+  <div class="tabs" id="prospect-tabs"></div>
+  <div id="prospect-panels"></div>
+</div>
+
+<!-- SECTION 6: AVOID LIST -->
+<div class="section">
+  <div class="section-label">Avoid List</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Site</th><th>DR</th><th>Reason</th><th></th></tr>
+      </thead>
+      <tbody id="avoid-body"></tbody>
+    </table>
+  </div>
+  <button class="btn btn-sm add-row-btn" onclick="addAvoidRow()">+ Add Site</button>
+</div>
+
+<!-- SECTION 7: MONTHLY REVIEW LOG -->
+<div class="section">
+  <div class="section-label">Monthly Review Log</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Month</th><th>Links Built</th><th>Spend</th><th>DR Change</th><th>Notes</th><th></th></tr>
+      </thead>
+      <tbody id="review-body"></tbody>
+    </table>
+  </div>
+  <button class="btn btn-sm add-row-btn" onclick="addReviewRow()">+ Add Month</button>
+</div>
+
+<!-- KANBAN CARD MODAL -->
+<div class="modal-overlay" id="card-modal">
+  <div class="modal">
+    <h3 id="modal-title">Add Prospect</h3>
+    <label>Site</label><input id="m-site">
+    <label>URL</label><input id="m-url">
+    <label>DR</label><input id="m-dr" type="number">
+    <label>Contact</label><input id="m-contact">
+    <label>Type</label>
+    <select id="m-type">
+      <option>Guest Post</option><option>Niche Edit</option><option>Directory</option><option>Review</option><option>Sponsorship</option><option>PR</option><option>Resource Page</option><option>Other</option>
+    </select>
+    <label>Target Page</label><input id="m-target">
+    <label>Anchor Text</label><input id="m-anchor">
+    <label>Price</label><input id="m-price">
+    <label>Date Added</label><input id="m-date" type="date">
+    <label>Notes</label><input id="m-notes">
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveCard()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Saved to localStorage</div>
+
+<script>
+const STORAGE_KEY = 'tank-backlinks-v1';
+const KANBAN_COLS = ['Prospect','Outreach Sent','Awaiting Response','In Progress','Live','Rejected/Dead'];
+const PROSPECT_CHANNELS = ['Insurer Directories','Underwriter Guest Posts','PressWhizz','Trade Associations','Client Spotlights','Media/PR'];
+const MONEY_PAGES = [
+  {page:'/professional-indemnity',goal:5},
+  {page:'/business-insurance',goal:5},
+  {page:'/public-liability',goal:4},
+  {page:'/builders',goal:3},
+  {page:'/contract-works',goal:3},
+  {page:'/engineers',goal:3},
+  {page:'Homepage',goal:0}
+];
+
+function defaults(){
+  return {
+    scoreboard:{dr:'10',rd:'79',budget:'$500'},
+    kanban:KANBAN_COLS.reduce((o,c)=>{o[c]=[];return o},{}),
+    register:[
+      {date:'2025-01-15',site:'clutch.co',url:'https://clutch.co/profile/tank-insurance',dr:'70',type:'Directory',targetPage:'Homepage',anchor:'Tank Insurance',dofollow:'Yes',cost:'$0',status:'Live'},
+      {date:'2025-02-01',site:'trustpilot.com',url:'https://www.trustpilot.com/review/tankinsurance.com.au',dr:'90',type:'Review',targetPage:'Homepage',anchor:'Tank Insurance',dofollow:'No',cost:'$0',status:'Live'},
+      {date:'2025-11-10',site:'bmmagazine.co.uk',url:'https://bmmagazine.co.uk/link',dr:'77',type:'Niche Edit',targetPage:'/public-liability-insurance-brokers/',anchor:'public liability insurance',dofollow:'Yes',cost:'$203',status:'Live'}
+    ],
+    prospects:PROSPECT_CHANNELS.reduce((o,c)=>{o[c]=[];return o},{}),
+    avoid:[
+      {site:'businessnewstip.com',dr:'54',reason:'Spam / PBN'},
+      {site:'d-addicts.com',dr:'68',reason:'Irrelevant niche'},
+      {site:'aviyne.com',dr:'29',reason:'Spam / PBN'},
+      {site:'coyyn.com',dr:'48',reason:'Spam / PBN'}
+    ],
+    reviews:[]
+  };
+}
+
+let data;
+function load(){
+  try{data=JSON.parse(localStorage.getItem(STORAGE_KEY))||defaults()}
+  catch(e){data=defaults()}
+  // ensure all keys exist
+  const d=defaults();
+  for(const k of Object.keys(d)){if(!(k in data))data[k]=d[k]}
+}
+function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(data))}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg||'Saved to localStorage';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000)}
+function saveAll(){collectScoreboard();collectRegister();collectAvoid();collectReviews();collectProspects();save();updateDist();updateScoreboardCounts();toast()}
+
+// SCOREBOARD
+function renderScoreboard(){
+  document.getElementById('sc-dr').textContent=data.scoreboard.dr;
+  document.getElementById('sc-rd').textContent=data.scoreboard.rd;
+  document.getElementById('sc-budget').textContent=data.scoreboard.budget;
+  updateScoreboardCounts();
+}
+function collectScoreboard(){
+  data.scoreboard.dr=document.getElementById('sc-dr').textContent.trim();
+  data.scoreboard.rd=document.getElementById('sc-rd').textContent.trim();
+  data.scoreboard.budget=document.getElementById('sc-budget').textContent.trim();
+}
+function updateScoreboardCounts(){
+  const now=new Date();const m=now.getMonth();const y=now.getFullYear();
+  let thisMonth=0;
+  data.register.forEach(r=>{
+    if(r.date){const d=new Date(r.date);if(d.getMonth()===m&&d.getFullYear()===y)thisMonth++}
+  });
+  document.getElementById('sc-month').textContent=thisMonth;
+  document.getElementById('sc-total').textContent=data.register.length;
+}
+
+// KANBAN
+let editingCard=null;let editingCol=null;
+function renderKanban(){
+  const wrap=document.getElementById('kanban');wrap.innerHTML='';
+  KANBAN_COLS.forEach(col=>{
+    const cards=data.kanban[col]||[];
+    const div=document.createElement('div');div.className='kanban-col';
+    div.innerHTML=`<div class="kanban-col-header"><span>${col}</span><span class="count">${cards.length}</span></div>`;
+    const body=document.createElement('div');body.className='kanban-cards';
+    cards.forEach((card,i)=>{
+      const c=document.createElement('div');c.className='kanban-card';
+      c.innerHTML=`<div class="card-site">${esc(card.site)}</div>
+        <div class="card-meta">DR ${esc(card.dr)} &middot; ${esc(card.type)}<br>${esc(card.targetPage||'')}</div>
+        <div class="card-actions">
+          ${colIdx(col)>0?`<button onclick="moveCard('${col}',${i},-1)">&larr;</button>`:''}
+          ${colIdx(col)<KANBAN_COLS.length-1?`<button onclick="moveCard('${col}',${i},1)">&rarr;</button>`:''}
+          <button onclick="editCard('${col}',${i})">Edit</button>
+          <button onclick="deleteCard('${col}',${i})">Del</button>
+        </div>`;
+      body.appendChild(c);
+    });
+    div.appendChild(body);
+    const addBtn=document.createElement('button');addBtn.className='add-card-btn';addBtn.textContent='+ Add';
+    addBtn.onclick=()=>{editingCard=null;editingCol=col;openModal('Add Prospect');};
+    div.appendChild(addBtn);
+    wrap.appendChild(div);
+  });
+}
+function colIdx(name){return KANBAN_COLS.indexOf(name)}
+function moveCard(col,idx,dir){
+  const target=KANBAN_COLS[colIdx(col)+dir];if(!target)return;
+  const card=data.kanban[col].splice(idx,1)[0];
+  data.kanban[target].push(card);save();renderKanban();
+}
+function deleteCard(col,idx){data.kanban[col].splice(idx,1);save();renderKanban()}
+function editCard(col,idx){
+  editingCol=col;editingCard=idx;
+  const c=data.kanban[col][idx];
+  openModal('Edit Prospect');
+  document.getElementById('m-site').value=c.site||'';
+  document.getElementById('m-url').value=c.url||'';
+  document.getElementById('m-dr').value=c.dr||'';
+  document.getElementById('m-contact').value=c.contact||'';
+  document.getElementById('m-type').value=c.type||'Guest Post';
+  document.getElementById('m-target').value=c.targetPage||'';
+  document.getElementById('m-anchor').value=c.anchor||'';
+  document.getElementById('m-price').value=c.price||'';
+  document.getElementById('m-date').value=c.date||'';
+  document.getElementById('m-notes').value=c.notes||'';
+}
+function openModal(title){
+  document.getElementById('modal-title').textContent=title;
+  if(editingCard===null){document.querySelectorAll('.modal input').forEach(i=>i.value='');document.getElementById('m-type').value='Guest Post';document.getElementById('m-date').value=new Date().toISOString().slice(0,10)}
+  document.getElementById('card-modal').classList.add('show');
+}
+function closeModal(){document.getElementById('card-modal').classList.remove('show');editingCard=null;editingCol=null}
+function saveCard(){
+  const c={site:document.getElementById('m-site').value,url:document.getElementById('m-url').value,dr:document.getElementById('m-dr').value,contact:document.getElementById('m-contact').value,type:document.getElementById('m-type').value,targetPage:document.getElementById('m-target').value,anchor:document.getElementById('m-anchor').value,price:document.getElementById('m-price').value,date:document.getElementById('m-date').value,notes:document.getElementById('m-notes').value};
+  if(editingCard!==null){data.kanban[editingCol][editingCard]=c}
+  else{data.kanban[editingCol].push(c)}
+  save();renderKanban();closeModal();
+}
+
+// REGISTER
+function renderRegister(){
+  const body=document.getElementById('register-body');body.innerHTML='';
+  data.register.forEach((r,i)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td contenteditable>${esc(r.date)}</td><td contenteditable>${esc(r.site)}</td><td contenteditable>${esc(r.url)}</td><td contenteditable>${esc(r.dr)}</td><td contenteditable>${esc(r.type)}</td><td contenteditable>${esc(r.targetPage)}</td><td contenteditable>${esc(r.anchor)}</td><td contenteditable>${esc(r.dofollow)}</td><td contenteditable>${esc(r.cost)}</td><td contenteditable>${esc(r.status)}</td><td><span class="del-btn" onclick="delRegister(${i})">remove</span></td>`;
+    body.appendChild(tr);
+  });
+}
+function addRegisterRow(){
+  data.register.push({date:new Date().toISOString().slice(0,10),site:'',url:'',dr:'',type:'',targetPage:'',anchor:'',dofollow:'Yes',cost:'$0',status:'Live'});
+  renderRegister();
+}
+function delRegister(i){data.register.splice(i,1);save();renderRegister();updateDist();updateScoreboardCounts()}
+function collectRegister(){
+  const rows=document.querySelectorAll('#register-body tr');
+  data.register=[];
+  rows.forEach(tr=>{
+    const cells=tr.querySelectorAll('td[contenteditable]');
+    data.register.push({date:cells[0].textContent.trim(),site:cells[1].textContent.trim(),url:cells[2].textContent.trim(),dr:cells[3].textContent.trim(),type:cells[4].textContent.trim(),targetPage:cells[5].textContent.trim(),anchor:cells[6].textContent.trim(),dofollow:cells[7].textContent.trim(),cost:cells[8].textContent.trim(),status:cells[9].textContent.trim()});
+  });
+}
+
+// DISTRIBUTION
+function updateDist(){
+  const grid=document.getElementById('dist-grid');grid.innerHTML='';
+  const counts={};
+  MONEY_PAGES.forEach(p=>counts[p.page]=0);
+  data.register.forEach(r=>{
+    const pg=r.targetPage||'';
+    MONEY_PAGES.forEach(p=>{
+      if(pg===p.page||(p.page==='Homepage'&&(pg===''||pg==='/'||pg.toLowerCase()==='homepage')))counts[p.page]++;
+      else if(pg.includes(p.page)&&p.page!=='Homepage')counts[p.page]++;
+    });
+  });
+  MONEY_PAGES.forEach(p=>{
+    const c=counts[p.page]||0;
+    const pct=p.goal>0?Math.min(100,Math.round(c/p.goal*100)):0;
+    const card=document.createElement('div');card.className='dist-card';
+    card.innerHTML=`<div class="page-name">${esc(p.page)}</div>
+      ${p.goal>0?`<div class="bar-wrap"><div class="bar-fill" style="width:${pct}%"></div></div>`:''}
+      <div class="dist-meta">${c} link${c!==1?'s':''} ${p.goal>0?`/ ${p.goal} goal (${pct}%)`:'(no goal set)'}</div>`;
+    grid.appendChild(card);
+  });
+}
+
+// PROSPECT LISTS
+function renderProspects(){
+  const tabsEl=document.getElementById('prospect-tabs');
+  const panelsEl=document.getElementById('prospect-panels');
+  tabsEl.innerHTML='';panelsEl.innerHTML='';
+  PROSPECT_CHANNELS.forEach((ch,idx)=>{
+    const btn=document.createElement('button');btn.className='tab-btn'+(idx===0?' active':'');
+    btn.textContent=ch;btn.onclick=()=>switchTab(idx);
+    tabsEl.appendChild(btn);
+
+    const panel=document.createElement('div');panel.className='tab-panel'+(idx===0?' active':'');
+    panel.id='prospect-panel-'+idx;
+    const items=data.prospects[ch]||[];
+    let html=`<div class="table-wrap"><table><thead><tr><th>Site</th><th>DR</th><th>Contact</th><th>Type</th><th>Notes</th><th>Status</th><th></th></tr></thead><tbody class="prospect-tbody" data-channel="${esc(ch)}">`;
+    items.forEach((item,i)=>{
+      html+=`<tr><td contenteditable>${esc(item.site)}</td><td contenteditable>${esc(item.dr)}</td><td contenteditable>${esc(item.contact)}</td><td contenteditable>${esc(item.type)}</td><td contenteditable>${esc(item.notes)}</td><td contenteditable>${esc(item.status)}</td><td><span class="del-btn" onclick="delProspect('${esc(ch)}',${i})">remove</span></td></tr>`;
+    });
+    html+=`</tbody></table></div><button class="btn btn-sm add-row-btn" onclick="addProspect('${esc(ch)}')">+ Add Row</button>`;
+    panel.innerHTML=html;
+    panelsEl.appendChild(panel);
+  });
+}
+function switchTab(idx){
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===idx));
+  document.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
+}
+function addProspect(ch){
+  if(!data.prospects[ch])data.prospects[ch]=[];
+  data.prospects[ch].push({site:'',dr:'',contact:'',type:'',notes:'',status:'Prospect'});
+  renderProspects();
+}
+function delProspect(ch,i){data.prospects[ch].splice(i,1);save();renderProspects()}
+function collectProspects(){
+  document.querySelectorAll('.prospect-tbody').forEach(tbody=>{
+    const ch=tbody.dataset.channel;data.prospects[ch]=[];
+    tbody.querySelectorAll('tr').forEach(tr=>{
+      const cells=tr.querySelectorAll('td[contenteditable]');
+      data.prospects[ch].push({site:cells[0].textContent.trim(),dr:cells[1].textContent.trim(),contact:cells[2].textContent.trim(),type:cells[3].textContent.trim(),notes:cells[4].textContent.trim(),status:cells[5].textContent.trim()});
+    });
+  });
+}
+
+// AVOID LIST
+function renderAvoid(){
+  const body=document.getElementById('avoid-body');body.innerHTML='';
+  data.avoid.forEach((r,i)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td contenteditable>${esc(r.site)}</td><td contenteditable>${esc(r.dr)}</td><td contenteditable>${esc(r.reason)}</td><td><span class="del-btn" onclick="delAvoid(${i})">remove</span></td>`;
+    body.appendChild(tr);
+  });
+}
+function addAvoidRow(){data.avoid.push({site:'',dr:'',reason:''});renderAvoid()}
+function delAvoid(i){data.avoid.splice(i,1);save();renderAvoid()}
+function collectAvoid(){
+  const rows=document.querySelectorAll('#avoid-body tr');
+  data.avoid=[];
+  rows.forEach(tr=>{
+    const cells=tr.querySelectorAll('td[contenteditable]');
+    data.avoid.push({site:cells[0].textContent.trim(),dr:cells[1].textContent.trim(),reason:cells[2].textContent.trim()});
+  });
+}
+
+// REVIEW LOG
+function renderReviews(){
+  const body=document.getElementById('review-body');body.innerHTML='';
+  data.reviews.forEach((r,i)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td contenteditable>${esc(r.month)}</td><td contenteditable>${esc(r.links)}</td><td contenteditable>${esc(r.spend)}</td><td contenteditable>${esc(r.drChange)}</td><td contenteditable>${esc(r.notes)}</td><td><span class="del-btn" onclick="delReview(${i})">remove</span></td>`;
+    body.appendChild(tr);
+  });
+}
+function addReviewRow(){
+  const now=new Date();
+  data.reviews.push({month:now.toLocaleString('default',{month:'long',year:'numeric'}),links:'0',spend:'$0',drChange:'',notes:''});
+  renderReviews();
+}
+function delReview(i){data.reviews.splice(i,1);save();renderReviews()}
+function collectReviews(){
+  const rows=document.querySelectorAll('#review-body tr');
+  data.reviews=[];
+  rows.forEach(tr=>{
+    const cells=tr.querySelectorAll('td[contenteditable]');
+    data.reviews.push({month:cells[0].textContent.trim(),links:cells[1].textContent.trim(),spend:cells[2].textContent.trim(),drChange:cells[3].textContent.trim(),notes:cells[4].textContent.trim()});
+  });
+}
+
+// EXPORT
+function exportData(){
+  collectScoreboard();collectRegister();collectAvoid();collectReviews();collectProspects();
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='tank-backlinks-export.json';a.click();
+}
+
+// UTILS
+function esc(s){if(!s)return '';const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+
+// INIT
+load();
+renderScoreboard();
+renderKanban();
+renderRegister();
+updateDist();
+renderProspects();
+renderAvoid();
+renderReviews();
+</script>
+</body>
+</html>
